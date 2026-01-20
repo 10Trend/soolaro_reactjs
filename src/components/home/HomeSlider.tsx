@@ -11,6 +11,7 @@ function HomeSlider() {
     arrows: false,
     slidesToShow: 1.5,
     slidesToScroll: 1,
+    autoplay: true,
     responsive: [
       {
         breakpoint: 768,

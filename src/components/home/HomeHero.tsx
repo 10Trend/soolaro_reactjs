@@ -3,11 +3,11 @@ import HomeSlider from "./HomeSlider";
 
 const HomeHero = () => {
     return (
-        <section className="h-screen bg-[linear-gradient(180deg,#A8D4D3_0%,#D1E8E7_59.27%,#FEFEFE_100%)]">
+        <section className="h-full bg-[linear-gradient(180deg,#A8D4D3_0%,#D1E8E7_59.27%,#FEFEFE_100%)]">
             <div className="container flex lg:flex-row flex-col items-center justify-between gap-8 overflow-hidden">
                 <div>
                     <h2 className="md:w-125 w-75 text-[#0B0B0B] md:text-[48px] text-2xl font-semibold leading-[150%]">
-                        Premium <span className="text-[#003D3B]">Eyewear </span> for  Style and <span className="text-[#003D3B]">Comfort!</span>
+                        Premium <span className="text-[#025D5B]">Eyewear </span> for  Style and <span className="text-[#025D5B]">Comfort!</span>
                     </h2>
 
                     <p className="md:w-146 text-[#3B3B3B] md:text-xl text-xs font-medium leading-[150%] mt-3">
