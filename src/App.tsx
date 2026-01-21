@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import ExploreProductsPage from "./pages/ExploreProductsPage";
 import CategoryPage from "./pages/CategoryPage";
 import CartPage from "./pages/CartPage";
+import SigninPage from "./pages/SigninPage";
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
 
         <Route path="/category" element={<Layout hideHeader={true} />}>
           <Route index element={<CategoryPage />} />
+        </Route>
+        
+        <Route>
+            <Route path="signin" element={<SigninPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
