@@ -1,5 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
 @import "tailwindcss";
-@import 'swiper/css';
+@import "swiper/css";
 @import "tw-animate-css";
 @custom-variant dark (&:is(.dark *));
 
@@ -12,6 +13,9 @@ html {
 }
 
 @theme inline {
+  --font-sans:
+    "Quicksand", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -149,6 +153,7 @@ html {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
   }
 }
 
