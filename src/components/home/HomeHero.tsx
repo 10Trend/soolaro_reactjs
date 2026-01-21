@@ -3,8 +3,8 @@ import HomeSlider from "./HomeSlider";
 
 const HomeHero = () => {
   return (
-    <section className="min-h-[80vh] flex items-center bg-[linear-gradient(180deg,#A8D4D3_0%,#D1E8E7_59.27%,#FEFEFE_100%)]">
-      <div className="container flex lg:flex-row flex-col items-start justify-between gap-8 overflow-hidden py-10">
+    <section className="bg-[linear-gradient(180deg,#A8D4D3_0%,#D1E8E7_59.27%,#FEFEFE_100%)]">
+      <div className="container flex lg:flex-row flex-col items-start justify-between gap-8 overflow-hidden py-6">
         <div>
           <h2 className="md:w-125 w-75 text-[#0B0B0B] md:text-[48px] text-2xl font-semibold leading-[150%]">
             Premium <span className="text-[#025D5B]">Eyewear </span> for Style

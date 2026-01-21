@@ -5,7 +5,7 @@ import SliderArrow from "../icons/home/hero/SliderArrow";
 
 function HomeSlider() {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     arrows: false,
@@ -55,14 +55,22 @@ function HomeSlider() {
         .slick-dots li button:before {
           display: none !important;
         }
+        .slick-list {
+          height: 240px !important;
+        }
+        @media (min-width: 768px) {
+          .slick-list {
+            height: 360px !important;
+          }
+        }
       `}</style>
 
       <Slider {...settings}>
-        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2 group overflow-hidden">
+        <div className="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl relative mx-2 group overflow-hidden">
           <img
             src="/images/home/slider1.png"
             alt="slider image"
-            className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl object-cover"
+            className="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl object-cover"
           />
           <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
             <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
@@ -77,11 +85,11 @@ function HomeSlider() {
           </div>
         </div>
 
-        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2 group overflow-hidden">
+        <div className="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl relative mx-2 group overflow-hidden">
           <img
             src="/images/home/slider2.jpg"
             alt="slider image"
-            className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl object-cover"
+            className="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl object-cover"
           />
           <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
             <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
@@ -96,11 +104,11 @@ function HomeSlider() {
           </div>
         </div>
 
-        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2 group overflow-hidden">
+        <div className="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl relative mx-2 group overflow-hidden">
           <img
             src="/images/home/slider2.jpg"
             alt="slider image"
-            className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl object-cover"
+            className="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl object-cover"
           />
           <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
             <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
@@ -115,11 +123,11 @@ function HomeSlider() {
           </div>
         </div>
 
-        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2 group overflow-hidden">
+        <div className="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl relative mx-2 group overflow-hidden">
           <img
             src="/images/home/slider1.png"
             alt="slider image"
-            className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl object-cover"
+            className="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl object-cover"
           />
           <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
             <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
