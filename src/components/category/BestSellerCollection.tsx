@@ -1,69 +1,48 @@
 import { useState } from "react";
-import Card from "@/components/home/GlassCard";
-import Filter from "@/components/icons/explore/Filter";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import BackArrow from "@/components/icons/explore/BackArrow";
-import { Link } from "react-router-dom";
-import Search from "@/components/icons/header/Search";
+import Card from "../home/GlassCard"
+import Filter from "../icons/explore/Filter"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 
-const ExploreProductsPage = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [minPrice, setMinPrice] = useState(200);
-  const [maxPrice, setMaxPrice] = useState(900);
-  const MIN = 100;
-  const MAX = 1000;
+const BestSellerCollection = () => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [minPrice, setMinPrice] = useState(200);
+    const [maxPrice, setMaxPrice] = useState(900);
+    const MIN = 100;
+    const MAX = 1000;
 
-  const handleMinChange = (value: number) => {
-    if (value <= maxPrice) setMinPrice(value);
-  };
+    const handleMinChange = (value: number) => {
+        if (value <= maxPrice) setMinPrice(value);
+    };
 
-  const handleMaxChange = (value: number) => {
-    if (value >= minPrice) setMaxPrice(value);
-  };
+    const handleMaxChange = (value: number) => {
+        if (value >= minPrice) setMaxPrice(value);
+    };
 
-  const resetFilter = () => {
-    setMinPrice(MIN);
-    setMaxPrice(MAX);
-  };
-
+    const resetFilter = () => {
+        setMinPrice(MIN);
+        setMaxPrice(MAX);
+    };
     return (
-        <section className="container md:py-8 pb-8 relative">
-        <div className="flex md:flex-row flex-col justify-between gap-4">
-            <div className="flex items-center gap-3">
-                <Link to='/' className="w-12 h-12 rounded-full bg-[#F6F6F6] md:hidden flex items-center justify-center">
-                    <BackArrow />
-                </Link>
-                <h2 className="text-[#000000] md:text-[40px] text-base font-semibold leading-[100%]">
-                    Explore Products
+        <section className="container md:py-17 py-8">
+            <div className="flex justify-between">
+                <h2 className="text-[#000000] md:text-[40px] text-base font-medium leading-[100%]">
+                    Best Seller Collection 2026
                 </h2>
-            </div>
 
-            <div className="flex gap-3">
-                <div className="retaltive md:hidden block">
-                    <input
-                        type="text"
-                        className="w-55.25 h-12 border border-[#DEDDDD] rounded-4xl px-8 placeholder:text-[#3B3B3B]"
-                        placeholder="Search"
-                    />
-                    <div className="absolute top-17">
-                        <Search />
-                    </div>
-                </div>
                 <div
-                className="md:w-34 w-27.5 md:h-14 h-12 md:bg-[#F6F6F6] bg-[#018884] md:rotate-90 flex items-center justify-center gap-2 cursor-pointer md:rounded-0 rounded-4xl"
-                onClick={() => setIsSidebarOpen(true)}
-                >
-                <Filter />
-                <p className="md:text-[#3B3B3B] text-white text-lg font-semibold leading-[100%] md:rotate-180">
-                    Filter
-                </p>
+                    className="md:w-34 w-27.5 md:h-14 h-12 md:bg-[#F6F6F6] bg-[#018884] rotate-90 flex items-center justify-center gap-2 cursor-pointer absolute -right-7 md:top-137.5 top-61.5"
+                    onClick={() => setIsSidebarOpen(true)}
+                    >
+                    <Filter />
+                    <p className="md:text-[#3B3B3B] text-white text-lg font-semibold leading-[100%] rotate-180">
+                        Filter
+                    </p>
                 </div>
             </div>
-        </div>
 
-        <div className="md:mt-12 mt-6">
+            <div className="md:mt-12 mt-6">
             <Tabs defaultValue="all">
-            <TabsList className="bg-transparent mb-17 flex-wrap gap-4">
+            <TabsList className="bg-transparent md:mb-17 mb-6 flex-wrap gap-4">
                 <TabsTrigger
                 value="all"
                 className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4"
@@ -71,22 +50,10 @@ const ExploreProductsPage = () => {
                 All
                 </TabsTrigger>
                 <TabsTrigger
-                value="best"
+                value="latest"
                 className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4"
                 >
-                Best seller
-                </TabsTrigger>
-                <TabsTrigger
-                value="new"
-                className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4"
-                >
-                New Arrival
-                </TabsTrigger>
-                <TabsTrigger
-                value="summer"
-                className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4"
-                >
-                Summer collection
+                Latest Products
                 </TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="grid lg:grid-cols-3 grid-cols-2 gap-8">
@@ -95,7 +62,7 @@ const ExploreProductsPage = () => {
                 <Card image="/images/home/glass3.png" height="135"/>
                 <Card image="/images/home/glass1.png" height="135"/>
             </TabsContent>
-            <TabsContent value="best" className="grid lg:grid-cols-3 grid-cols-2 gap-8">
+            <TabsContent value="latest" className="grid lg:grid-cols-3 grid-cols-2 gap-8">
                 <Card image="/images/home/glass3.png" height="135"/>
                 <Card image="/images/home/glass1.png" height="135"/>
                 <Card image="/images/home/glass2.png" height="135"/>
@@ -104,7 +71,7 @@ const ExploreProductsPage = () => {
             </Tabs>
         </div>
 
-        <div
+                <div
             className={`fixed top-0 right-0 h-full w-85.75 bg-white shadow-lg transform transition-transform duration-300 ${
             isSidebarOpen ? "translate-x-0" : "translate-x-full"
             } z-50 flex flex-col`}
@@ -181,7 +148,7 @@ const ExploreProductsPage = () => {
             />
         )}
         </section>
-    );
-};
+    )
+}
 
-export default ExploreProductsPage;
+export default BestSellerCollection
