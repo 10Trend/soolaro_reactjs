@@ -20,14 +20,14 @@ const ShopByCategory = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-4xl group"
+            className="relative overflow-hidden rounded-4xl group flex-[3]"
           >
             <motion.img
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.6 }}
               src="/images/home/best.jpg"
               alt="best seller"
-              className="md:w-171.75 w-40 md:h-107 h-35.25 bg-[#0000001A] opacity-70 object-cover"
+              className="w-full md:h-107 h-35.25 bg-[#0000001A] opacity-70 object-cover"
             />
             <h2 className="text-[#0B0B0B] md:text-[32px] text-sm font-semibold leading-[100%] absolute md:top-6 top-3 md:right-6 right-2">
               Best seller
@@ -38,14 +38,14 @@ const ShopByCategory = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-4xl group"
+            className="relative overflow-hidden rounded-4xl group flex-[2]"
           >
             <motion.img
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.6 }}
               src="/images/home/new.jpg"
               alt="new"
-              className="md:w-120.25 w-40 md:h-107 h-35.25 bg-[#0000001A] opacity-70 object-cover"
+              className="w-full md:h-107 h-35.25 bg-[#0000001A] opacity-70 object-cover"
             />
             <h2 className="text-[#0B0B0B] md:text-[32px] text-sm font-semibold leading-[100%] absolute md:bottom-6 bottom-3 md:left-6 left-2">
               New Arrival
