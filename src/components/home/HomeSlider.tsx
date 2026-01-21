@@ -58,13 +58,13 @@ function HomeSlider() {
       `}</style>
 
       <Slider {...settings}>
-        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2">
+        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2 group overflow-hidden">
           <img
             src="/images/home/slider1.png"
             alt="slider image"
             className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl object-cover"
           />
-          <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4">
+          <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
             <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
               Abu Dhabi
             </p>
@@ -77,29 +77,51 @@ function HomeSlider() {
           </div>
         </div>
 
-        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl mx-2">
+        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2 group overflow-hidden">
           <img
             src="/images/home/slider2.jpg"
             alt="slider image"
             className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl object-cover"
           />
+          <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+            <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
+              Abu Dhabi
+            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-[#FFFFFF] md:text-sm text-xs font-medium">
+                Explore
+              </p>
+              <SliderArrow />
+            </div>
+          </div>
         </div>
 
-        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl mx-2">
+        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2 group overflow-hidden">
           <img
             src="/images/home/slider2.jpg"
             alt="slider image"
             className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl object-cover"
           />
+          <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+            <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
+              Abu Dhabi
+            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-[#FFFFFF] md:text-sm text-xs font-medium">
+                Explore
+              </p>
+              <SliderArrow />
+            </div>
+          </div>
         </div>
 
-        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2">
+        <div className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl relative mx-2 group overflow-hidden">
           <img
             src="/images/home/slider1.png"
             alt="slider image"
             className="md:w-68.75 w-[206px] md:h-101.5 h-[287px] rounded-4xl object-cover"
           />
-          <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4">
+          <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
             <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
               Abu Dhabi
             </p>
