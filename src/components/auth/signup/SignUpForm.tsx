@@ -8,8 +8,8 @@ import { Link } from "react-router-dom"
 
 const SignUpForm = () => {
     return (
-        <section className="container py-12">
-            <Link to='/'>
+        <section className="container md:py-12">
+            <Link to='/' className="md:block hidden">
                 <Logo />
             </Link>
 
