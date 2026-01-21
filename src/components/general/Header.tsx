@@ -69,7 +69,9 @@ const Header = ({ className }: HeaderProps) => {
                         <button onClick={toggleSearch} aria-label="Search">
                             <Search />
                         </button>
-                        <Cart />
+                        <Link to="/cart">
+                            <Cart />
+                        </Link>
                         <Language />
                         <div className="w-37.25 h-14 bg-[#FFFFFF33] rounded-4xl flex items-center justify-center gap-2">
                             <User />
@@ -150,9 +152,9 @@ const Header = ({ className }: HeaderProps) => {
                             </button>
 
                             <div className="flex items-center justify-center gap-4 mt-6">
-                                <div className="w-12 h-12 bg-[#F6F6F6] rounded-full">
+                                <Link to="/cart" onClick={closeSidebar} className="w-12 h-12 bg-[#F6F6F6] rounded-full flex items-center justify-center">
                                     <Cart />
-                                </div>
+                                </Link>
                                 <div className="w-12 h-12 bg-[#F6F6F6] rounded-full">
                                     <Language />
                                 </div>
