@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import Logo from "../icons/header/Logo"
 import Search from "../icons/header/Search"
 import Cart from "../icons/header/Cart"
@@ -31,9 +31,16 @@ const Header = () => {
         setIsSearchOpen(false)
     }
 
+    const location = useLocation()
+    const isHome = location.pathname === "/"
+
     return (
         <>
-            <header className="bg-[#A8D4D3] md:py-12 py-8">
+            <header
+                className={`md:py-8 py-8 ${
+                    isHome ? "bg-[#A8D4D3]" : "bg-transparent"
+                }`}
+                >
                 <div className="container flex items-center justify-between">
                     <div className="lg:hidden flex">
                         <button onClick={toggleSidebar} aria-label="Open menu">
