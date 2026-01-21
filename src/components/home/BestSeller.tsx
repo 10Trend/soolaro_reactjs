@@ -41,13 +41,13 @@ const BestSeller = () => {
           }}
         >
           <SwiperSlide>
-            <Card image="/images/home/glass2.png" />
+            <Card image="/images/home/glass2.png" height="213" />
           </SwiperSlide>
           <SwiperSlide>
-            <Card image="/images/home/glass3.png" priceColor="#003D3B" />
+            <Card image="/images/home/glass3.png" priceColor="#003D3B" height="213"/>
           </SwiperSlide>
           <SwiperSlide>
-            <Card image="/images/home/glass1.png" />
+            <Card image="/images/home/glass1.png" height="213"/>
           </SwiperSlide>
         </Swiper>
       </motion.div>

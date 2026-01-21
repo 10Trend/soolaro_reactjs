@@ -89,17 +89,17 @@ const ExploreProductsPage = () => {
                 Summer collection
                 </TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="flex flex-wrap gap-8">
-                <Card image="/images/home/glass1.png" />
-                <Card image="/images/home/glass2.png" />
-                <Card image="/images/home/glass3.png" />
-                <Card image="/images/home/glass1.png" />
+            <TabsContent value="all" className="grid lg:grid-cols-3 grid-cols-2 gap-8">
+                <Card image="/images/home/glass1.png" height="135"/>
+                <Card image="/images/home/glass2.png" height="135"/>
+                <Card image="/images/home/glass3.png" height="135"/>
+                <Card image="/images/home/glass1.png" height="135"/>
             </TabsContent>
             <TabsContent value="best" className="flex flex-wrap gap-8">
-                <Card image="/images/home/glass3.png" />
-                <Card image="/images/home/glass1.png" />
-                <Card image="/images/home/glass2.png" />
-                <Card image="/images/home/glass3.png" />
+                <Card image="/images/home/glass3.png" height="135"/>
+                <Card image="/images/home/glass1.png" height="135"/>
+                <Card image="/images/home/glass2.png" height="135"/>
+                <Card image="/images/home/glass3.png" height="135"/>
             </TabsContent>
             </Tabs>
         </div>

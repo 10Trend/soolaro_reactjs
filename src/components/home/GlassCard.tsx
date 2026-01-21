@@ -4,9 +4,16 @@ import { motion } from "framer-motion";
 type CardProps = {
   image: string;
   priceColor?: string;
+  width?: string;
+  height?: string;
 };
 
-const Card = ({ image, priceColor = "#0B0B0B" }: CardProps) => {
+const Card = ({
+  image,
+  priceColor = "#0B0B0B",
+  width = "w-88.75",
+  height = "h-44.25",
+}: CardProps) => {
   const [selectedColor, setSelectedColor] = useState(0);
   const colors = [
     "bg-[linear-gradient(135deg,#754B37_50%,#E98900_50%)]",
@@ -20,13 +27,13 @@ const Card = ({ image, priceColor = "#0B0B0B" }: CardProps) => {
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="md:w-94.75 w-62.75 md:h-87.25 h-53.25 bg-[#F6F6F6] rounded-4xl flex items-center justify-center relative overflow-hidden">
+      <div className="bg-[#F6F6F6] rounded-4xl flex items-center justify-center relative overflow-hidden">
         <motion.img
           whileHover={{ scale: 1.1 }}
           transition={{ duration: 0.5 }}
           src={image}
           alt="glass"
-          className="w-88.75 h-44.25 object-cover z-10"
+          className={`${width} ${height} object-cover z-10`}
         />
         <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </div>

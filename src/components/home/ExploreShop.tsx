@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const ExploreShop = () => {
   return (
@@ -13,17 +14,19 @@ const ExploreShop = () => {
         Timeless, Confident, Refined, Always Iconic.
       </motion.h2>
 
-      <motion.button
-        initial={{ opacity: 0, scale: 0.9 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        viewport={{ once: true }}
-        className="w-88.25 md:h-14 h-12 border border-[#FEFEFE] rounded-4xl mt-8 text-[#FEFEFE] text-lg font-semibold cursor-pointer"
-      >
-        Explore Shop
-      </motion.button>
+      <Link to='/explore'>
+        <motion.button
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="w-88.25 md:h-14 h-12 border border-[#FEFEFE] rounded-4xl mt-8 text-[#FEFEFE] text-lg font-semibold cursor-pointer"
+        >
+          Explore Shop
+        </motion.button>
+      </Link>
     </section>
   );
 };
