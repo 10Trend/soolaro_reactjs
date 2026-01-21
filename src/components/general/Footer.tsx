@@ -90,7 +90,7 @@ const Footer = () => {
 
                 <div className="md:mt-20 mt-10 flex flex-col items-center">
                     <p className="text-[#F6F6F6] md:text-base text-[8px] font-medium leading-[100%]">
-                        Copyright © Soolaro 2026. All rights reserved.
+                        Copyright © Soolaro 2026. All rights reserved.
                     </p>
                     <img 
                         src="/images/footer/payment.png" 
