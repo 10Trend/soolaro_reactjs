@@ -5,7 +5,7 @@ import SliderArrow from "../icons/home/hero/SliderArrow";
 
 function HomeSlider() {
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     arrows: false,
@@ -31,16 +31,16 @@ function HomeSlider() {
       </div>
     ),
     customPaging: () => (
-      <div className="w-2 h-2 rounded-full bg-gray-300 hover:bg-[#00BCD4] transition-all duration-300 slick-dot-custom" />
+      <div className="md:hidden w-2 h-2 rounded-full bg-gray-300 hover:bg-[#018884] transition-all duration-300 slick-dot-custom" />
     ),
   };
 
   return (
-    <div className="slider-container md:max-w-[580px] w-full">
+    <div className="slider-container md:max-w-145 w-full mb-1">
       <style>{`
         .slick-dots li.slick-active .slick-dot-custom {
-          width: 40px !important;
-          background-color: #00BCD4 !important;
+          width: 20px !important;
+          background-color: #018884 !important;
         }
         .slick-dots li {
           margin: 0 !important;

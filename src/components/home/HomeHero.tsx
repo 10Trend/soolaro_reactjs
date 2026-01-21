@@ -25,6 +25,40 @@ const HomeHero = () => {
               <Arrow />
             </div>
           </button>
+
+        <div className="mt-4 md:flex hidden items-center gap-4">
+          <div className="flex items-center">
+            <img
+              src="/images/home/customer.jpg"
+              alt="customer"
+              className="w-14 h-14 rounded-full border-2 border-white"
+            />
+            <img
+              src="/images/home/customer.jpg"
+              alt="customer"
+              className="w-14 h-14 rounded-full border-2 border-white -ml-6"
+            />
+            <img
+              src="/images/home/customer.jpg"
+              alt="customer"
+              className="w-14 h-14 rounded-full border-2 border-white -ml-6"
+            />
+            <img
+              src="/images/home/customer.jpg"
+              alt="customer"
+              className="w-14 h-14 rounded-full border-2 border-white -ml-6"
+            />
+          </div>
+
+          <div>
+            <h3 className="text-[#0B0B0B] text-2xl font-medium leading-none">
+              +50K
+            </h3>
+            <p className="text-[#3B3B3B] text-sm font-medium mt-2 leading-none">
+              Satisfied Customer
+            </p>
+          </div>
+        </div>
         </div>
 
         <div className="flex-1 w-full">
