@@ -2,7 +2,6 @@ import Apple from "@/components/icons/auth/Apple";
 import ClosedEye from "@/components/icons/auth/ClosedEye";
 import Facebook from "@/components/icons/auth/Facebook";
 import Google from "@/components/icons/auth/Google";
-import BackArrow from "@/components/icons/explore/BackArrow";
 import Logo from "@/components/icons/header/Logo";
 import { Eye } from "lucide-react";
 import { useState } from "react";
