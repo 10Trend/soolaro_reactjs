@@ -166,9 +166,9 @@ const Header = ({ className }: HeaderProps) => {
 
               <button className="w-53.75 h-12 bg-[#018884] rounded-4xl flex items-center justify-center gap-2 mx-auto mt-14.5">
                 <SidebarUser />
-                <p className="text-[#FEFEFE] text-lg font-semibold leading-[100%]">
+                <Link to='/signin' className="text-[#FEFEFE] text-lg font-semibold leading-[100%]">
                   Log In
-                </p>
+                </Link>
               </button>
 
               <div className="flex items-center justify-center gap-4 mt-6">
