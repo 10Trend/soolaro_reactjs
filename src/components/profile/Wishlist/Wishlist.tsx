@@ -1,4 +1,5 @@
 import Card from "@/components/home/GlassCard";
+import WhishlistEmptyState from "./WishlistEmptyState";
 
 const Wishlist = () => {
     return (
@@ -13,7 +14,9 @@ const Wishlist = () => {
             showHeart
             height="258px"
             />
+
         </div>
+            <WhishlistEmptyState />
         </section>
     );
 };

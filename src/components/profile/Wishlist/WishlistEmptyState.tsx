@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-const OrderEmptyState = () => {
+const WhishlistEmptyState = () => {
     return (
         <section className="flex flex-col items-center justify-center gap-6">
             <img
@@ -18,4 +18,4 @@ const OrderEmptyState = () => {
     )
 }
 
-export default OrderEmptyState
+export default WhishlistEmptyState
