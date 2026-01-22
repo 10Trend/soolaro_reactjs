@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 
 const ProfileInfo = () => {
     return (
@@ -8,7 +8,7 @@ const ProfileInfo = () => {
                 <h1 className="text-[#0B0B0B] text-[40px] font-semibold leading-[100%]">
                     My Profile
                 </h1>
-                <Link to='/' className="text-[#018884] text-lg font-bold underline">
+                <Link to='/profile/change_password' className="text-[#018884] text-lg font-bold underline">
                     Change Password
                 </Link>
             </div>
