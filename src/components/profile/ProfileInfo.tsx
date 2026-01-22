@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 
 const ProfileInfo = () => {
     return (
@@ -12,7 +13,7 @@ const ProfileInfo = () => {
                 </Link>
             </div>
             
-            <form className="mt-12">
+            <div className="mt-12">
                 <div>
                     <label htmlFor="name" className="text-[#0B0B0B] text-base font-semibold">
                         Name
@@ -47,10 +48,33 @@ const ProfileInfo = () => {
                     />
                 </div>
 
-                <button className="w-full h-14 bg-[#018884] rounded-4xl mt-8 text-[#FEFEFE] text-lg font-bold">
-                    Save Changes
-                </button>
-            </form>
+                <Dialog>
+                    <DialogTrigger className="w-full">
+                        <button className="w-full h-14 bg-[#018884] rounded-4xl mt-8 text-[#FEFEFE] text-lg font-bold">
+                            Save Changes
+                        </button>
+                    </DialogTrigger>
+                    <DialogContent className="md:h-89.25 h-80 flex flex-col items-center justify-end">
+                        <DialogHeader>
+                        <DialogTitle className="text-[#0B0B0B] text-xl font-semibold text-center">
+                            Your profile has been updated successfully.
+                        </DialogTitle>
+                        
+                        <DialogFooter className="sm:justify-start mt-10">
+                            <DialogClose asChild>
+                                <button type="button" className="w-full h-14 border border-[#DEDDDD] rounded-4xl text-[#3B3B3B] text-base font-bold">
+                                    Cancel
+                                </button>
+                            </DialogClose>
+                            <button type="button" className="w-full h-14 bg-[#018884] rounded-4xl text-[#FEFEFE] text-base font-bold">
+                                    Continue
+                                </button>
+                        </DialogFooter>
+                        </DialogHeader>
+                    </DialogContent>
+                    </Dialog>
+
+            </div>
         </section>
     )
 }
