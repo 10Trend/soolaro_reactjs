@@ -33,7 +33,9 @@ const Addresses = () => {
                 <p className="text-[#0B0B0B] text-base font-medium">
                 {address}
                 </p>
-                <Edit />
+                <Link to='/profile/edit_address'>
+                    <Edit />
+                </Link>
             </div>
             ))}
 

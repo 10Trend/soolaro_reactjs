@@ -1,11 +1,11 @@
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-const AddNewAddress = () => {
+const EditAddress = () => {
     return (
         <section>
             <h2 className="text-[#0B0B0B] text-xl font-medium">
-                Add New Address
+                Edit Address
             </h2>
             
             <div className="mt-6">
@@ -94,7 +94,7 @@ const AddNewAddress = () => {
                 <DialogContent className="h-80 flex flex-col items-center justify-end">
                     <DialogHeader>
                     <DialogTitle className="text-[#0B0B0B] text-2xl font-semibold text-center">
-                        New address has been added successfully.
+                        Address has been updated successfully.
                     </DialogTitle>
                     <DialogFooter className="sm:justify-start">
                         <DialogClose asChild>
@@ -119,4 +119,4 @@ const AddNewAddress = () => {
     )
 }
 
-export default AddNewAddress
+export default EditAddress

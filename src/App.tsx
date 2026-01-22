@@ -21,6 +21,7 @@ import ChangePassword from "./components/profile/change_password/ChangePassword"
 import FAQPage from "./pages/FAQPage";
 import ContactUsPage from "./pages/ContactUsPage";
 import AddNewAddress from "./components/profile/Addresses/AddNewAddress";
+import EditAddress from "./components/profile/Addresses/EditAddress";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             <Route path="addresses" element={<Addresses />} />
             <Route path="change_password" element={<ChangePassword />} />
             <Route path="add_address" element={<AddNewAddress />} />
+            <Route path="edit_address" element={<EditAddress />} />
           </Route>
         </Route>
 
