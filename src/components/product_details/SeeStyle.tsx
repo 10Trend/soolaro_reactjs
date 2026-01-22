@@ -1,13 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
-import Card from "../home/GlassCard";
 
-const ComplateSelection = () => {
+const SeeStyle = () => {
     return (
-        <section className="container md:py-17 py-12">
+        <section className="container">
             <h2 className="text-[#0B0B0B] md:text-[40px] text-lg font-semibold">
-                Complete your selection
+                See Your Style in Action
             </h2>
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -19,7 +18,7 @@ const ComplateSelection = () => {
                 <Swiper
                 modules={[Pagination]}
                 spaceBetween={16}
-                slidesPerView={1.25}
+                slidesPerView={1.5}
                 breakpoints={{
                     768: {
                     slidesPerView: 3,
@@ -27,13 +26,25 @@ const ComplateSelection = () => {
                 }}
                 >
                 <SwiperSlide>
-                    <Card image="/images/home/glass1.png" height="213"/>
+                    <img
+                        src="/images/product/style1.png"
+                        alt="style"
+                        className="md:w-[379px] w-[226px] md:h-[455px] h-[271px] rounded-4xl object-cover"
+                    />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <Card image="/images/home/glass2.png" priceColor="#003D3B" height="213"/>
+                    <img
+                        src="/images/product/style2.png"
+                        alt="style"
+                        className="md:w-[379px] w-[226px] md:h-[455px] h-[271px] rounded-4xl object-cover"
+                    />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <Card image="/images/home/glass3.png" height="213"/>
+                    <img
+                        src="/images/product/style2.png"
+                        alt="style"
+                        className="md:w-[379px] w-[226px] md:h-[455px] h-[271px] rounded-4xl object-cover"
+                    />
                 </SwiperSlide>
                 </Swiper>
             </motion.div>
@@ -41,4 +52,4 @@ const ComplateSelection = () => {
     )
 }
 
-export default ComplateSelection
+export default SeeStyle
