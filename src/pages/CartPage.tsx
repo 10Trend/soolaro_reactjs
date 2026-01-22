@@ -45,7 +45,11 @@ const CartPage = () => {
             </div>
             {/* Sidebar / Checkout Summary */}
             <div className="w-full lg:w-auto shrink-0 animate-in fade-in slide-in-from-right-8 duration-700 delay-200">
-              <CartSummary subtotal={269.0} shipping={25.0} />
+              <CartSummary
+                subtotal={269.0}
+                shipping={25.0}
+                disablePopup={true}
+              />
             </div>
           </div>
         )}

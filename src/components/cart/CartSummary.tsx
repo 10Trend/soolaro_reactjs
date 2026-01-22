@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import LoginRequiredPopup from "./LoginRequiredPopup";
 
 interface CartSummaryProps {
   subtotal: number;
   shipping: number;
+  disablePopup?: boolean;
 }
 
-const CartSummary = ({ subtotal, shipping }: CartSummaryProps) => {
+const CartSummary = ({
+  subtotal,
+  shipping,
+  disablePopup = false,
+}: CartSummaryProps) => {
+  const navigate = useNavigate();
   const [couponCode, setCouponCode] = useState("");
   const [couponStatus, setCouponStatus] = useState<
     "idle" | "success" | "error"
@@ -118,14 +125,23 @@ const CartSummary = ({ subtotal, shipping }: CartSummaryProps) => {
         </span>
       </div>
 
-      <LoginRequiredPopup
-        isLoggedIn={false}
-        onProceed={() => console.log("Proceed to checkout")}
-      >
-        <button className="w-full bg-[#018884] hover:bg-[#006F6C] text-white text-xl font-bold py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer">
+      {disablePopup ? (
+        <button
+          onClick={() => navigate("/checkout")}
+          className="w-full bg-[#018884] hover:bg-[#006F6C] text-white text-xl font-bold py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
+        >
           Check Out
         </button>
-      </LoginRequiredPopup>
+      ) : (
+        <LoginRequiredPopup
+          isLoggedIn={false}
+          onProceed={() => console.log("Proceed to checkout")}
+        >
+          <button className="w-full bg-[#018884] hover:bg-[#006F6C] text-white text-xl font-bold py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer">
+            Check Out
+          </button>
+        </LoginRequiredPopup>
+      )}
     </div>
   );
 };

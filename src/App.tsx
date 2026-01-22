@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import ExploreProductsPage from "./pages/ExploreProductsPage";
 import CategoryPage from "./pages/CategoryPage";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 import SigninPage from "./pages/auth/SigninPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SignUpPage from "./pages/auth/SignUpPage";
@@ -29,6 +30,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/explore" element={<ExploreProductsPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/product_details" element={<ProductDetailsPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contact_us" element={<ContactUsPage />} />
