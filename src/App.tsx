@@ -4,12 +4,12 @@ import HomePage from "./pages/HomePage";
 import ExploreProductsPage from "./pages/ExploreProductsPage";
 import CategoryPage from "./pages/CategoryPage";
 import CartPage from "./pages/CartPage";
-import SigninPage from "./pages/SigninPage";
+import SigninPage from "./pages/auth/SigninPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import SignUpPage from "./pages/SignUpPage";
-import ForgetPasswordPage from "./pages/ForgetPasswordPage";
-import OtpPage from "./pages/OtpPage";
-import NewPasswordPage from "./pages/NewPasswordPage";
+import SignUpPage from "./pages/auth/SignUpPage";
+import ForgetPasswordPage from "./pages/auth/ForgetPasswordPage";
+import OtpPage from "./pages/auth/OtpPage";
+import NewPasswordPage from "./pages/auth/NewPasswordPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 
 function App() {
@@ -32,8 +32,8 @@ function App() {
           <Route path="signin" element={<SigninPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route path="forget_password" element={<ForgetPasswordPage />} />
-            <Route path="otp" element={<OtpPage />} />
-            <Route path="new_password" element={<NewPasswordPage />} />
+          <Route path="otp" element={<OtpPage />} />
+          <Route path="new_password" element={<NewPasswordPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
