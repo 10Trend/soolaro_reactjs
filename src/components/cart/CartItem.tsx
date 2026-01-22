@@ -1,5 +1,6 @@
 import { Plus, Minus } from "lucide-react";
 import { Link } from "react-router-dom";
+import RemoveItemPopup from "./RemoveItemPopup";
 
 interface CartItemProps {
   id: number;
@@ -80,6 +81,11 @@ const QuantityControls = ({ quantity }: { quantity: number }) => (
 const CartItem = ({ id, name, price, quantity, image }: CartItemProps) => {
   const total = price * quantity;
 
+  const handleRemove = () => {
+    // Handle remove logic here
+    console.log("Remove item", id);
+  };
+
   return (
     <>
       {/* Mobile Design */}
@@ -107,12 +113,14 @@ const CartItem = ({ id, name, price, quantity, image }: CartItemProps) => {
             </div>
           </div>
 
-          <button
-            aria-label="Remove item"
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F4F4F4] hover:bg-[#ffe5e5] transition-colors duration-300"
-          >
-            <DeleteIcon />
-          </button>
+          <RemoveItemPopup onConfirm={handleRemove}>
+            <button
+              aria-label="Remove item"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F4F4F4] hover:bg-[#ffe5e5] transition-colors duration-300"
+            >
+              <DeleteIcon />
+            </button>
+          </RemoveItemPopup>
         </div>
 
         {/* Bottom Card: Quantity */}
@@ -126,12 +134,14 @@ const CartItem = ({ id, name, price, quantity, image }: CartItemProps) => {
         {/* Product Section */}
         <div className="col-span-6 flex items-start gap-3">
           {/* Delete Button - Top Left aligned with image */}
-          <button
-            aria-label="Remove item"
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F4F4F4] hover:bg-[#ffe5e5] transition-colors duration-300 shrink-0 absolute -mt-4"
-          >
-            <DeleteIcon />
-          </button>
+          <RemoveItemPopup onConfirm={handleRemove}>
+            <button
+              aria-label="Remove item"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F4F4F4] hover:bg-[#ffe5e5] transition-colors duration-300 shrink-0 absolute -mt-4 cursor-pointer"
+            >
+              <DeleteIcon />
+            </button>
+          </RemoveItemPopup>
 
           {/* Image */}
           <div className="w-32 h-32 bg-[#F9F9F9] rounded-2xl flex items-center justify-center shrink-0 p-2">

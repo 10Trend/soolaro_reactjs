@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CheckCircle2, XCircle } from "lucide-react";
+import LoginRequiredPopup from "./LoginRequiredPopup";
 
 interface CartSummaryProps {
   subtotal: number;
@@ -117,9 +118,14 @@ const CartSummary = ({ subtotal, shipping }: CartSummaryProps) => {
         </span>
       </div>
 
-      <button className="w-full bg-[#018884] hover:bg-[#006F6C] text-white text-xl font-bold py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-        Check Out
-      </button>
+      <LoginRequiredPopup
+        isLoggedIn={false}
+        onProceed={() => console.log("Proceed to checkout")}
+      >
+        <button className="w-full bg-[#018884] hover:bg-[#006F6C] text-white text-xl font-bold py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer">
+          Check Out
+        </button>
+      </LoginRequiredPopup>
     </div>
   );
 };
