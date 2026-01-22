@@ -19,6 +19,7 @@ import Addresses from "./components/profile/Addresses/Addresses";
 import ChangePassword from "./components/profile/change_password/ChangePassword";
 import FAQPage from "./pages/FAQPage";
 import ContactUsPage from "./pages/ContactUsPage";
+import AddNewAddress from "./components/profile/Addresses/AddNewAddress";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="addresses" element={<Addresses />} />
             <Route path="change_password" element={<ChangePassword />} />
+            <Route path="add_address" element={<AddNewAddress />} />
           </Route>
         </Route>
 

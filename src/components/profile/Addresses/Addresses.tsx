@@ -1,6 +1,7 @@
 import { useState } from "react"
 import Edit from "@/components/icons/profile/Edit"
 import clsx from "clsx"
+import { Link } from "react-router-dom"
 
 const addresses = [
   "United Arab Emirates, Dubai, Business Bay, Al Abraj Street, Al Nakheel Tower, Floor 12, Apartment 1205",
@@ -36,9 +37,11 @@ const Addresses = () => {
             </div>
             ))}
 
-            <button className="w-full h-14 border border-[#018884] rounded-4xl mt-8 text-[#018884] text-lg font-bold">
-                Add New Address
-            </button>
+            <Link to='/profile/add_address'>
+                <button className="w-full h-14 border border-[#018884] rounded-4xl mt-8 text-[#018884] text-lg font-bold">
+                    Add New Address
+                </button>
+            </Link>
         </div>
         </section>
     )
