@@ -60,7 +60,7 @@ const Footer = () => {
                             <Link to='/' className="text-[#FEFEFE] md:text-base text-xs font-semibold">Create Account - Log In</Link>
                             <Link to='/' className="text-[#FEFEFE] md:text-base text-xs font-semibold">My Orders</Link>
                             <Link to='/faq' className="text-[#FEFEFE] md:text-base text-xs font-semibold">FAQs</Link>
-                            <Link to='/' className="text-[#FEFEFE] md:text-base text-xs font-semibold">Contact Us</Link>
+                            <Link to='/contact_us' className="text-[#FEFEFE] md:text-base text-xs font-semibold">Contact Us</Link>
                         </div>
 
                         <div className="flex flex-col items-center md:items-start gap-3">
