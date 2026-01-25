@@ -23,5 +23,7 @@
     "orderEmptyStateAlt": "صورة حالة عدم وجود طلبات",
     "noOrdersYet": "لم تقم بأي طلبات بعد",
     "exploreShop": "تصفح المتجر",
-    "favorite": "المفضلة"
+    "favorite": "المفضلة",
+    "wishlistEmptyStateAlt": "صورة حالة عدم وجود عناصر في المفضلة",
+    "wishlistEmptyText": "اضغط على القلب لحفظ العناصر المفضلة لديك"
 }

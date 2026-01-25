@@ -23,5 +23,7 @@
     "orderEmptyStateAlt": "Order empty state illustration",
     "noOrdersYet": "You haven’t placed any orders yet",
     "exploreShop": "Explore Shop",
-    "favorite": "Favorite"
+    "favorite": "Favorite",
+    "wishlistEmptyStateAlt": "Wishlist empty state illustration",
+    "wishlistEmptyText": "Tap the heart to save your favorite items"
 }
