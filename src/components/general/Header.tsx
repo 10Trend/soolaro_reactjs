@@ -11,6 +11,7 @@ import MobileLogo from "../icons/header/MobileLogo";
 import SearchEmptyState from "./SearchEmptyState";
 import SidebarUser from "../icons/header/SidebarUser";
 import CategoryLogo from "../icons/category/Logo";
+import ChangeLanguage from "./ChangeLanguage";
 
 interface HeaderProps {
   className?: string;
@@ -92,7 +93,7 @@ const Header = ({ className }: HeaderProps) => {
             <Link to="/cart">
               <Cart />
             </Link>
-            <Language />
+            <ChangeLanguage />
             <Link to='/signin' className="w-37.25 h-14 bg-[#FFFFFF33] rounded-4xl flex items-center justify-center gap-2">
               <User />
               <p className="text-[#0B0B0B] text-lg font-semibold">Log In</p>
