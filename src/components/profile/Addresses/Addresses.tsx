@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import MobileBackHeader from "@/components/general/MobileBackHeader"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import AddNewAddress from "./AddNewAddress"
+import { useTranslation } from "react-i18next";
 
 const addresses = [
   "United Arab Emirates, Dubai, Business Bay, Al Abraj Street, Al Nakheel Tower, Floor 12, Apartment 1205",
@@ -13,18 +14,19 @@ const addresses = [
 ]
 
 const Addresses = () => {
-    const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const { t } = useTranslation("profile");
 
     return (
         <section>
         <h1 className="text-[#0B0B0B] text-[40px] font-semibold md:block hidden">
-            My Addresses
+            {t("myAddresses")}
         </h1>
 
-        <Link to='/' className="md:hidden flex items-center gap-3">
+        <Link to="/" className="md:hidden flex items-center gap-3">
             <MobileBackHeader />
             <p className="text-[#0B0B0B] text-base font-semibold mb-6">
-                My Addresses
+            {t("myAddresses")}
             </p>
         </Link>
 
@@ -64,7 +66,7 @@ const Addresses = () => {
             <DialogTrigger className="w-full">
                 <div>
                     <button className="w-full h-14 border border-[#018884] rounded-4xl md:mt-8 mt-4 text-[#018884] text-lg font-bold">
-                        Add New Address
+                        {t("addNewAddress")}
                     </button>
                 </div>
             </DialogTrigger>

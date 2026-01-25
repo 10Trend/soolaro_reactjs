@@ -25,5 +25,22 @@
     "exploreShop": "تصفح المتجر",
     "favorite": "المفضلة",
     "wishlistEmptyStateAlt": "صورة حالة عدم وجود عناصر في المفضلة",
-    "wishlistEmptyText": "اضغط على القلب لحفظ العناصر المفضلة لديك"
+    "wishlistEmptyText": "اضغط على القلب لحفظ العناصر المفضلة لديك",
+    "addNewAddress": "إضافة عنوان جديد",
+    "country": "الدولة",
+    "chooseCountry": "اختر دولتك",
+    "emirateCity": "الإمارة / المدينة",
+    "chooseEmirateCity": "اختر الإمارة - المدينة",
+    "area": "المنطقة",
+    "enterArea": "أدخل المنطقة",
+    "street": "الشارع",
+    "enterStreet": "أدخل الشارع",
+    "floorNo": "رقم الطابق",
+    "enterFloorNo": "أدخل رقم الطابق",
+    "apartmentNo": "رقم الشقة",
+    "enterApartmentNo": "أدخل رقم الشقة",
+    "save": "حفظ",
+    "addressAddedSuccess": "تمت إضافة العنوان الجديد بنجاح.",
+    "addressEmptyStateAlt": "صورة حالة عدم وجود عناوين",
+    "noAddressesYet": "لم تقم بإضافة أي عناوين بعد."
 }

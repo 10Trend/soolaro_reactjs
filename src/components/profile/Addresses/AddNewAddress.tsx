@@ -1,20 +1,23 @@
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTranslation } from "react-i18next";
 
 const AddNewAddress = () => {
+    const { t } = useTranslation("profile");
+
     return (
         <section>
             <h2 className="text-[#0B0B0B] text-xl font-medium">
-                Add New Address
+                {t("addNewAddress")}
             </h2>
-            
+
             <div className="mt-6">
                 <label htmlFor="country" className="text-[#0B0B0B] text-base font-semibold">
-                    Country
+                {t("country")}
                 </label>
                 <Select>
                     <SelectTrigger className="w-full h-14! mt-3 rounded-4xl">
-                        <SelectValue placeholder="Choose your country" />
+                        <SelectValue placeholder={t("chooseCountry")} />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="a">A</SelectItem>
@@ -26,11 +29,11 @@ const AddNewAddress = () => {
 
             <div className="mt-6">
                 <label htmlFor="city" className="text-[#0B0B0B] text-base font-semibold">
-                    Emirate / City
+                {t("emirateCity")}
                 </label>
                 <Select>
                     <SelectTrigger className="w-full h-14! mt-3 rounded-4xl">
-                        <SelectValue placeholder="Choose your Emirate - City" />
+                        <SelectValue placeholder={t("chooseEmirateCity")} />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="a">A</SelectItem>
@@ -42,45 +45,45 @@ const AddNewAddress = () => {
 
             <div className="mt-6">
                 <label htmlFor="area" className="text-[#0B0B0B] text-base font-semibold">
-                    Area
+                {t("area")}
                 </label>
                 <input
                     type="text"
                     className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3"
-                    placeholder="Enter your area"
+                    placeholder={t("enterArea")}
                     />
             </div>
 
             <div className="mt-6">
                 <label htmlFor="street" className="text-[#0B0B0B] text-base font-semibold">
-                    Street
+                {t("street")}
                 </label>
                 <input
                     type="text"
                     className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3"
-                    placeholder="Enter your street"
+                    placeholder={t("enterStreet")}
                     />
             </div>
 
             <div className="flex items-center gap-6">
                 <div className="mt-6 w-full">
-                    <label htmlFor="fllor" className="text-[#0B0B0B] text-base font-semibold">
-                        Floor No,
+                    <label htmlFor="floor" className="text-[#0B0B0B] text-base font-semibold">
+                        {t("floorNo")}
                     </label>
                     <input
                         type="text"
                         className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3"
-                        placeholder="Enter your floor no."
+                        placeholder={t("enterFloorNo")}
                         />
                 </div>
                 <div className="mt-6 w-full">
                     <label htmlFor="apartment" className="text-[#0B0B0B] text-base font-semibold">
-                        Apartment No.
+                        {t("apartmentNo")}
                     </label>
                     <input
                         type="text"
                         className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3"
-                        placeholder="Enter your apartment no."
+                        placeholder={t("enterApartmentNo")}
                         />
                 </div>
             </div>
@@ -88,13 +91,13 @@ const AddNewAddress = () => {
             <Dialog>
                 <DialogTrigger className="w-full">
                     <button className="md:mt-10 mt-6 w-full md:h-14 h-12 bg-[#018884] rounded-4xl text-[#FEFEFE] text-lg font-bold">
-                        Save
+                        {t("save")}
                     </button>
                 </DialogTrigger>
                 <DialogContent className="md:w-[655px] h-80 flex flex-col items-center justify-end">
                     <DialogHeader>
                     <DialogTitle className="text-[#0B0B0B] md:text-2xl text-base font-semibold text-center">
-                        New address has been added successfully.
+                        {t("addressAddedSuccess")}
                     </DialogTitle>
                     <DialogFooter className="sm:justify-start flex flex-row md:mt-0 mt-6">
                         <DialogClose asChild>
@@ -102,14 +105,14 @@ const AddNewAddress = () => {
                             type="button"
                             className="w-full h-14 border border-[#DEDDDD] rounded-4xl md:mt-10 text-[#3B3B3B] text-base font-bold"
                         >
-                            Cancel
+                        {t("cancel")}
                         </button>
                         </DialogClose>
                         <button
                             type="button"
                             className="w-full h-14 bg-[#018884] rounded-4xl md:mt-10 text-[#FEFEFE] text-base font-bold"
                         >
-                            Continue
+                            {t("continue")}
                         </button>
                     </DialogFooter>
                     </DialogHeader>

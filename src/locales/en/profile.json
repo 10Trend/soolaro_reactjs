@@ -25,5 +25,22 @@
     "exploreShop": "Explore Shop",
     "favorite": "Favorite",
     "wishlistEmptyStateAlt": "Wishlist empty state illustration",
-    "wishlistEmptyText": "Tap the heart to save your favorite items"
+    "wishlistEmptyText": "Tap the heart to save your favorite items",
+    "addNewAddress": "Add New Address",
+    "country": "Country",
+    "chooseCountry": "Choose your country",
+    "emirateCity": "Emirate / City",
+    "chooseEmirateCity": "Choose your Emirate - City",
+    "area": "Area",
+    "enterArea": "Enter your area",
+    "street": "Street",
+    "enterStreet": "Enter your street",
+    "floorNo": "Floor No.",
+    "enterFloorNo": "Enter your floor no.",
+    "apartmentNo": "Apartment No.",
+    "enterApartmentNo": "Enter your apartment no.",
+    "save": "Save",
+    "addressAddedSuccess": "New address has been added successfully.",
+    "addressEmptyStateAlt": "Address empty state illustration",
+    "noAddressesYet": "You haven’t added any addresses yet."
 }
