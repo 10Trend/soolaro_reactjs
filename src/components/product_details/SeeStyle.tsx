@@ -2,12 +2,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
 import { Image } from "@/components/ui/image";
+import { useTranslation } from "react-i18next";
 
 const SeeStyle = () => {
+  const { t } = useTranslation("product");
   return (
     <section className="container">
       <h2 className="text-[#0B0B0B] md:text-[40px] text-lg font-semibold">
-        See Your Style in Action
+        {t('see_style')}
       </h2>
       <motion.div
         initial={{ opacity: 0, y: 30 }}

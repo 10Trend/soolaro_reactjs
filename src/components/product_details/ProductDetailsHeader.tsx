@@ -3,8 +3,10 @@ import { Image } from "@/components/ui/image";
 import BreadCrumbs from "../general/BreadCrumbs";
 import Heart from "../icons/product/Heart";
 import MobileHeart from "../icons/product/MobileHeart";
+import { useTranslation } from "react-i18next";
 
 const ProductDetailsHeader = () => {
+  const { t } = useTranslation("product");
   const [selectedImage, setSelectedImage] = useState(0);
 
   const breadcrumbItems = [
@@ -109,7 +111,7 @@ const ProductDetailsHeader = () => {
           </div>
 
           <button className="w-full h-14 bg-[#018884] rounded-4xl md:mt-8 mt-6 text-[#FEFEFE] text-lg font-bold">
-            Add To Cart
+            {t('add_to_cart')}
           </button>
 
           <div className="w-full h-14 border border-[#018884] rounded-4xl mt-4 flex items-center justify-center gap-14.5">

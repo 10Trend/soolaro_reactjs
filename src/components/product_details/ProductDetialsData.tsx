@@ -1,8 +1,10 @@
+import { useTranslation } from "react-i18next";
 import EmptyStar from "../icons/product/EmptyStar"
 import FullStar from "../icons/product/FullStar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 
 const ProductDetialsData = () => {
+    const { t } = useTranslation("product");
     return (
         <section className="container">
             <div className="md:mt-17 mt-6">
@@ -12,25 +14,25 @@ const ProductDetialsData = () => {
                             value="description"
                             className="data-[state=active]:border-b-[#018884] rounded-none data-[state=active]:shadow-none bg-transparent data-[state=active]:text-[#025D5B] text-base font-bold text-[#3B3B3B] md:px-8 py-4"
                             >
-                            Description
+                            {t('description')}
                         </TabsTrigger>
                         <TabsTrigger
                             value="measurement"
                             className="data-[state=active]:border-b-[#018884] rounded-none data-[state=active]:shadow-none bg-transparent data-[state=active]:text-[#025D5B] text-base font-bold text-[#3B3B3B] md:px-8 py-4"
                             >
-                            Measurement
+                            {t('measurement')}
                         </TabsTrigger>
                         <TabsTrigger
                             value="shipping"
                             className="data-[state=active]:border-b-[#018884] rounded-none data-[state=active]:shadow-none bg-transparent data-[state=active]:text-[#025D5B] text-base font-bold text-[#3B3B3B] md:px-8 py-4"
                             >
-                            Shipping and return
+                            {t('shipping')}
                         </TabsTrigger>
                         <TabsTrigger
                             value="reviews"
                             className="data-[state=active]:border-b-[#018884] rounded-none data-[state=active]:shadow-none bg-transparent data-[state=active]:text-[#025D5B] text-base font-bold text-[#3B3B3B] md:px-8 py-4"
                             >
-                            Reviews
+                            {t('reviews')}
                         </TabsTrigger>
                     </TabsList>
                     <TabsContent value="description" className="text-[#3B3B3B] text-base font-semibold leading-[150%]">

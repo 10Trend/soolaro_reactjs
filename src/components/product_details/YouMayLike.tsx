@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ProductSlider, { type ProductItem } from "../ui/ProductSlider";
 
 const products: ProductItem[] = [
@@ -7,9 +8,10 @@ const products: ProductItem[] = [
 ];
 
 const YouMayLike = () => {
+  const { t } = useTranslation("product");
   return (
     <ProductSlider
-      title="You may also like"
+      title={t('you_may_like')}
       products={products}
       containerClassName="container md:pb-20 pb-14"
     />

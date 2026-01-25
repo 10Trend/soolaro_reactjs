@@ -26,6 +26,9 @@ import cartAr from "./locales/ar/cart.json";
 import checkoutEn from "./locales/en/checkout.json";
 import checkoutAr from "./locales/ar/checkout.json";
 
+import productEn from "./locales/en/product.json";
+import productAr from "./locales/ar/product.json";
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -40,6 +43,7 @@ i18n
         contact: contactEn,
         cart: cartEn,
         checkout: checkoutEn,
+        product: productEn,
       },
       ar: {
         home: homeAr,
@@ -50,6 +54,7 @@ i18n
         contact: contactAr,
         cart: cartAr,
         checkout: checkoutAr,
+        product: productAr,
       },
     },
 

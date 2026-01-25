@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import ProductSlider, { type ProductItem } from "../ui/ProductSlider";
 
 const products: ProductItem[] = [
@@ -7,9 +8,10 @@ const products: ProductItem[] = [
 ];
 
 const ComplateSelection = () => {
+  const { t } = useTranslation("product");
   return (
     <ProductSlider
-      title="Complete your selection"
+      title={t("complete_selection")}
       products={products}
       containerClassName="container md:py-17 py-12"
     />
