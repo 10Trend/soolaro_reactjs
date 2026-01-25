@@ -3,8 +3,10 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import MobileBackHeader from "../general/MobileBackHeader"
 import { PhoneInput, type PhoneValue } from "../ui/PhoneInput"
 import { useState } from "react"
+import { useTranslation } from "react-i18next";
 
 const ProfileInfo = () => {
+  const { t } = useTranslation("profile");
     const [formData, setFormData] = useState<{
     name: string;
     phone: PhoneValue;
@@ -24,35 +26,37 @@ const ProfileInfo = () => {
         <section className="mb-12">
             <div className="md:flex hidden items-center justify-between">
                 <h1 className="text-[#0B0B0B] text-[40px] font-semibold leading-[100%]">
-                    My Profile
+                {t("myProfile")}
                 </h1>
-                <Link to='/profile/change_password' className="text-[#018884] text-lg font-bold underline">
-                    Change Password
+                <Link to="/profile/change_password" className="text-[#018884] text-lg font-bold underline">
+                {t("changePassword")}
                 </Link>
             </div>
 
-            <Link to='/' className="md:hidden flex items-center gap-3">
+        <Link to="/" className="md:hidden flex items-center gap-3">
                 <MobileBackHeader />
                 <p className="text-[#0B0B0B] text-base font-semibold mb-6">
-                    My Profile
+                    {t("myProfile")}
                 </p>
             </Link>
-            
+
             <div className="md:mt-12 mt-4">
                 <div>
                     <label htmlFor="name" className="text-[#0B0B0B] text-base font-semibold">
-                        Name
+                        {t("name")}
                     </label>
                     <input
                         type="text"
                         name="name"
                         className="w-full h-14 border border-[#DEDDDD] rounded-4xl mt-3 px-4"
-                        placeholder="Enter your name"
+                        placeholder={t("namePlaceholder")}
+                        value={formData.name}
+                        onChange={(e) => onChange("name", e.target.value)}
                     />
                 </div>
                 <div className="mt-8">
                     <label htmlFor="phone" className="text-[#0B0B0B] text-base font-semibold">
-                        Phone Number
+                {t("phoneNumber")}
                     </label>
                     <PhoneInput
                         value={formData.phone}
@@ -63,36 +67,38 @@ const ProfileInfo = () => {
                 </div>
                 <div className="mt-8">
                     <label htmlFor="email" className="text-[#0B0B0B] text-base font-semibold">
-                        Email
+                        {t("email")}
                     </label>
                     <input
                         type="text"
                         name="email"
                         className="w-full h-14 border border-[#DEDDDD] rounded-4xl mt-3 px-4"
-                        placeholder="Enter your email"
+                        placeholder={t("emailPlaceholder")}
+                        value={formData.email}
+                        onChange={(e) => onChange("email", e.target.value)}
                     />
                 </div>
 
                 <Dialog>
                     <DialogTrigger className="w-full">
                         <button className="w-full h-14 bg-[#018884] rounded-4xl mt-8 text-[#FEFEFE] text-lg font-bold">
-                            Save Changes
+                        {t("saveChanges")}
                         </button>
                     </DialogTrigger>
                     <DialogContent className="md:w-[655px] md:h-89.25 h-80 flex flex-col items-center justify-end">
                         <DialogHeader>
                         <DialogTitle className="text-[#0B0B0B] text-xl font-semibold text-center">
-                            Your profile has been updated successfully.
+                            {t("profileUpdated")}
                         </DialogTitle>
-                        
+
                         <DialogFooter className="sm:justify-start mt-10">
                             <DialogClose asChild>
                                 <button type="button" className="w-full h-14 border border-[#DEDDDD] rounded-4xl text-[#3B3B3B] text-base font-bold">
-                                    Cancel
+                                    {t("cancel")}
                                 </button>
                             </DialogClose>
                             <button type="button" className="w-full h-14 bg-[#018884] rounded-4xl text-[#FEFEFE] text-base font-bold">
-                                    Continue
+                                {t("continue")}
                                 </button>
                         </DialogFooter>
                         </DialogHeader>
@@ -100,7 +106,7 @@ const ProfileInfo = () => {
                 </Dialog>
 
                 <Link to='/profile/change_password' className="text-[#018884] text-lg font-bold md:underline md:hidden flex items-center justify-center mt-4">
-                    Change Password
+                    {t("changePassword")}
                 </Link>
             </div>
         </section>

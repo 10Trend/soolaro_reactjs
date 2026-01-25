@@ -24,39 +24,42 @@ import {
 } from "../ui/dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { Image } from "@/components/ui/image";
-
-const menu = [
-  {
-    label: "My Profile",
-    path: "/profile/info",
-    icon: <User />,
-    activeIcon: <ActiveMyProfile />,
-    danger: false,
-  },
-  {
-    label: "My Orders",
-    path: "/profile/orders",
-    icon: <MyOrders />,
-    activeIcon: <ActiveOrders />,
-    danger: false,
-  },
-  {
-    label: "My Wishlist",
-    path: "/profile/wishlist",
-    icon: <MyWishlist />,
-    activeIcon: <ActiveWishList />,
-    danger: false,
-  },
-  {
-    label: "My Addresses",
-    path: "/profile/addresses",
-    icon: <MyAddresses />,
-    activeIcon: <ActiveAddresses />,
-    danger: false,
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const ProfileSidebar = () => {
+  const { t } = useTranslation('profile');
+
+  const menu = [
+    {
+      label: t("myProfile"),
+      path: "/profile/info",
+      icon: <User />,
+      activeIcon: <ActiveMyProfile />,
+      danger: false,
+    },
+    {
+      label: t("myOrders"),
+      path: "/profile/orders",
+      icon: <MyOrders />,
+      activeIcon: <ActiveOrders />,
+      danger: false,
+    },
+    {
+      label: t("myWishlist"),
+      path: "/profile/wishlist",
+      icon: <MyWishlist />,
+      activeIcon: <ActiveWishList />,
+      danger: false,
+    },
+    {
+      label: t("myAddresses"),
+      path: "/profile/addresses",
+      icon: <MyAddresses />,
+      activeIcon: <ActiveAddresses />,
+      danger: false,
+    },
+  ];
+
   return (
     <div className="space-y-8">
       {menu.map((item) => (
@@ -68,7 +71,6 @@ const ProfileSidebar = () => {
           {({ isActive }) => (
             <>
               {isActive ? item.activeIcon : item.icon}
-
               <p
                 className={`text-xl font-medium leading-[100%] ${
                   isActive ? "text-[#025D5B]" : "text-[#0B0B0B]"
@@ -86,7 +88,7 @@ const ProfileSidebar = () => {
           <button className="flex items-center gap-2 mt-8">
             <Logout />
             <p className="text-[#CA1010] text-xl font-medium leading-[100%]">
-              Log Out
+              {t("logOut")}
             </p>
           </button>
         </DialogTrigger>
@@ -98,10 +100,10 @@ const ProfileSidebar = () => {
               className="md:w-[267px] w-[136px] md:h-[267px] h-[136px] mx-auto"
             />
             <DialogTitle className="text-[#0B0B0B] md:text-2xl text-base font-semibold text-center">
-              Are you sure you want to log out?
+              {t("logOutConfirmTitle")}
             </DialogTitle>
             <DialogDescription className="text-[#3B3B3B] md:text-base text-xs font-medium">
-              You’ll need to sign in again to access your account.
+              {t("logOutConfirmDesc")}
             </DialogDescription>
             <DialogFooter className="flex flex-row md:mt-0 mt-4">
               <DialogClose asChild>
@@ -109,14 +111,14 @@ const ProfileSidebar = () => {
                   type="button"
                   className="w-full h-14 border border-[#DEDDDD] rounded-4xl md:mt-8 text-[#3B3B3B] text-base font-bold"
                 >
-                  Cancel
+                  {t("cancel")}
                 </button>
               </DialogClose>
               <button
                 type="button"
                 className="w-full h-14 bg-[#018884] rounded-4xl md:mt-8 text-[#FEFEFE] text-base font-bold"
               >
-                Log Out
+                {t("logOut")}
               </button>
             </DialogFooter>
           </DialogHeader>
@@ -125,5 +127,6 @@ const ProfileSidebar = () => {
     </div>
   );
 };
+
 
 export default ProfileSidebar;

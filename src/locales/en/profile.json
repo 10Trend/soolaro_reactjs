@@ -1,0 +1,19 @@
+{
+    "myProfile": "My Profile",
+    "myOrders": "My Orders",
+    "myWishlist": "My Wishlist",
+    "myAddresses": "My Addresses",
+    "logOut": "Log Out",
+    "cancel": "Cancel",
+    "logOutConfirmTitle": "Are you sure you want to log out?",
+    "logOutConfirmDesc": "You’ll need to sign in again to access your account.",
+    "changePassword": "Change Password",
+    "name": "Name",
+    "namePlaceholder": "Enter your name",
+    "phoneNumber": "Phone Number",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "saveChanges": "Save Changes",
+    "profileUpdated": "Your profile has been updated successfully.",
+    "continue": "Continue"
+}

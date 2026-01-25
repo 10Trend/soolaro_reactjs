@@ -1,0 +1,19 @@
+{
+    "myProfile": "ملفي الشخصي",
+    "myOrders": "طلباتي",
+    "myWishlist": "قائمتي المفضلة",
+    "myAddresses": "عناويني",
+    "logOut": "تسجيل الخروج",
+    "cancel": "إلغاء",
+    "logOutConfirmTitle": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "logOutConfirmDesc": "ستحتاج إلى تسجيل الدخول مرة أخرى للوصول إلى حسابك.",
+    "changePassword": "تغيير كلمة المرور",
+    "name": "الاسم",
+    "namePlaceholder": "ادخل اسمك",
+    "phoneNumber": "رقم الهاتف",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "ادخل بريدك الإلكتروني",
+    "saveChanges": "حفظ التغييرات",
+    "profileUpdated": "تم تحديث ملفك الشخصي بنجاح.",
+    "continue": "استمرار"
+}
