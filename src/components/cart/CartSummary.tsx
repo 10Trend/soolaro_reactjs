@@ -128,7 +128,7 @@ const CartSummary = ({
       {disablePopup ? (
         <button
           onClick={() => navigate("/checkout")}
-          className="w-full bg-[#018884] hover:bg-[#006F6C] text-white text-xl font-bold py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
+          className="w-full bg-[#018884] hover:bg-[#006F6C] text-white md:text-xl text-base md:font-bold font-semibold md:py-4 py-2 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
         >
           Check Out
         </button>
@@ -137,7 +137,7 @@ const CartSummary = ({
           isLoggedIn={false}
           onProceed={() => console.log("Proceed to checkout")}
         >
-          <button className="w-full bg-[#018884] hover:bg-[#006F6C] text-white text-xl font-bold py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer">
+          <button className="w-full bg-[#018884] hover:bg-[#006F6C] text-white md:text-xl text-base md:font-bold font-semibold md:py-4 py-2 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer">
             Check Out
           </button>
         </LoginRequiredPopup>
