@@ -6,6 +6,7 @@ const AddressEmptyState = () => {
             <img
                 src="/images/profile/location.gif"
                 alt="order empty state"
+                className="md:w-93.75 w-40 md:h-93.75 h-40"
             />
             <p className="text-[#3B3B3B] text-lg font-medium">
                 You haven’t added any addresses yet.

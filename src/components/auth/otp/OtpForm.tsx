@@ -1,4 +1,3 @@
-import BackArrow from "@/components/icons/explore/BackArrow";
 import Logo from "@/components/icons/header/Logo";
 import {
   Dialog,
@@ -73,7 +72,7 @@ const OtpForm = () => {
               Verify
             </button>
           </DialogTrigger>
-          <DialogContent className="md:h-121.25 h-80 flex flex-col items-center justify-end">
+          <DialogContent className="md:w-[655px] w-full md:h-121.25 h-80 flex flex-col items-center justify-end">
             <DialogHeader>
               <DialogTitle className="text-[#0B0B0B] text-2xl font-semibold text-center">
                 OTP verified successfully
@@ -83,12 +82,12 @@ const OtpForm = () => {
               </DialogDescription>
               <DialogFooter className="sm:justify-start">
                 <DialogClose asChild>
-                  <button
+                  <Link to='/new_password'
                     type="button"
-                    className="md:w-112.5 h-14 bg-[#018884] rounded-4xl mt-10 text-[#FEFEFE] text-base font-bold"
+                    className="md:w-112.5 h-14 bg-[#018884] rounded-4xl mt-10 text-[#FEFEFE] text-base font-bold flex items-center justify-center"
                   >
                     Create New Password
-                  </button>
+                  </Link>
                 </DialogClose>
               </DialogFooter>
             </DialogHeader>

@@ -1,4 +1,3 @@
-import BackArrow from "@/components/icons/explore/BackArrow";
 import Logo from "@/components/icons/header/Logo";
 import { Link } from "react-router-dom";
 import MobileBackHeader from "@/components/general/MobileBackHeader";
