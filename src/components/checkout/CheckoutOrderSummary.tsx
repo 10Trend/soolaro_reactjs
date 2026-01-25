@@ -1,6 +1,7 @@
 import { CheckoutProductItem } from "./CheckoutProductItem";
 import { DirhamIcon } from "../icons/checkout/DirhamIcon";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface CheckoutOrderSummaryProps {
   products: Array<{
@@ -23,6 +24,7 @@ export const CheckoutOrderSummary = ({
   onPlaceOrder,
   isProcessing = false,
 }: CheckoutOrderSummaryProps) => {
+  const { t } = useTranslation("checkout");
   const [couponCode, setCouponCode] = useState("");
 
   const total = subtotal + shippingCost;
@@ -40,7 +42,7 @@ export const CheckoutOrderSummary = ({
       <div className="flex flex-col gap-6 md:gap-10">
         {/* Order Summary Title */}
         <h2 className="text-[#0B0B0B] text-xl md:text-2xl font-medium">
-          Order Summary
+          {t("orderSummary")}
         </h2>
 
         {/* Content */}
@@ -55,13 +57,13 @@ export const CheckoutOrderSummary = ({
           {/* Coupon Code */}
           <div className="flex flex-col gap-4">
             <p className="text-[#0B0B0B] text-sm md:text-base font-medium">
-              Have a coupon ?
+              {t("haveCoupon")}
             </p>
             <div className="relative">
               <input
                 type="text"
                 className="w-full h-12 md:h-14 border border-[#ECECEC] rounded-4xl px-4 pr-28 text-sm md:text-base focus:outline-none focus:border-[#018884]"
-                placeholder="Enter Coupon"
+                placeholder={t("couponPlaceholder")}
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
               />
@@ -70,7 +72,7 @@ export const CheckoutOrderSummary = ({
                 onClick={handleApplyCoupon}
                 className="absolute right-0 top-0 h-12 md:h-14 px-6 bg-[#ECECEC] text-[#3B3B3B] text-sm md:text-lg font-bold rounded-4xl hover:bg-[#DEDDDD] transition-colors"
               >
-                Apply
+                {t("apply")}
               </button>
             </div>
           </div>
@@ -80,7 +82,7 @@ export const CheckoutOrderSummary = ({
             <div className="flex flex-col gap-3">
               <div className="flex justify-between items-center">
                 <span className="text-[#3B3B3B] text-xs md:text-base font-medium">
-                  Sub Total:
+                  {t('subTotal')}:
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-[#0B0B0B] text-sm md:text-base font-medium">
@@ -91,7 +93,7 @@ export const CheckoutOrderSummary = ({
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[#3B3B3B] text-xs md:text-base font-medium">
-                  Shipping Cost:
+                  {t('shippingCost')}:
                 </span>
                 <div className="flex items-center gap-1">
                   <span className="text-[#0B0B0B] text-sm md:text-base font-medium">
@@ -108,7 +110,7 @@ export const CheckoutOrderSummary = ({
             {/* Total */}
             <div className="flex justify-between items-center">
               <span className="text-[#0B0B0B] text-sm md:text-base font-medium">
-                Total:
+                {t('total')}:
               </span>
               <div className="flex items-center gap-1">
                 <span className="text-[#025D5B] text-base md:text-xl font-semibold">

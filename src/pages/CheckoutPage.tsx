@@ -5,8 +5,10 @@ import { CheckoutContactInfo } from "../components/checkout/CheckoutContactInfo"
 import { CheckoutShippingAddress } from "../components/checkout/CheckoutShippingAddress";
 import { CheckoutOrderSummary } from "../components/checkout/CheckoutOrderSummary";
 import type { PhoneValue } from "../components/ui/PhoneInput";
+import { useTranslation } from "react-i18next";
 
 const CheckoutPage = () => {
+  const { t } = useTranslation("checkout");
   const navigate = useNavigate();
 
   // Contact Info State
@@ -78,11 +80,11 @@ const CheckoutPage = () => {
         <button
           onClick={() => navigate(-1)}
           className="w-12 h-12 rounded-full bg-[#F6F6F6] flex items-center justify-center"
-          aria-label="Go back"
+          aria-label={t("goBack")}
         >
           <ChevronLeft className="w-6 h-6 text-[#0B0B0B]" />
         </button>
-        <h1 className="text-[#0B0B0B] text-base font-semibold">Check Out</h1>
+        <h1 className="text-[#0B0B0B] text-base font-semibold">{t("checkout")}</h1>
       </div>
 
       {/* Desktop Layout */}
@@ -95,7 +97,7 @@ const CheckoutPage = () => {
               {/* Delivery Information Section */}
               <div className="flex flex-col gap-6 md:gap-10">
                 <h2 className="text-[#0B0B0B] text-lg md:text-[40px] font-semibold leading-none">
-                  Delivery Information
+                  {t("deliveryInfo")}
                 </h2>
 
                 <div className="flex flex-col gap-6">
@@ -118,7 +120,7 @@ const CheckoutPage = () => {
                     disabled={isProcessing}
                     className="hidden md:block w-full h-14 bg-[#018884] text-white text-lg font-bold rounded-4xl hover:bg-[#006F6C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
-                    {isProcessing ? "Processing..." : "Pay Now"}
+                    {isProcessing ? t("processing") : t("payNow")}
                   </button>
 
                   {/* Mobile Pay Now Button */}
@@ -128,7 +130,7 @@ const CheckoutPage = () => {
                     disabled={isProcessing}
                     className="md:hidden w-full h-14 bg-[#018884] text-white text-lg font-bold rounded-4xl hover:bg-[#006F6C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
-                    {isProcessing ? "Processing..." : "Pay Now"}
+                    {isProcessing ? t("processing") : t("payNow")}
                   </button>
                 </div>
               </div>

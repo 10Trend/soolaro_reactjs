@@ -1,5 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface CheckoutShippingAddressProps {
   formData: {
@@ -18,25 +19,27 @@ export const CheckoutShippingAddress = ({
   formData,
   onChange,
 }: CheckoutShippingAddressProps) => {
+  const { t } = useTranslation("checkout");
+
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [showEmirateDropdown, setShowEmirateDropdown] = useState(false);
 
   const countries = [
-    "United Arab Emirates",
-    "Saudi Arabia",
-    "Kuwait",
-    "Qatar",
-    "Bahrain",
-    "Oman",
+    t("countries.uae"),
+    t("countries.sa"),
+    t("countries.kw"),
+    t("countries.qa"),
+    t("countries.bh"),
+    t("countries.om"),
   ];
   const emirates = [
-    "Dubai",
-    "Abu Dhabi",
-    "Sharjah",
-    "Ajman",
-    "Ras Al Khaimah",
-    "Fujairah",
-    "Umm Al Quwain",
+    t("emirates.dubai"),
+    t("emirates.abudhabi"),
+    t("emirates.sharjah"),
+    t("emirates.ajman"),
+    t("emirates.rak"),
+    t("emirates.fujairah"),
+    t("emirates.uaq"),
   ];
 
   return (
@@ -45,7 +48,7 @@ export const CheckoutShippingAddress = ({
       <div className="flex flex-col md:flex-row gap-6 md:gap-8">
         <div className="flex-1 flex flex-col gap-3">
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
-            Country
+            {t("country")}
           </label>
           <div className="relative">
             <button
@@ -58,12 +61,12 @@ export const CheckoutShippingAddress = ({
                   formData.country ? "text-[#0B0B0B]" : "text-[#3B3B3B]"
                 }
               >
-                {formData.country || "Choose your country"}
+                {formData.country || t("countryPlaceholder")}
               </span>
-              <ChevronDown className="w-5 h-5 text-[#0B0B0B]" />
+              <ChevronDown className="w-5 h-5" />
             </button>
             {showCountryDropdown && (
-              <div className="absolute z-10 w-full mt-2 bg-white border border-[#DEDDDD] rounded-[20px] shadow-lg max-h-60 overflow-y-auto">
+              <div className="absolute z-10 w-full mt-2 bg-white border rounded-[20px] shadow-lg">
                 {countries.map((country) => (
                   <button
                     key={country}
@@ -83,7 +86,7 @@ export const CheckoutShippingAddress = ({
         </div>
         <div className="flex-1 flex flex-col gap-3">
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
-            Emirate / City
+            {t("emirate")}
           </label>
           <div className="relative">
             <button
@@ -96,17 +99,17 @@ export const CheckoutShippingAddress = ({
                   formData.emirate ? "text-[#0B0B0B]" : "text-[#3B3B3B]"
                 }
               >
-                {formData.emirate || "Choose your Emirate / City"}
+                {formData.emirate || t("emiratePlaceholder")}
               </span>
-              <ChevronDown className="w-5 h-5 text-[#0B0B0B]" />
+              <ChevronDown className="w-5 h-5" />
             </button>
             {showEmirateDropdown && (
-              <div className="absolute z-10 w-full mt-2 bg-white border border-[#DEDDDD] rounded-[20px] shadow-lg max-h-60 overflow-y-auto">
+              <div className="absolute z-10 w-full mt-2 bg-white border rounded-[20px] shadow-lg">
                 {emirates.map((emirate) => (
                   <button
                     key={emirate}
                     type="button"
-                    className="w-full px-4 py-3 text-left hover:bg-[#F5FAFA] text-sm md:text-base"
+                    className="w-full px-4 py-3 text-left hover:bg-[#F5FAFA]"
                     onClick={() => {
                       onChange("emirate", emirate);
                       setShowEmirateDropdown(false);
@@ -125,24 +128,24 @@ export const CheckoutShippingAddress = ({
       <div className="flex flex-col md:flex-row gap-6 md:gap-8">
         <div className="flex-1 flex flex-col gap-3">
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
-            Area
+            {t("area")}
           </label>
           <input
             type="text"
             className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors"
-            placeholder="Enter your area"
+            placeholder={t("areaPlaceholder")}
             value={formData.area}
             onChange={(e) => onChange("area", e.target.value)}
           />
         </div>
         <div className="flex-1 flex flex-col gap-3">
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
-            Street
+            {t("street")}
           </label>
           <input
             type="text"
             className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors"
-            placeholder="Enter your street"
+            placeholder={t("streetPlaceholder")}
             value={formData.street}
             onChange={(e) => onChange("street", e.target.value)}
           />
@@ -153,24 +156,24 @@ export const CheckoutShippingAddress = ({
       <div className="flex flex-col md:flex-row gap-6 md:gap-8">
         <div className="flex-1 flex flex-col gap-3">
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
-            Floor No.
+            {t("floorNo")}
           </label>
           <input
             type="text"
             className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors"
-            placeholder="Enter your floor no."
+            placeholder={t("floorNoPlaceholder")}
             value={formData.floorNo}
             onChange={(e) => onChange("floorNo", e.target.value)}
           />
         </div>
         <div className="flex-1 flex flex-col gap-3">
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
-            Apartment No.
+            {t("apartmentNo")}
           </label>
           <input
             type="text"
             className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors"
-            placeholder="Enter your apartment no."
+            placeholder={t("apartmentNoPlaceholder")}
             value={formData.apartmentNo}
             onChange={(e) => onChange("apartmentNo", e.target.value)}
           />
@@ -180,11 +183,11 @@ export const CheckoutShippingAddress = ({
       {/* Order Note */}
       <div className="flex flex-col gap-3">
         <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
-          Order Note
+          {t("orderNote")}
         </label>
         <textarea
           className="w-full h-32 md:h-[173px] border border-[#DEDDDD] rounded-[20px] px-4 py-3 text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors resize-none"
-          placeholder="Enter your note"
+          placeholder={t("orderNotePlaceholder")}
           value={formData.orderNote}
           onChange={(e) => onChange("orderNote", e.target.value)}
         />
