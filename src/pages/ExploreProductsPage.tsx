@@ -6,6 +6,7 @@ import BackArrow from "@/components/icons/explore/BackArrow";
 import { Link } from "react-router-dom";
 import Search from "@/components/icons/header/Search";
 import { useTranslation } from "react-i18next";
+import { DirhamIcon } from "@/components/icons/checkout/DirhamIcon";
 
 const ExploreProductsPage = () => {
   const { t } = useTranslation("explore");
@@ -72,25 +73,25 @@ const ExploreProductsPage = () => {
           <TabsList className="bg-transparent mb-17 flex-nowrap overflow-x-auto w-full justify-start gap-4 [&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]">
             <TabsTrigger
               value="all"
-              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4 shrink-0"
+              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] px-6 py-4 shrink-0 flex-none transition-all duration-200"
             >
               {t("all")}
             </TabsTrigger>
             <TabsTrigger
               value="best"
-              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4 shrink-0"
+              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] px-6 py-4 shrink-0 flex-none transition-all duration-200"
             >
               {t("best_seller")}
             </TabsTrigger>
             <TabsTrigger
               value="new"
-              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4 shrink-0"
+              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] px-6 py-4 shrink-0 flex-none transition-all duration-200"
             >
               {t("new_arrival")}
             </TabsTrigger>
             <TabsTrigger
               value="summer"
-              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4 shrink-0"
+              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] px-6 py-4 shrink-0 flex-none transition-all duration-200"
             >
               {t("summer_collection")}
             </TabsTrigger>
@@ -158,21 +159,31 @@ const ExploreProductsPage = () => {
             </div>
 
             <div className="flex justify-between gap-4 mt-10">
-              <input
-                type="number"
-                value={minPrice}
-                onChange={(e) => handleMinChange(Number(e.target.value))}
-                className="rounded-xl w-full py-4 px-3 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium"
-              />
+              <div className="relative w-full">
+                <input
+                  type="number"
+                  value={minPrice}
+                  onChange={(e) => handleMinChange(Number(e.target.value))}
+                  className="rounded-xl w-full py-4 pl-3 pr-8 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <DirhamIcon className="w-4 h-4 text-[#0B0B0B]" />
+                </div>
+              </div>
               <span className="flex items-center justify-center text-[#0B0B0B] text-2xl font-medium">
                 :
               </span>
-              <input
-                type="number"
-                value={maxPrice}
-                onChange={(e) => handleMaxChange(Number(e.target.value))}
-                className="rounded-xl w-full py-4 px-3 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium"
-              />
+              <div className="relative w-full">
+                <input
+                  type="number"
+                  value={maxPrice}
+                  onChange={(e) => handleMaxChange(Number(e.target.value))}
+                  className="rounded-xl w-full py-4 pl-3 pr-8 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <DirhamIcon className="w-4 h-4 text-[#0B0B0B]" />
+                </div>
+              </div>
             </div>
           </div>
 
