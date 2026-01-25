@@ -14,7 +14,7 @@ const SignUpForm = () => {
 
   const [formData, setFormData] = useState<{
     name: string;
-    phone: PhoneValue;
+    phone: PhoneValue | string;
     email: string;
     password: string;
   }>({
@@ -24,7 +24,7 @@ const SignUpForm = () => {
     password: "",
   });
 
-  const onChange = (field: string, value: string | PhoneValue) => {
+  const onChange = (field: "name" | "phone" | "email" | "password", value: string | PhoneValue) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -48,6 +48,8 @@ const SignUpForm = () => {
             {t("name")}
           </label>
           <input
+            value={formData.name}
+            onChange={(e) => onChange("name", e.target.value)}
             type="text"
             name="name"
             className="w-full h-14 border border-[#DEDDDD] rounded-4xl mt-3 px-4"
@@ -63,7 +65,7 @@ const SignUpForm = () => {
             {t("phone_number")}
           </label>
           <PhoneInput
-            value={formData.phone}
+            value={formData.phone as PhoneValue} // cast safe for PhoneInput
             onChange={(value) => onChange("phone", value)}
             radius="md"
             className="h-12 md:h-14 rounded-[20px] border-[#DEDDDD] mt-3"
@@ -78,6 +80,8 @@ const SignUpForm = () => {
             {t("email")}
           </label>
           <input
+            value={formData.email}
+            onChange={(e) => onChange("email", e.target.value)}
             type="email"
             name="email"
             className="w-full h-14 border border-[#DEDDDD] rounded-4xl mt-3 px-4"
@@ -93,6 +97,8 @@ const SignUpForm = () => {
             {t("password")}
           </label>
           <input
+            value={formData.password}
+            onChange={(e) => onChange("password", e.target.value)}
             type="password"
             name="password"
             className="w-full h-14 border border-[#DEDDDD] rounded-4xl mt-3 px-4"

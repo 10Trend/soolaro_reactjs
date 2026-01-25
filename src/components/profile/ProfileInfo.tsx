@@ -1,15 +1,15 @@
-import { Link } from "react-router-dom"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
-import MobileBackHeader from "../general/MobileBackHeader"
-import { PhoneInput, type PhoneValue } from "../ui/PhoneInput"
-import { useState } from "react"
+import { Link } from "react-router-dom";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import MobileBackHeader from "../general/MobileBackHeader";
+import { PhoneInput, type PhoneValue } from "../ui/PhoneInput";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const ProfileInfo = () => {
   const { t } = useTranslation("profile");
     const [formData, setFormData] = useState<{
     name: string;
-    phone: PhoneValue;
+    phone: PhoneValue | string;
     email: string;
     password: string;
     }>({
@@ -19,9 +19,9 @@ const ProfileInfo = () => {
     password: "",
     });
 
-    const onChange = (field: string, value: string | PhoneValue) => {
+  const onChange = (field: "name" | "phone" | "email" | "password", value: string | PhoneValue) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    };
+  };
     return (
         <section className="mb-12">
             <div className="md:flex hidden items-center justify-between">
@@ -59,7 +59,7 @@ const ProfileInfo = () => {
                 {t("phoneNumber")}
                     </label>
                     <PhoneInput
-                        value={formData.phone}
+                        value={formData.phone as PhoneValue}
                         onChange={(value) => onChange("phone", value)}
                         radius="md"
                         className="h-12 md:h-14 rounded-[20px] border-[#DEDDDD] mt-3"

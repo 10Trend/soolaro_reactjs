@@ -21,8 +21,8 @@ export const CheckoutOrderSummary = ({
   products,
   subtotal,
   shippingCost,
-  onPlaceOrder,
-  isProcessing = false,
+  // onPlaceOrder,
+  // isProcessing = false,
 }: CheckoutOrderSummaryProps) => {
   const { t } = useTranslation("checkout");
   const [couponCode, setCouponCode] = useState("");
