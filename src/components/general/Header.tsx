@@ -126,11 +126,11 @@ const Header = ({ className }: HeaderProps) => {
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
-            initial={{ x: "-100%" }}
+            initial={{ x: "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
+            exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed top-0 left-0 h-full w-80 bg-white shadow-xl z-50 lg:hidden"
+            className="fixed top-0 right-0 h-full w-80 bg-white shadow-xl z-50 lg:hidden"
           >
             <div className="p-8">
               <div className="mx-auto flex items-center justify-center">
