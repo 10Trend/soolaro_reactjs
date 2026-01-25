@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import FavHeart from "../icons/product/FavHeart";
+import { Link } from "react-router-dom";
 
 type CardProps = {
   image: string;
@@ -25,7 +26,8 @@ const Card = ({
     "bg-[linear-gradient(135deg,#6A6A6A_50%,#0F0F0F_50%)]",
   ];
   return (
-    <motion.div
+    <Link to='/product_details'>
+      <motion.div
       className="flex flex-col items-center justify-center cursor-pointer group"
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
@@ -77,6 +79,7 @@ const Card = ({
         ))}
       </div>
     </motion.div>
+    </Link>
   );
 };
 
