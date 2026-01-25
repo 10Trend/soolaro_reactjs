@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
-import BreadCrumbs from "../general/BreadCrumbs"
+import BreadCrumbs from "../general/BreadCrumbs";
 import BackArrow from "../icons/explore/BackArrow";
+import { useTranslation } from "react-i18next";
 
 const ContactUsHeader = () => {
+    const { t } = useTranslation("contact");
+
     const breadcrumbItems = [
         { nameEn: "Home", nameAr: "الرئيسية", Link: "/" },
         { nameEn: "Contact Us", nameAr: "تواصل معنا", Link: "/" },
@@ -15,10 +18,10 @@ const ContactUsHeader = () => {
             </Link>
             <div className="md:mt-12 mt-10 flex flex-col items-center justify-center gap-9">
                 <h2 className="text-[#0B0B0B] md:text-[40px] text-2xl font-semibold">
-                    Do you have any question?
+                    {t("title")}
                 </h2>
                 <p className="text-[#3B3B3B] md:text-xl text-sm font-medium text-center">
-                    Feel free to reach out to us at any time. We're here to help with orders, product questions, and any feedback you may have.
+                {   t("description")}
                 </p>
             </div>
         </section>

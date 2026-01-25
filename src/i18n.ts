@@ -17,6 +17,9 @@ import exploreAr from "./locales/ar/explore.json";
 import faqEn from "./locales/en/faq.json";
 import faqAr from "./locales/ar/faq.json";
 
+import contactEn from "./locales/en/contact.json";
+import contactAr from "./locales/ar/contact.json";
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -28,6 +31,7 @@ i18n
         auth: authEn,
         explore: exploreEn,
         faq: faqEn,
+        contact: contactEn,
       },
       ar: {
         home: homeAr,
@@ -35,6 +39,7 @@ i18n
         auth: authAr,
         explore: exploreAr,
         faq: faqAr,
+        contact: contactAr,
       },
     },
 
