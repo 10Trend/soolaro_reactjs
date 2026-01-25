@@ -6,6 +6,7 @@ const WhishlistEmptyState = () => {
             <img
                 src="/images/profile/wishlist_heart.gif"
                 alt="order empty state"
+                className="md:w-93.75 w-40 md:h-93.75 h-40"
             />
             <p className="text-[#3B3B3B] text-lg font-medium">
                 Tap the heart to save your favorite items
