@@ -1,8 +1,11 @@
 import Logo from "@/components/icons/header/Logo";
 import { Link } from "react-router-dom";
 import MobileBackHeader from "@/components/general/MobileBackHeader";
+import { useTranslation } from "react-i18next";
 
 const ForgetPassForm = () => {
+  const { t } = useTranslation("auth");
+
   return (
     <section className="container md:py-12">
       <Link to="/" className="md:block hidden">
@@ -12,11 +15,10 @@ const ForgetPassForm = () => {
       <div className="md:mt-34 mt-8">
         <MobileBackHeader />
         <h2 className="text-[#0B0B0B] md:text-[40px] text-2xl font-bold md:font-semibold leading-[100%] text-center mx-auto mt-6">
-          Forget Password
+          {t("forget_password")}
         </h2>
         <p className="text-[#3B3B3B] text-base font-medium leading-[150%] mt-6 text-center">
-          Enter your email address below, and we’ll send you a code to reset
-          your password.
+          {t("forget_password_desc")}
         </p>
 
         <div className="md:mt-14.5 mt-8">
@@ -24,19 +26,19 @@ const ForgetPassForm = () => {
             htmlFor="email"
             className="text-[#0B0B0B] md:text-base text-sm font-semibold leading-[100%]"
           >
-            Email
+            {t("email")}
           </label>
           <input
             type="email"
             name="email"
             className="w-full h-14 border border-[#DEDDDD] rounded-4xl mt-3 px-4"
-            placeholder="Enter your email"
+            placeholder={t("enter_email")}
           />
         </div>
 
         <Link to="/otp">
           <button className="w-full h-14 bg-[#018884] rounded-4xl md:mt-10 mt-6 text-[#FEFEFE] text-base font-bold">
-            Send
+            {t("send")}
           </button>
         </Link>
       </div>
