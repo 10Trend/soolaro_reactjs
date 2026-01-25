@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Logo from "@/components/icons/header/Logo";
 import {
   Dialog,
@@ -20,6 +21,25 @@ import { useTranslation } from "react-i18next";
 
 const OtpForm = () => {
   const { t } = useTranslation("auth");
+  const [timer, setTimer] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    } else {
+      setCanResend(true);
+    }
+  }, [timer]);
+
+  const handleResend = () => {
+    console.log("Resend OTP");
+    setTimer(60);
+    setCanResend(false);
+  };
 
   return (
     <section className="container md:py-12">
@@ -80,9 +100,17 @@ const OtpForm = () => {
           </DialogContent>
         </Dialog>
 
-        <p className="text-[#3B3B3B] md:text-base text-xs font-medium md:mt-6 mt-3 text-center">
-          {t("resend_code")}
-        </p>
+        <div className="mt-6 text-center">
+          <button
+            onClick={handleResend}
+            disabled={!canResend}
+            className={`text-sm font-medium ${
+              canResend ? "text-[#018884]" : "text-gray-400 cursor-not-allowed"
+            }`}
+          >
+            {canResend ? t("resend_code") : `${t("resend_code_in")} ${timer}s`}
+          </button>
+        </div>
       </div>
     </section>
   );
