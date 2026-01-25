@@ -4,17 +4,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import OrderEmptyState from "./OrderEmptyState";
 import { Link } from "react-router-dom";
 import MobileBackHeader from "@/components/general/MobileBackHeader";
+import { useTranslation } from "react-i18next";
 
 const Orders = () => {
+  const { t } = useTranslation("profile");
+
   return (
     <section>
       <h1 className="text-[#0B0B0B] text-[40px] font-semibold leading-[100%] md:block hidden">
-        My Orders
+        {t("myOrders")}
       </h1>
 
       <Link to="/" className="md:hidden flex items-center gap-3">
         <MobileBackHeader />
-        <p className="text-[#0B0B0B] text-base font-semibold mb-6">My orders</p>
+        <p className="text-[#0B0B0B] text-base font-semibold mb-6">
+          {t("myOrders")}
+        </p>
       </Link>
 
       <div className="md:mt-8 mt-4 mb-12">
@@ -24,13 +29,13 @@ const Orders = () => {
               value="current"
               className="data-[state=active]:bg-[#018884] data-[state=active]:shadow-none bg-transparent data-[state=active]:text-[#FEFEFE] text-base font-medium text-[#3B3B3B] md:px-8 py-4 rounded-[12px] -mt-4.25"
             >
-              Current Orders
+              {t("currentOrders")}
             </TabsTrigger>
             <TabsTrigger
               value="last"
               className="data-[state=active]:bg-[#018884] data-[state=active]:shadow-none bg-transparent data-[state=active]:text-[#FEFEFE] text-base font-medium text-[#3B3B3B] md:px-8 py-4 rounded-[12px] -mt-4.25"
             >
-              Last Orders
+              {t("lastOrders")}
             </TabsTrigger>
           </TabsList>
           <TabsContent
@@ -85,13 +90,13 @@ const Orders = () => {
                   </div>
                 </div>
                 <div className="p-2 h-7.5 bg-[#F6F6F6] rounded-xl text-[#3B3B3B] text-sm font-medium flex items-center justify-center">
-                  Pending
+                  {t("pending")}
                 </div>
               </div>
               <div className="flex items-center justify-end gap-2 mt-4">
                 <OrderAgain />
                 <p className="text-[#018884] text-lg font-semibold">
-                  Order Again
+                  {t("orderAgain")}
                 </p>
               </div>
             </div>

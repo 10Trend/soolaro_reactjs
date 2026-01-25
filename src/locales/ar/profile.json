@@ -15,5 +15,12 @@
     "emailPlaceholder": "ادخل بريدك الإلكتروني",
     "saveChanges": "حفظ التغييرات",
     "profileUpdated": "تم تحديث ملفك الشخصي بنجاح.",
-    "continue": "استمرار"
+    "continue": "استمرار",
+    "currentOrders": "الطلبات الحالية",
+    "lastOrders": "الطلبات السابقة",
+    "pending": "قيد الانتظار",
+    "orderAgain": "اطلب مرة أخرى",
+    "orderEmptyStateAlt": "صورة حالة عدم وجود طلبات",
+    "noOrdersYet": "لم تقم بأي طلبات بعد",
+    "exploreShop": "تصفح المتجر"
 }

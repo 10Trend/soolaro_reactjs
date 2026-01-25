@@ -15,5 +15,12 @@
     "emailPlaceholder": "Enter your email",
     "saveChanges": "Save Changes",
     "profileUpdated": "Your profile has been updated successfully.",
-    "continue": "Continue"
+    "continue": "Continue",
+    "currentOrders": "Current Orders",
+    "lastOrders": "Last Orders",
+    "pending": "Pending",
+    "orderAgain": "Order Again",
+    "orderEmptyStateAlt": "Order empty state illustration",
+    "noOrdersYet": "You haven’t placed any orders yet",
+    "exploreShop": "Explore Shop"
 }
