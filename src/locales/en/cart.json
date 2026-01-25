@@ -1,0 +1,21 @@
+{
+    "cart_empty_title": "Your Cart is Empty",
+    "cart_empty_description": "Looks like you haven't added anything to your cart yet. Explore our collections and find something you love!",
+    "start_shopping": "Start Shopping",
+    "product": "Product",
+    "quantity": "Quantity",
+    "total": "Total",
+    "orderSummary": "Order Summary",
+    "haveCoupon": "Have a coupon?",
+    "enterCoupon": "Enter Coupon",
+    "apply": "Apply",
+    "applied": "Applied",
+    "couponSuccess": "Coupon applied successfully",
+    "couponError": "Invalid coupon code",
+    "subTotal": "Sub Total",
+    "shippingCost": "Shipping Cost",
+    "checkout": "Check Out",
+    "cart": "Cart",
+    "yourCart": "Your Cart",
+    "youMayAlsoLike": "You may also like"
+}

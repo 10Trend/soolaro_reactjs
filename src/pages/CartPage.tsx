@@ -6,6 +6,7 @@ import MobileBackHeader from "../components/general/MobileBackHeader";
 import ProductSlider, {
   type ProductItem,
 } from "../components/ui/ProductSlider";
+import { useTranslation } from "react-i18next";
 
 const youMayLikeProducts: ProductItem[] = [
   { image: "/images/home/glass1.png", height: "213" },
@@ -14,6 +15,8 @@ const youMayLikeProducts: ProductItem[] = [
 ];
 
 const CartPage = () => {
+  const { t } = useTranslation("cart");
+
   const breadcrumbItems = [
     { nameEn: "Home", nameAr: "الرئيسية", Link: "/" },
     { nameEn: "Best Seller", nameAr: "الأكثر مبيعاً", Link: "/explore" },
@@ -28,11 +31,11 @@ const CartPage = () => {
     <div className="min-h-screen">
       <BreadCrumbs items={breadcrumbItems} hideOnMobile={true} />
       <div className="container py-6 md:py-10">
-        <MobileBackHeader title="Cart" />
+        <MobileBackHeader title={t("cart")} />
         {isEmpty ? (
           <>
             <h1 className="hidden md:block text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-[#0B0B0B]">
-              Your Cart
+              {t("yourCart")}
             </h1>
             <div className="bg-white p-6 md:p-12 rounded-2xl shadow-sm border border-gray-100 min-h-[500px] flex items-center justify-center">
               <EmptyCart />
@@ -57,7 +60,7 @@ const CartPage = () => {
 
       {/* You may also like section */}
       <ProductSlider
-        title="You may also like"
+        title={t("youMayAlsoLike")}
         products={youMayLikeProducts}
         containerClassName="container md:pb-20 pb-14"
       />

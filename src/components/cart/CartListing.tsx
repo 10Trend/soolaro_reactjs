@@ -1,6 +1,9 @@
 import CartItem from "./CartItem";
+import { useTranslation } from "react-i18next";
 
 const CartListing = () => {
+  const { t } = useTranslation("cart");
+
   // Mock Data
   const items = [
     {
@@ -31,13 +34,13 @@ const CartListing = () => {
       {/* Header Row - Hidden on Mobile */}
       <div className="hidden md:grid grid-cols-12 gap-4 items-center border-b border-[#EAEAEA] pb-4 mb-2">
         <div className="col-span-6 text-[#003D3B] font-bold text-lg pl-2">
-          Product
+          {t("product")}
         </div>
         <div className="col-span-3 text-[#0B0B0B] font-bold text-lg text-center flex justify-center">
-          <span className="w-[152px] text-left">Quantity</span>
+          <span className="w-[152px] text-left">{t("quantity")}</span>
         </div>
         <div className="col-span-3 text-right text-[#0B0B0B] font-bold text-lg pr-2">
-          Total
+          {t("total")}
         </div>
       </div>
 
