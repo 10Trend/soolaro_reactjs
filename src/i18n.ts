@@ -8,6 +8,9 @@ import headerAr from "./locales/ar/header.json";
 import homeEn from "./locales/en/home.json";
 import homeAr from "./locales/ar/home.json";
 
+import authEn from "./locales/en/auth.json";
+import authAr from "./locales/ar/auth.json";
+
 
 i18n
   .use(LanguageDetector)
@@ -17,10 +20,12 @@ i18n
       en: {
         home: homeEn,
         header: headerEn,
+        auth: authEn,
       },
       ar: {
         home: homeAr,
         header: headerAr,
+        auth: authAr,
       },
     },
 
