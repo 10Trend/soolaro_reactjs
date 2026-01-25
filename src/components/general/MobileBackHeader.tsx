@@ -5,21 +5,32 @@ interface MobileBackHeaderProps {
   title?: string;
   link?: string;
   className?: string;
+  onBack?: () => void;
 }
 
 const MobileBackHeader = ({
   title,
   link = "/",
   className = "",
+  onBack,
 }: MobileBackHeaderProps) => {
   return (
     <div className={`flex items-center gap-4 md:hidden mb-6 ${className}`}>
-      <Link
-        to={link}
-        className="w-12 h-12 rounded-full bg-[#F6F6F6] flex items-center justify-center shrink-0"
-      >
-        <BackArrow />
-      </Link>
+      {onBack ? (
+        <button
+          onClick={onBack}
+          className="w-12 h-12 rounded-full bg-[#F6F6F6] flex items-center justify-center shrink-0"
+        >
+          <BackArrow />
+        </button>
+      ) : (
+        <Link
+          to={link}
+          className="w-12 h-12 rounded-full bg-[#F6F6F6] flex items-center justify-center shrink-0"
+        >
+          <BackArrow />
+        </Link>
+      )}
       {title && (
         <h2 className="text-[#0B0B0B] text-base font-bold leading-[100%]">
           {title}
