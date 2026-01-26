@@ -89,6 +89,11 @@ const ChangePassword = () => {
                     </DialogTrigger>
                     <DialogContent className="md:w-[655px] md:h-89.25 h-80 flex flex-col items-center justify-end">
                         <DialogHeader>
+                            <img
+                                src='/images/profile/check.gif'
+                                alt="success"
+                                className="w-[213px] h-[213px] mx-auto"
+                            />
                         <DialogTitle className="text-[#0B0B0B] md:text-xl text-base font-semibold text-center">
                             Your password has been changed successfully.
                         </DialogTitle>

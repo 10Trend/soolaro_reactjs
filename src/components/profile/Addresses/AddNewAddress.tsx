@@ -94,8 +94,13 @@ const AddNewAddress = () => {
                         {t("save")}
                     </button>
                 </DialogTrigger>
-                <DialogContent className="md:w-[655px] h-80 flex flex-col items-center justify-end">
+                <DialogContent className="md:w-[655px] flex flex-col items-center justify-end">
                     <DialogHeader>
+                        <img
+                            src='/images/profile/check.gif'
+                            alt="success"
+                            className="w-[213px] h-[213px] mx-auto"
+                        />
                     <DialogTitle className="text-[#0B0B0B] md:text-2xl text-base font-semibold text-center">
                         {t("addressAddedSuccess")}
                     </DialogTitle>
