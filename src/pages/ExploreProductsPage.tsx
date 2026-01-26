@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Search from "@/components/icons/header/Search";
 import { useTranslation } from "react-i18next";
 import { DirhamIcon } from "@/components/icons/checkout/DirhamIcon";
+import ProductEmptyState from "@/components/product_details/ProductEmptyState";
 
 const ExploreProductsPage = () => {
   const { t } = useTranslation("explore");
@@ -124,6 +125,12 @@ const ExploreProductsPage = () => {
             <Card image="/images/home/glass1.png" height="135" />
             <Card image="/images/home/glass2.png" height="135" />
             <Card image="/images/home/glass3.png" height="135" />
+          </TabsContent>
+          <TabsContent
+            value="new"
+            className=""
+          >
+            <ProductEmptyState />
           </TabsContent>
         </Tabs>
       </div>
