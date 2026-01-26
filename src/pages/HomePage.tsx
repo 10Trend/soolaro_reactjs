@@ -1,5 +1,5 @@
+import ProductExploreShop from "@/components/product_details/ProductExploreShop"
 import BestSeller from "../components/home/BestSeller"
-import ExploreShop from "../components/home/ExploreShop"
 import HomeHero from "../components/home/HomeHero"
 import NewArrival from "../components/home/NewArrival"
 import ShopByCategory from "../components/home/ShopByCategory"
@@ -10,7 +10,7 @@ const HomePage = () => {
             <HomeHero />
             <ShopByCategory />
             <NewArrival />
-            <ExploreShop />
+            <ProductExploreShop />
             <BestSeller />
         </div>
     )
