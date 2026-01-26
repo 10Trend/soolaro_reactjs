@@ -35,7 +35,7 @@ const CartSummary = ({
   };
 
   return (
-    <div className="w-full lg:w-[363px] bg-white p-6 rounded-[24px] border border-[#EAEAEA] shadow-sm">
+    <div className="w-full lg:w-[363px] p-6 rounded-[24px] border border-[#DEDDDD]">
       <h2 className="text-[28px] font-medium text-[#0B0B0B] mb-6">
         {t("orderSummary")}
       </h2>
