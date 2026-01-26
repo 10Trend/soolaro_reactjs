@@ -9,7 +9,7 @@ const ProductDetialsData = () => {
         <section className="container">
             <div className="md:mt-17 mt-6">
                 <Tabs defaultValue="description">
-                    <TabsList className="bg-transparent flex flex-wrap lg:mb-8 mb-20 md:gap-4 w-full">
+                    <TabsList className="bg-transparent flex lg:mb-8 mb-4 md:gap-4 w-full overflow-x-auto justify-start gap-4 [&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]">
                         <TabsTrigger
                             value="description"
                             className="data-[state=active]:border-b-[#018884] rounded-none data-[state=active]:shadow-none bg-transparent data-[state=active]:text-[#025D5B] text-base font-bold text-[#3B3B3B] md:px-8 py-4"

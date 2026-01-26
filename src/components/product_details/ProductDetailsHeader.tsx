@@ -4,6 +4,10 @@ import BreadCrumbs from "../general/BreadCrumbs";
 import Heart from "../icons/product/Heart";
 import MobileHeart from "../icons/product/MobileHeart";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import MobileBackHeader from "../general/MobileBackHeader";
+import Plus from "../icons/product/Plus";
+import Minus from "../icons/product/Minus";
 
 const ProductDetailsHeader = () => {
   const { t } = useTranslation("product");
@@ -23,9 +27,15 @@ const ProductDetailsHeader = () => {
   ];
 
   return (
-    <section className="container">
+    <section className="w-full md:max-w-[1280px] md:mx-auto px-0 md:px-4">
       <BreadCrumbs items={breadcrumbItems} hideOnMobile={true} />
-
+      
+      <Link to='/' className="md:hidden flex items-center gap-3 px-4">
+        <MobileBackHeader />
+        <p className="text-[#0B0B0B] text-base font-semibold mb-6">
+          Liwa Details
+        </p>
+      </Link>
       <div className="md:my-10 flex flex-wrap items-center gap-8">
         <div className="md:w-146 w-full md:h-130.75 h-93.75 bg-[#F6F6F6] md:rounded-[24px] flex flex-col items-center justify-around relative">
           <Image
@@ -69,7 +79,7 @@ const ProductDetailsHeader = () => {
           </div>
         </div>
 
-        <div className="">
+        <div className="md:px-0 px-4">
           <div className="flex flex-1 items-center justify-between">
             <div className="flex flex-1 md:flex-col flex-row md:items-start items-center justify-between">
               <h2 className="text-[#000000] md:text-2xl text-base font-semibold">
@@ -83,7 +93,7 @@ const ProductDetailsHeader = () => {
               <Heart />
             </div>
           </div>
-          <div className="flex items-end md:gap-6 gap-4 md:mt-8 mt-6">
+          <div className="flex items-end md:gap-6 gap-4 md:mt-8 mt-6 mb-6">
             {productImages.map((img, index) => (
               <div
                 key={index}
@@ -110,17 +120,17 @@ const ProductDetailsHeader = () => {
             </p>
           </div>
 
-          <button className="w-full h-14 bg-[#018884] rounded-4xl md:mt-8 mt-6 text-[#FEFEFE] text-lg font-bold">
+          <button className="w-full h-14 bg-[#018884] rounded-4xl md:mt-8 mt-6 text-[#FEFEFE] md:text-lg text-base md:font-bold font-semibold">
             {t('add_to_cart')}
           </button>
 
           <div className="w-full h-14 border border-[#018884] rounded-4xl mt-4 flex items-center justify-center gap-14.5">
-            <button className="text-2xl hover:bg-[#0188841A] w-10 h-10 rounded-full hover:text-[#018884]">
-              -
+            <button className="text-2xl hover:bg-[#0188841A] w-10 h-10 rounded-full hover:text-[#018884] flex items-center justify-center">
+              <Minus />
             </button>
-            <p className="text-2xl font-medium">1</p>
-            <button className="text-2xl hover:bg-[#0188841A] w-10 h-10 rounded-full hover:text-[#018884]">
-              +
+            <p className="text-[#025D5B] text-2xl font-medium">1</p>
+            <button className="text-2xl hover:bg-[#0188841A] w-10 h-10 rounded-full hover:text-[#018884] flex items-center justify-center">
+              <Plus />
             </button>
           </div>
         </div>
