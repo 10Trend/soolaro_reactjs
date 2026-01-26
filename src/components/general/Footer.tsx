@@ -82,19 +82,19 @@ const Footer = () => {
                 {t("home")}
               </Link>
               <Link
-                to="/"
+                to="/category"
                 className="text-[#FEFEFE] md:text-sm text-xs font-semibold"
               >
                 {t("best_seller")}
               </Link>
               <Link
-                to="/"
+                to="/category"
                 className="text-[#FEFEFE] md:text-sm text-xs font-semibold"
               >
                 {t("new_arrival")}
               </Link>
               <Link
-                to="/"
+                to="/category"
                 className="text-[#FEFEFE] md:text-sm text-xs font-semibold"
               >
                 {t("summer_collection")}
