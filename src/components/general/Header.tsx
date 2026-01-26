@@ -137,9 +137,9 @@ const Header = ({ className }: HeaderProps) => {
             className="fixed top-0 right-0 h-full w-80 bg-white shadow-xl z-50 lg:hidden"
           >
             <div className="p-8">
-              <div className="mx-auto flex items-center justify-center">
+              <Link to='/' className="mx-auto flex items-center justify-center">
                 <MobileLogo />
-              </div>
+              </Link>
               <nav className="flex flex-col items-center gap-2 my-6">
                 <Link
                   to="/"
