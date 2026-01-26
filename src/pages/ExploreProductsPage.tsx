@@ -57,11 +57,22 @@ const ExploreProductsPage = () => {
             </div>
           </div>
           <div
-            className="md:w-34 w-27.5 md:h-14 h-12 md:bg-[#F6F6F6] bg-[#018884] md:rotate-90 flex items-center justify-center gap-2 cursor-pointer md:rounded-0 rounded-4xl"
+            className="group md:w-34 w-27.5 md:h-14 h-12 md:bg-[#F6F6F6] bg-[#018884] hover:bg-[#018884] md:rotate-90 flex items-center justify-center gap-2 cursor-pointer md:rounded-none rounded-4xl transition-colors duration-300"
             onClick={() => setIsSidebarOpen(true)}
           >
-            <Filter />
-            <p className="md:text-[#3B3B3B] text-white text-lg font-semibold leading-[100%] md:rotate-180">
+            <div className="group-hover:hidden transition-all duration-300">
+              <Filter />
+            </div>
+
+            <img
+              src="/images/options.gif"
+              alt="options"
+              className="w-6 h-6 hidden group-hover:block transition-all duration-300"
+            />
+
+            <p
+              className="md:text-[#3B3B3B] text-white group-hover:text-white text-lg font-semibold leading-[100%] md:rotate-180 transition-colors duration-300"
+            >
               {t("filter")}
             </p>
           </div>
