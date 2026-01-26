@@ -27,7 +27,7 @@ const RemoveItemPopup = ({ children, onConfirm }: RemoveItemPopupProps) => {
           {/* Image */}
           <div className="w-[160px] h-[100px] flex items-center justify-center">
             <Image
-              src="/images/cart/removeCartImage.png"
+              src="../../../public/images/cart/remove.gif"
               alt="Remove item"
               className="w-full h-full object-contain"
             />
