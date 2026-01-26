@@ -70,7 +70,7 @@ export const CheckoutOrderSummary = ({
               <button
                 type="button"
                 onClick={handleApplyCoupon}
-                className="absolute right-0 top-0 h-12 md:h-14 px-6 bg-[#ECECEC] text-[#3B3B3B] text-sm md:text-lg font-bold rounded-4xl hover:bg-[#DEDDDD] transition-colors"
+                className="absolute right-0 top-0 h-12 md:h-14 px-6 bg-[#ECECEC] text-[#3B3B3B] text-sm md:text-lg font-bold rounded-tr-4xl rounded-br-4xl hover:bg-[#DEDDDD] transition-colors"
               >
                 {t("apply")}
               </button>
@@ -85,8 +85,13 @@ export const CheckoutOrderSummary = ({
                   {t('subTotal')}:
                 </span>
                 <div className="flex items-center gap-1">
-                  <span className="text-[#0B0B0B] text-sm md:text-base font-medium">
+                  <span className="text-[#0B0B0B] text-sm md:text-base font-medium flex">
                     {subtotal.toFixed(2)}
+                    <img
+                      src="/images/currency.png"
+                      alt="currecy"
+                      className="w-[27px] h-6"
+                    />
                   </span>
                   <DirhamIcon className="w-3.5 h-3 md:w-[18px] md:h-4" />
                 </div>
@@ -96,8 +101,13 @@ export const CheckoutOrderSummary = ({
                   {t('shippingCost')}:
                 </span>
                 <div className="flex items-center gap-1">
-                  <span className="text-[#0B0B0B] text-sm md:text-base font-medium">
+                  <span className="text-[#0B0B0B] text-sm md:text-base font-medium flex">
                     {shippingCost.toFixed(2)}
+                    <img
+                      src="/images/currency.png"
+                      alt="currecy"
+                      className="w-[27px] h-6"
+                    />
                   </span>
                   <DirhamIcon className="w-3.5 h-3 md:w-[18px] md:h-4" />
                 </div>
@@ -113,8 +123,13 @@ export const CheckoutOrderSummary = ({
                 {t('total')}:
               </span>
               <div className="flex items-center gap-1">
-                <span className="text-[#025D5B] text-base md:text-xl font-semibold">
+                <span className="text-[#025D5B] text-base md:text-xl font-semibold flex">
                   {total.toFixed(2)}
+                  <img
+                      src="/images/c_currency.png"
+                      alt="currecy"
+                      className="w-[27px] h-6"
+                    />
                 </span>
                 <DirhamIcon className="w-4 h-3.5 md:w-[22.5px] md:h-5" />
               </div>
