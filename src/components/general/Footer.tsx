@@ -26,7 +26,7 @@ const Footer = () => {
                 className="md:w-171.75 w-full h-14 border border-[#F6F6F6] rounded-4xl px-3 placeholder:text-[#F6F6F6]"
                 placeholder={t("your_email")}
               />
-              <button className="w-25.75 h-14 bg-[#FEFEFE] ltr:rounded-tr-4xl rtl:rounded-tl-4xl ltr:rounded-br-4xl rtl:rounded-bl-4xl absolute top-0 ltr:right-0 rtl:left-0">
+              <button className="text-[#018884] text-lg font-bold w-25.75 h-14 bg-[#FEFEFE] ltr:rounded-tr-4xl rtl:rounded-tl-4xl ltr:rounded-br-4xl rtl:rounded-bl-4xl absolute top-0 ltr:right-0 rtl:left-0">
                 {t("join")}
               </button>
             </div>
