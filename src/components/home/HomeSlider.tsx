@@ -71,26 +71,28 @@ function HomeSlider() {
             height: 360px !important;
           }
         }
-        .slick-slide:not(.slick-current) .slider-card {
-           opacity: 0.5;
+        .slick-slide:not(.slick-current) .slider-overlay {
+           opacity: 1;
         }
-        .slider-card {
+        .slider-overlay {
+           opacity: 0;
            transition: opacity 0.5s ease;
         }
       `}</style>
 
       <Slider {...settings}>
         {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="slider-card md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl relative mx-2 group overflow-hidden"
-          >
-            <Image
-              src={slide.img}
-              alt="slider image"
-              className="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl object-cover"
-            />
-            <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+          <div key={index} className="slider-card relative mx-2 group">
+            <div className="relative md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl overflow-hidden">
+              <Image
+                src={slide.img}
+                alt="slider image"
+                wrapperClassName="md:w-68.75 w-[206px] md:h-[360px] h-[240px] rounded-4xl"
+                className="w-full h-full object-cover"
+              />
+              <div className="slider-overlay absolute inset-0 bg-black/50 z-10 pointer-events-none" />
+            </div>
+            <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0 z-20">
               <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
                 {slide.title}
               </p>
