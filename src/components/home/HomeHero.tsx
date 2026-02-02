@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Arrow from "../icons/home/hero/Arrow";
 import HomeSlider from "./HomeSlider";
-import { Image } from "@/components/ui/image";
+// import { Image } from "@/components/ui/image";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
@@ -52,7 +52,7 @@ const HomeHero = () => {
             </Link>
           </motion.button>
 
-          <motion.div className="mt-4 md:flex hidden items-center ltr:gap-4 rtl:gap-8">
+          {/* <motion.div className="mt-4 md:flex hidden items-center ltr:gap-4 rtl:gap-8">
             <div className="flex items-center">
               <Image
                 src="/images/home/customer.jpg"
@@ -88,7 +88,7 @@ const HomeHero = () => {
                 {t("satisfied_customer")}
               </p>
             </div>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
 
         <motion.div
