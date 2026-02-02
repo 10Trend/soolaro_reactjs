@@ -6,5 +6,17 @@
     "reviews": "Reviews",
     "complete_selection": "Complate your selection",
     "see_style": "See Your Style in Action",
-    "you_may_like": "You may also like"
+    "you_may_like": "You may also like",
+    "submit_review": "Submit your review",
+    "add_your_rate": "Add your rate",
+    "name": "Name",
+    "enter_name": "Enter your name",
+    "review": "Review",
+    "send_review": "Send Review",
+    "average_rating": "Average Rating",
+    "please_fill_all_fields": "Please fill all required fields",
+    "review_success": "Your review has been submitted successfully",
+    "review_error": "Failed to submit review",
+    "reviewable_id_missing": "Product ID is missing",
+    "customer_reviews": "Customer Reviews"
 }

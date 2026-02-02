@@ -1,10 +1,52 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import EmptyStar from "../icons/product/EmptyStar"
 import FullStar from "../icons/product/FullStar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
+import { toast } from "react-hot-toast";
+import { createReview } from "@/lib/api/review/postreview";
 
-const ProductDetialsData = () => {
-    const { t } = useTranslation("product");
+interface ProductDetialsDataProps {
+  reviewable_id: string;
+}
+
+const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({ reviewable_id }) => {
+  const { t } = useTranslation("product");
+
+  const [name, setName] = useState("");
+  const [comment, setComment] = useState("");
+  const [selectedStar, setSelectedStar] = useState(0);
+
+  const [averageRating, setAverageRating] = useState(4.8);
+  const [ratingsDistribution, setRatingsDistribution] = useState([
+    { stars: 5, percent: 70 },
+    { stars: 4, percent: 50 },
+    { stars: 3, percent: 30 },
+    { stars: 2, percent: 0 },
+    { stars: 1, percent: 0 },
+  ]);
+
+  const handleSubmitReview = async () => {
+    if (!name || !selectedStar) {
+      toast.error(t("please_fill_all_fields"));
+      return;
+    }
+    try {
+      await createReview({
+        reviewable_type: "product",
+        reviewable_id,
+        rating: selectedStar,
+        comment,
+      });
+      // toast.success(t("review_success"));
+      setName("");
+      setComment("");
+      setSelectedStar(0);
+    } catch (error: any) {
+      toast.error(error.message || t("review_error"));
+    }
+  };
+
     return (
         <section className="container">
             <div className="md:mt-17 mt-6">
@@ -62,118 +104,76 @@ const ProductDetialsData = () => {
                     <TabsContent value="reviews">
                         <div className="flex lg:flex-row flex-col gap-8">
                             <div className="w-full h-full p-6 border border-[#DEDDDD] rounded-4xl">
-                                <p className="text-[#0B0B0B] text-xl font-medium">
-                                    Submit your review
-                                </p>
+                                <p className="text-[#0B0B0B] text-xl font-medium">{t("submit_review")}</p>
                                 <div className="mt-7 flex items-center justify-between">
-                                    <h2 className="text-[#000000] text-base font-bold">
-                                        Add your rate
-                                    </h2>
-                                    <div className="flex items-center gap-2">
-                                        <EmptyStar />
-                                        <EmptyStar />
-                                        <EmptyStar />
-                                        <EmptyStar />
-                                        <EmptyStar />
-                                    </div>
-                                </div>
-
-                                <div className="mt-6">
-                                    <label htmlFor="name" className="text-[#0B0B0B] text-base font-semibold">
-                                        Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="w-full h-14 border border-[#DEDDDD] rounded-[20px] mt-3 px-4"
-                                        placeholder="Enter your name"
-                                    />
-                                </div>
-                                <div className="mt-6">
-                                    <label htmlFor="name" className="text-[#0B0B0B] text-base font-semibold">
-                                        Review
-                                    </label>
-                                    <textarea
-                                        name="review"
-                                        className="w-full md:h-[113px] h-18.25 border border-[#DEDDDD] rounded-4xl mt-3"
-                                    >
-                                    </textarea>
-                                </div>
-
-                                <button className="w-full h-14 bg-[#018884] rounded-4xl mt-6 text-[#FEFEFE] text-lg font-bold">
-                                    Send Review
-                                </button>
+                                    <h2 className="text-[#000000] text-base font-bold">{t("add_your_rate")}</h2>
+                            <div className="flex items-center gap-2">
+                              {[1, 2, 3, 4, 5].map((star) =>
+                                selectedStar >= star ? (
+                                  <FullStar
+                                    key={star}
+                                    className="cursor-pointer"
+                                    onClick={() => setSelectedStar(star)}
+                                  />
+                                ) : (
+                                  <EmptyStar
+                                    key={star}
+                                    className="cursor-pointer"
+                                    onClick={() => setSelectedStar(star)}
+                                  />
+                                )
+                              )}
                             </div>
+                          </div>
 
-                            <div className="w-full h-full md:px-6 md:py-8 md:bg-[#F6F6F6] rounded-4xl">
-                                <h2 className="text-[#0B0B0B] md:text-xl text-base font-medium">
-                                    Average Rating
-                                </h2>
-                                <div className="flex items-center gap-3 mt-4">
-                                    <p className="text-[#000000] md:text-lg text-sm font-medium">4.8</p>
-                                    <div className="flex items-center">
-                                        <FullStar />
-                                        <FullStar />
-                                        <FullStar />
-                                        <FullStar />
-                                        <FullStar />
-                                    </div>
-                                </div>
+                          <div className="mt-6">
+                            <label className="text-[#0B0B0B] text-base font-semibold">{t("name")}</label>
+                            <input
+                              type="text"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                              className="w-full h-14 border border-[#DEDDDD] rounded-[20px] mt-3 px-4"
+                              placeholder={t("enter_name")}
+                            />
+                          </div>
 
-                                <div className="flex items-center mt-4">
-                                    <a href="#" className="text-[#000000] text-sm font-medium text-fg-brand hover:underline">5</a>
-                                    <div className="w-full md:h-2 h-1 mx-4 bg-[#EAE9E9] rounded-base rounded-4xl">
-                                        <div className="md:h-2 h-1 bg-[#018884] rounded-base w-[70%] rounded-4xl"></div>
-                                    </div>
-                                    <span className="text-[#000000] text-sm font-medium text-body">70%</span>
-                                </div>
+                          <div className="mt-6">
+                            <label className="text-[#0B0B0B] text-base font-semibold">{t("review")}</label>
+                            <textarea
+                              value={comment}
+                              onChange={(e) => setComment(e.target.value)}
+                              className="w-full md:h-[113px] h-18.25 border border-[#DEDDDD] rounded-4xl mt-3 p-4"
+                            />
+                          </div>
 
-                                <div className="flex items-center mt-4">
-                                    <a href="#" className="text-[#000000] text-sm font-medium text-fg-brand hover:underline">4</a>
-                                    <div className="w-full md:h-2 h-1 mx-4 bg-[#EAE9E9] rounded-base rounded-4xl">
-                                        <div className="md:h-2 h-1 bg-[#018884] rounded-base w-[50%] rounded-4xl"></div>
-                                    </div>
-                                    <span className="text-[#000000] text-sm font-medium text-body">50%</span>
-                                </div>
-
-                                <div className="flex items-center mt-4">
-                                    <a href="#" className="text-[#000000] text-sm font-medium text-fg-brand hover:underline">3</a>
-                                    <div className="w-full md:h-2 h-1 mx-4 bg-[#EAE9E9] rounded-base rounded-4xl">
-                                        <div className="md:h-2 h-1 bg-[#018884] rounded-base w-[30%] rounded-4xl"></div>
-                                    </div>
-                                    <span className="text-[#000000] text-sm font-medium text-body">30%</span>
-                                </div>
-
-                                <div className="flex items-center mt-4">
-                                    <a href="#" className="text-[#000000] text-sm font-medium text-fg-brand hover:underline">2</a>
-                                    <div className="w-full md:h-2 h-1 mx-4 bg-[#EAE9E9] rounded-base rounded-4xl">
-                                        <div className="md:h-2 h-1 bg-[#018884] rounded-base w-[0%] rounded-4xl"></div>
-                                    </div>
-                                    <span className="text-[#000000] text-sm font-medium text-body">0%</span>
-                                </div>
-
-                            </div>
+                          <button
+                            className="w-full h-14 bg-[#018884] rounded-4xl mt-6 text-[#FEFEFE] text-lg font-bold"
+                            onClick={handleSubmitReview}
+                          >
+                            {t("send_review")}
+                          </button>
                         </div>
-                        <div className="md:mt-10 mt-6">
-                            <h2 className="text-[#0B0B0B] md:text-[40px] text-xl font-semibold">
-                                Customer Reviews
-                            </h2>
-                            <div className="w-full border border-[#DEDDDD] rounded-4xl md:mt-10 mt-8 p-4">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="text-[#3B3B3B] md:text-base text-xs font-medium">Alaa Khamis</h3>
-                                    <p className="text-[#3B3B3B] md:text-sm text-xs font-medium">19 Jun 2026</p>
-                                </div>
-                                <div className="flex items-center mt-4">
-                                    <FullStar />
-                                    <FullStar />
-                                    <FullStar />
-                                    <FullStar />
-                                    <FullStar />
-                                </div>
-                                <p className="text-[#0B0B0B] md:text-lg text-sm font-medium leading-[150%] mt-3.5">
-                                    I really like these sunglasses. They are comfortable to wear for long hours, fit perfectly, and block sunlight really well. The design is stylish and goes with almost any outfit. Definitely worth buying!”
-                                </p>
+
+                        <div className="w-full h-full md:px-6 md:py-8 md:bg-[#F6F6F6] rounded-4xl">
+                          <h2 className="text-[#0B0B0B] md:text-xl text-base font-medium">{t("average_rating")}</h2>
+                          <div className="flex items-center gap-3 mt-4">
+                            <p className="text-[#000000] md:text-lg text-sm font-medium">{averageRating}</p>
+                            <div className="flex items-center">
+                              {[1, 2, 3, 4, 5].map((star) => <FullStar key={star} />)}
                             </div>
+                          </div>
+
+                          {ratingsDistribution.map((r) => (
+                            <div className="flex items-center mt-4" key={r.stars}>
+                              <a href="#" className="text-[#000000] text-sm font-medium hover:underline">{r.stars}</a>
+                              <div className="w-full md:h-2 h-1 mx-4 bg-[#EAE9E9] rounded-4xl">
+                                <div className="md:h-2 h-1 bg-[#018884] rounded-4xl" style={{ width: `${r.percent}%` }}></div>
+                              </div>
+                              <span className="text-[#000000] text-sm font-medium">{r.percent}%</span>
+                            </div>
+                          ))}
                         </div>
+                      </div>
                     </TabsContent>
                 </Tabs>
         </div>

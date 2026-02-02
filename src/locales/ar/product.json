@@ -6,5 +6,17 @@
     "reviews": "التقييمات",
     "complete_selection": "كمّل اختيارك",
     "see_style": "اكتشف ستايلك في الواقع",
-    "you_may_like": "قد يعجبك أيضا"
+    "you_may_like": "قد يعجبك أيضا",
+    "submit_review": "أرسل تقييمك",
+    "add_your_rate": "أضف تقييمك",
+    "name": "الاسم",
+    "enter_name": "أدخل اسمك",
+    "review": "التقييم",
+    "send_review": "إرسال التقييم",
+    "average_rating": "متوسط التقييم",
+    "please_fill_all_fields": "يرجى ملء جميع الحقول المطلوبة",
+    "review_success": "تم إرسال تقييمك بنجاح",
+    "review_error": "فشل في إرسال التقييم",
+    "reviewable_id_missing": "معرّف المنتج مفقود",
+    "customer_reviews": "تقييمات العملاء"
 }
