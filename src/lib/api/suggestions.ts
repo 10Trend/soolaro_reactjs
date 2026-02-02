@@ -24,13 +24,6 @@ export interface SuggestionResponse {
 export const postSuggestion = async (
   payload: SuggestionPayload
 ): Promise<SuggestionResponse> => {
-  if (!payload.email && !payload.phone) {
-    throw new Error("Either email or phone is required");
-  }
-
-  if (payload.phone && !payload.phone_country) {
-    throw new Error("phone_country is required when phone is present");
-  }
 
   const { data } = await axios.post<SuggestionResponse>(
     "/suggestions",
