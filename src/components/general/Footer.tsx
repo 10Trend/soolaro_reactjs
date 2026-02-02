@@ -6,6 +6,7 @@ import Clover from "../icons/footer/Clover";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getPages, type Page } from "@/lib/api/pages";
+import { getStoreSetting, type StoreSettingResponse } from "@/lib/api/storeSetting";
 
 const Footer = () => {
   const { t, i18n } = useTranslation("header");
@@ -14,6 +15,13 @@ const Footer = () => {
     queryKey: ["pages"],
     queryFn: getPages,
   });
+
+  const { data: storeSetting } = useQuery<StoreSettingResponse>({
+    queryKey: ["store-setting"],
+    queryFn: getStoreSetting,
+  });
+
+  const social = storeSetting?.social;
 
   return (
     <footer className="bg-[#018884]">
@@ -45,30 +53,49 @@ const Footer = () => {
             </h2>
 
             <div className="flex items-center justify-center mx-auto gap-6 md:mt-6 mt-3">
-              <Link
-                to="/"
-                className="text-[#F6F6F6] md:text-xl text-xs font-medium"
-              >
-                Facebook
-              </Link>
-              <Link
-                to="/"
-                className="text-[#F6F6F6] md:text-xl text-xs font-medium"
-              >
-                X
-              </Link>
-              <Link
-                to="/"
-                className="text-[#F6F6F6] md:text-xl text-xs font-medium"
-              >
-                Instagram
-              </Link>
-              <Link
-                to="/"
-                className="text-[#F6F6F6] md:text-xl text-xs font-medium"
-              >
-                YouTube
-              </Link>
+              {social?.facebook && (
+                <a
+                  href={social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#F6F6F6] md:text-xl text-xs font-medium"
+                >
+                  Facebook
+                </a>
+              )}
+
+              {social?.twitter && (
+                <a
+                  href={social.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#F6F6F6] md:text-xl text-xs font-medium"
+                >
+                  X
+                </a>
+              )}
+
+              {social?.instagram && (
+                <a
+                  href={social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#F6F6F6] md:text-xl text-xs font-medium"
+                >
+                  Instagram
+                </a>
+              )}
+
+              {social?.youtube && (
+                <a
+                  href={social.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#F6F6F6] md:text-xl text-xs font-medium"
+                >
+                  YouTube
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -142,22 +169,26 @@ const Footer = () => {
               <h3 className="text-[#FEFEFE] md:text-2xl text-sm font-medium leading-[100%]">
                 {t("contact_us")}
               </h3>
-              <a href="tel:+971504229594" className="flex items-center gap-2">
-                <Phone />
-                <p className="text-[#F6F6F6] text-sm font-medium">
-                  +97150 4229594
-                </p>
-              </a>
+              {social?.phone && (
+                  <a href={`tel:${social.phone}`} className="flex items-center gap-2">
+                    <Phone />
+                    <p className="text-[#F6F6F6] text-sm font-medium">
+                      {social.phone}
+                    </p>
+                  </a>
+                )}
 
-              <a
-                href="mailto:support@soolaro.ae"
-                className="flex items-center gap-2"
-              >
-                <Email />
-                <p className="text-[#F6F6F6] text-sm font-medium">
-                  support@soolaro.ae
-                </p>
-              </a>
+                {social?.email && (
+                  <a
+                    href={`mailto:${social.email}`}
+                    className="flex items-center gap-2"
+                  >
+                    <Email />
+                    <p className="text-[#F6F6F6] text-sm font-medium">
+                      {social.email}
+                    </p>
+                  </a>
+                )}
               <a href="" className="flex items-center gap-2">
                 <Clover />
                 <p className="text-[#F6F6F6] text-sm font-medium">
