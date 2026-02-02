@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "@/components/home/GlassCard";
 import Filter from "@/components/icons/explore/Filter";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,15 +8,77 @@ import Search from "@/components/icons/header/Search";
 import { useTranslation } from "react-i18next";
 import { DirhamIcon } from "@/components/icons/checkout/DirhamIcon";
 import ProductEmptyState from "@/components/product_details/ProductEmptyState";
+import { getProducts, type GetProductsParams, type Product } from "@/lib/api/products/products";
 
 const ExploreProductsPage = () => {
-  const { t } = useTranslation("explore");
+  const { t, i18n } = useTranslation("explore");
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [minPrice, setMinPrice] = useState(200);
   const [maxPrice, setMaxPrice] = useState(900);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState("all");
+  
   const MIN = 100;
   const MAX = 1000;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const params: GetProductsParams = {
+          page: currentPage,
+          sort_by: "created_at",
+          sort_order: "desc",
+        };
+
+        const response = await getProducts(params);
+        setProducts(response.data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to fetch products");
+        console.error("Error fetching products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [currentPage]);
+
+  useEffect(() => {
+    let result = [...products];
+
+    if (searchQuery.trim()) {
+      result = result.filter((product) => {
+        const name = product.name[i18n.language as keyof typeof product.name] || product.name.en;
+        return name.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+    }
+
+    result = result.filter((product) => {
+      const productPrice = product.variants[0]?.final_price || 0;
+      return productPrice >= minPrice && productPrice <= maxPrice;
+    });
+
+    if (activeTab === "best") {
+      result = result.filter((product) => product.is_top_rated === 1);
+    } else if (activeTab === "new") {
+      result.sort((a, b) => 
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    } else if (activeTab === "summer") {
+      result = result.filter((product) => product.is_featured === 1);
+    }
+
+    setFilteredProducts(result);
+  }, [products, searchQuery, minPrice, maxPrice, activeTab, i18n.language]);
 
   const handleMinChange = (value: number) => {
     if (value <= maxPrice) setMinPrice(value);
@@ -30,6 +92,20 @@ const ExploreProductsPage = () => {
     setMinPrice(MIN);
     setMaxPrice(MAX);
   };
+
+  const applyFilter = () => {
+    setIsSidebarOpen(false);
+  };
+
+  if (loading) {
+    return (
+      <section className="container md:py-8 pb-8 relative">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#018884]"></div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="container md:py-8 pb-8 relative">
@@ -50,6 +126,8 @@ const ExploreProductsPage = () => {
           <div className="relative md:hidden block">
             <input
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-55.25 h-12 border border-[#DEDDDD] rounded-4xl px-8 placeholder:text-[#3B3B3B]"
               placeholder={t("search")}
             />
@@ -81,7 +159,7 @@ const ExploreProductsPage = () => {
       </div>
 
       <div className="md:mt-12 mt-6">
-        <Tabs defaultValue="all">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="bg-transparent mb-17 flex-nowrap overflow-x-auto w-full justify-start gap-4 [&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]">
             <TabsTrigger
               value="all"
@@ -108,29 +186,22 @@ const ExploreProductsPage = () => {
               {t("summer_collection")}
             </TabsTrigger>
           </TabsList>
-          <TabsContent
-            value="all"
-            className="grid lg:grid-cols-3 grid-cols-2 gap-8"
-          >
-            <Card image="/images/home/glass1.png" height="135" />
-            <Card image="/images/home/glass2.png" height="135" />
-            <Card image="/images/home/glass3.png" height="135" />
-            <Card image="/images/home/glass1.png" height="135" />
-          </TabsContent>
-          <TabsContent
-            value="best"
-            className="grid lg:grid-cols-3 grid-cols-2 gap-8"
-          >
-            <Card image="/images/home/glass3.png" height="135" />
-            <Card image="/images/home/glass1.png" height="135" />
-            <Card image="/images/home/glass2.png" height="135" />
-            <Card image="/images/home/glass3.png" height="135" />
-          </TabsContent>
-          <TabsContent
-            value="new"
-            className=""
-          >
-            <ProductEmptyState />
+
+          <TabsContent value={activeTab}>
+            {filteredProducts.length > 0 ? (
+              <div className="grid lg:grid-cols-3 grid-cols-2 gap-8">
+                {filteredProducts.map((product) => (
+                  <Card
+                    key={product.id}
+                    product={product}
+                    showHeart={true}
+                    height="h-44.25"
+                  />
+                ))}
+              </div>
+            ) : (
+              <ProductEmptyState />
+            )}
           </TabsContent>
         </Tabs>
       </div>
@@ -205,7 +276,10 @@ const ExploreProductsPage = () => {
             </div>
           </div>
 
-          <button className="mt-6 w-full bg-[#018884] text-[#FEFEFE] py-4 text-lg rounded-4xl font-medium">
+          <button 
+            className="mt-6 w-full bg-[#018884] text-[#FEFEFE] py-4 text-lg rounded-4xl font-medium"
+            onClick={applyFilter}
+          >
             {t("apply")}
           </button>
           <button
