@@ -4,11 +4,14 @@ import { Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
 import Card from "../home/GlassCard";
 import { useTranslation } from "react-i18next";
+import type { Product } from "@/lib/api/products/products";
 
 export interface ProductItem {
   image: string;
+  price: number;
   priceColor?: string;
   height?: string;
+  product?: Product;
 }
 
 interface ProductSliderProps {
@@ -69,8 +72,10 @@ const ProductSlider = ({
             <SwiperSlide key={index}>
               <Card
                 image={product.image}
+                price={product.price}
                 priceColor={product.priceColor}
-                height={product.height || "213"}
+                height={product.height}
+                product={product.product}
               />
             </SwiperSlide>
           ))}
