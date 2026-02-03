@@ -18,5 +18,7 @@
     "review_success": "تم إرسال تقييمك بنجاح",
     "review_error": "فشل في إرسال التقييم",
     "reviewable_id_missing": "معرّف المنتج مفقود",
-    "customer_reviews": "تقييمات العملاء"
+    "customer_reviews": "تقييمات العملاء",
+    "added_to_favorites": "تمت الإضافة إلى المفضلة",
+    "removed_from_favorites": "تمت الإزالة من المفضلة"
 }

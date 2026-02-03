@@ -48,7 +48,7 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
         favorable_type: "product",
       });
       setIsFavorite(!isFavorite);
-      toast.success(isFavorite ? "Removed from favorites" : "Added to favorites");
+      toast.success(isFavorite ? t('removed_from_favorites') : t('added_to_favorites'));
     } catch (error: any) {
       console.error(error);
       toast.error("Failed to update favorite");

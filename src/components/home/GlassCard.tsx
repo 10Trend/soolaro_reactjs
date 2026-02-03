@@ -28,7 +28,7 @@ const Card = ({
   showHeart = false,
   product,
 }: CardProps) => {
-  const { i18n } = useTranslation();
+  const {t, i18n } = useTranslation('product');
   const [selectedColor, setSelectedColor] = useState(0);
   const [isFavorite, setIsFavorite] = useState(product?.is_favorite || false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
@@ -115,7 +115,7 @@ const Card = ({
         favorable_type: "product",
       });
 
-      toast.success(isFavorite ? "Removed from favorites" : "Added to favorites");
+      toast.success(isFavorite ? t('removed_from_favorites') : t('added_to_favorites'));
 
       setIsFavorite(!isFavorite);
 

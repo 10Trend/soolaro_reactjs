@@ -18,5 +18,7 @@
     "review_success": "Your review has been submitted successfully",
     "review_error": "Failed to submit review",
     "reviewable_id_missing": "Product ID is missing",
-    "customer_reviews": "Customer Reviews"
+    "customer_reviews": "Customer Reviews",
+    "added_to_favorites": "Added to favorites",
+    "removed_from_favorites": "Removed from favorites"
 }
