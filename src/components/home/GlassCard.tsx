@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { toggleFavorite } from "@/lib/api/favorites/toggle";
 import FavHeart from "../icons/product/FavHeart";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useQueryClient } from "@tanstack/react-query";
+import type { FavoriteItem } from "@/lib/api/favorites/getFavorites";
 
 type CardProps = {
   image?: string;
@@ -31,6 +33,7 @@ const Card = ({
   const [isFavorite, setIsFavorite] = useState(product?.is_favorite || false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
   const isLoggedIn = useAuthStore((state) => state.isAuthenticated());
+  const queryClient = useQueryClient();
 
   const defaultColors = [
     "bg-[linear-gradient(135deg,#754B37_50%,#E98900_50%)]",
@@ -111,10 +114,15 @@ const Card = ({
         favorable_id: productId,
         favorable_type: "product",
       });
+
+      toast.success(isFavorite ? "Removed from favorites" : "Added to favorites");
+
       setIsFavorite(!isFavorite);
-      toast.success(
-        isFavorite ? "Removed from favorites" : "Added to favorites",
-      );
+
+      queryClient.setQueryData<FavoriteItem[]>(["favorites"], (oldFavorites) => {
+        if (!oldFavorites) return [];
+        return oldFavorites.filter((fav) => fav.favorable.id !== productId);
+      });
     } catch (error: any) {
       console.error(error);
       toast.error("Failed to update favorite");
