@@ -5,10 +5,16 @@ import { PhoneInput, type PhoneValue } from "../ui/PhoneInput";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "@/store/useAuthStore";
+import { updateUser } from "@/lib/api/profile/updateUser";
 
 const ProfileInfo = () => {
   const { t } = useTranslation("profile");
   const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
+
+  const [open, setOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
     const [formData, setFormData] = useState<{
     name: string;
     phone: PhoneValue | string;
@@ -35,6 +41,37 @@ const ProfileInfo = () => {
   const onChange = (field: "name" | "phone" | "email" | "password", value: string | PhoneValue) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  const handleSaveChanges = async () => {
+    try {
+      setIsSaving(true);
+
+      const payload: Record<string, any> = {
+        name: formData.name,
+        email: formData.email,
+        phone_e164:
+          formData.phone && typeof formData.phone !== "string"
+            ? formData.phone.e164 || null
+            : formData.phone || null,
+      };
+
+      if (formData.password) {
+        payload.password = formData.password;
+      }
+
+      const response = await updateUser(payload);
+
+      setUser(response.user);
+
+      setOpen(true);
+    } catch (error) {
+      console.error("Update failed:", error);
+      alert(t("updateFailed"));
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
     return (
         <section className="mb-12">
             <div className="md:flex hidden items-center justify-between">
@@ -90,18 +127,21 @@ const ProfileInfo = () => {
                     />
                 </div>
 
-                <Dialog>
-                    <DialogTrigger asChild className="w-full">
-                        <button className="w-full h-14 bg-[#018884] rounded-4xl mt-8 text-[#FEFEFE] text-lg font-bold">
-                        {t("saveChanges")}
-                        </button>
-                    </DialogTrigger>
-                    <DialogContent className="md:w-[655px] md:h-89.25 h-80 flex flex-col items-center justify-end">
+        <button
+            onClick={handleSaveChanges}
+            disabled={isSaving}
+            className="w-full h-14 bg-[#018884] rounded-4xl mt-8 text-[#FEFEFE] text-lg font-bold disabled:opacity-50"
+            >
+            {isSaving ? t("saving") : t("saveChanges")}
+            </button>
+
+            <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="md:w-[655px] flex flex-col items-center justify-end">
                         <DialogHeader>
                             <img
                                 src='/images/profile/check.gif'
                                 alt="success"
-                                className="w-[213px] h-[213px] mx-auto"
+                                className="md:w-[213px] md:h-[213px] mx-auto"
                             />
                         <DialogTitle className="text-[#0B0B0B] text-xl font-semibold text-center">
                             {t("profileUpdated")}
@@ -113,9 +153,11 @@ const ProfileInfo = () => {
                                     {t("cancel")}
                                 </button>
                             </DialogClose>
-                            <button type="button" className="w-full h-14 bg-[#018884] rounded-4xl text-[#FEFEFE] text-base font-bold">
+                            <DialogClose asChild>
+                            <button className="w-full h-14 bg-[#018884] rounded-4xl text-white font-bold">
                                 {t("continue")}
-                                </button>
+                            </button>
+                            </DialogClose>
                         </DialogFooter>
                         </DialogHeader>
                     </DialogContent>
