@@ -9,7 +9,7 @@ import SeeStyle from "@/components/product_details/SeeStyle"
 import YouMayLike from "@/components/product_details/YouMayLike"
 import { getProductById } from "@/lib/api/products/singleproduct";
 import type { Product } from "@/lib/api/products/products";
-import { Loader } from "lucide-react";
+import ProductDetailsSkeleton from "@/components/product_details/ProductDetailsSkeleton";
 
 const ProductDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,9 +19,7 @@ const ProductDetailsPage = () => {
     queryFn: () => getProductById(id!),
   });
 
-  if (isLoading) return <div className="flex items-center justify-center py-20">
-    <Loader />
-  </div>
+  if (isLoading) return <ProductDetailsSkeleton />;
   if (error || !product) return <div>Product not found</div>;
 
     return (
