@@ -6,7 +6,6 @@ import { Image } from "@/components/ui/image";
 import { getSliders, type Slider } from "@/lib/api/home/slider";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Loader } from "lucide-react";
 
 function HomeSlider() {
   const { i18n } = useTranslation();
@@ -27,7 +26,7 @@ function HomeSlider() {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 1.5,
           slidesToScroll: 1,
         },
       },
@@ -44,9 +43,18 @@ function HomeSlider() {
     ),
   };
 
-  if (isLoading) return <div className="flex items-center justify-center">
-    <Loader />
-  </div>
+  if (isLoading)
+    return (
+      <div className="slider-container md:max-w-145 w-full mb-1 flex gap-4">
+        {[1, 2].map((i) => (
+          <div
+            key={i}
+            className="md:w-[275px] w-[206px] md:h-[360px] h-[240px] rounded-4xl bg-gray-200 animate-pulse"
+          />
+        ))}
+      </div>
+    );
+
   if (isError || !slides || slides.length === 0)
     return <div className="text-center py-20">No sliders available.</div>;
 
