@@ -30,7 +30,7 @@ const BestSeller = () => {
   return (
     <ProductSlider
       title={t("best_seller")}
-      seeAllLink="/products?featured=1"
+      seeAllLink="/explore?featured=1"
       products={products}
       containerClassName="container md:py-17 py-10"
     />

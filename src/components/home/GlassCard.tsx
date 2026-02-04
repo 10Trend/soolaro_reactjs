@@ -140,14 +140,14 @@ const hasDiscount = selectedVariant?.has_discount;
 
   return (
     <motion.div
-      className="flex flex-col items-center justify-center cursor-pointer group"
+      className="flex flex-col items-center justify-center cursor-pointer group mb-2"
       whileHover={{ y: -5 }}
       transition={{ duration: 0.3 }}
     >
       <Link
         to={productId ? `/product_details/${productId}` : "/product_details"}
       >
-        <div className="bg-[#F6F6F6] rounded-4xl flex items-center justify-center relative overflow-hidden w-[378px] h-[349px]">
+        <div className="bg-[#F6F6F6] rounded-4xl flex items-center justify-center relative overflow-hidden md:w-[378px] md:h-[349px] h-[213px]">
           {hasDiscount && discountPercentage > 0 && (
             <motion.div
               initial={{ scale: 0, rotate: -12 }}
