@@ -20,5 +20,8 @@
     "legal": "Legal",
     "privacy_policy": "Privacy Policy",
     "terms_conditions": "Terms & Conditions",
-    "copyright": "Copyright © Soolaro 2026. All rights reserved."
+    "copyright": "Copyright © Soolaro 2026. All rights reserved.",
+    "joining": "Joining...",
+    "please_enter_email": "Please enter your email",
+    "subscription_failed": "Subscription failed"
 }

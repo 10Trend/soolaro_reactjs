@@ -13,9 +13,14 @@ import GooglePay from "../icons/footer/GooglePay";
 import Visa from "../icons/footer/Visa";
 import ApplePay from "../icons/footer/ApplePay";
 import Tabby from "../icons/footer/Tabby";
+import { useState } from "react";
+import { subscribeToNewsletter } from "@/lib/api/subscribe";
+import toast from "react-hot-toast";
 
 const Footer = () => {
   const { t, i18n } = useTranslation("header");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { data: pages = [] } = useQuery<Page[]>({
     queryKey: ["pages"],
@@ -29,6 +34,28 @@ const Footer = () => {
 
   const social = storeSetting?.social;
 
+  const handleSubscribe = async () => {
+    if (!email) {
+      toast.dismiss()
+      toast.error(t("please_enter_email") || "Please enter your email");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await subscribeToNewsletter({ email });
+      toast.dismiss()
+      toast.success(response.message);
+      setEmail("");
+    } catch (error: any) {
+      toast.dismiss()
+      toast.error(error.message || t("subscription_failed"));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer className="bg-[#018884]">
       <div className="container md:py-14.5 py-8">
@@ -41,14 +68,20 @@ const Footer = () => {
               {t("newsletter_description")}
             </p>
 
-            <div className="mt-6 relative md:w-171.75 w-full">
+          <div className="mt-6 relative md:w-171.75 w-full">
               <input
                 type="text"
-                className="md:w-171.75 w-full h-14 border border-[#F6F6F6] rounded-4xl px-3 placeholder:text-[#F6F6F6]"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="md:w-171.75 w-full h-14 border border-[#F6F6F6] rounded-4xl px-3 text-[#F6F6F6] placeholder:text-[#F6F6F6]"
                 placeholder={t("your_email")}
               />
-              <button className="text-[#018884] text-lg font-bold w-25.75 h-14 bg-[#FEFEFE] ltr:rounded-tr-4xl rtl:rounded-tl-4xl ltr:rounded-br-4xl rtl:rounded-bl-4xl absolute top-0 ltr:right-0 rtl:left-0">
-                {t("join")}
+              <button
+                onClick={handleSubscribe}
+                disabled={loading}
+                className="text-[#018884] text-lg font-bold w-25.75 h-14 bg-[#FEFEFE] ltr:rounded-tr-4xl rtl:rounded-tl-4xl ltr:rounded-br-4xl rtl:rounded-bl-4xl absolute top-0 ltr:right-0 rtl:left-0 disabled:opacity-50"
+              >
+                {loading ? t("joining") : t("join")}
               </button>
             </div>
           </div>

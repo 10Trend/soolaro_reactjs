@@ -20,5 +20,8 @@
     "legal": "القانونية",
     "privacy_policy": "سياسة الخصوصية",
     "terms_conditions": "الشروط والأحكام",
-    "copyright": "حقوق النشر © Soolaro 2026. جميع الحقوق محفوظة."
+    "copyright": "حقوق النشر © Soolaro 2026. جميع الحقوق محفوظة.",
+    "joining": "جارٍ الاشتراك...",
+    "please_enter_email": "يرجى إدخال بريدك الإلكتروني",
+    "subscription_failed": "فشل الاشتراك"
 }
