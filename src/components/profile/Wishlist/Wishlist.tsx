@@ -39,12 +39,11 @@ const Wishlist = () => {
             ))}
             </div>
         ) : favorites && favorites.length > 0 ? (
-            <div className="grid md:grid-cols-3 grid-cols-2 gap-8">
+            <div className="flex flex-wrap gap-8">
             {favorites.map((item) => (
                 <Card
                 key={item.id}
                 showHeart
-                height="258px"
                 product={item.favorable}
                 />
             ))}

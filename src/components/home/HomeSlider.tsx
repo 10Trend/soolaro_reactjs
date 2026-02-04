@@ -11,7 +11,7 @@ function HomeSlider() {
   const { i18n } = useTranslation();
   const { data: slides, isLoading, isError } = useQuery<Slider[]>({
     queryKey: ["sliders", i18n.language],
-    queryFn: () => getSliders({ perPage: 10 }),
+    queryFn: () => getSliders(),
   });
 
   const settings = {
