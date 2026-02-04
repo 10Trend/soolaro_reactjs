@@ -1,14 +1,15 @@
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, Loader2 } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import { Link } from "react-router-dom";
 import RemoveItemPopup from "./RemoveItemPopup";
+import { useCartStore } from "@/store/useCartStore";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
+import type { CartItem as CartItemType } from "@/lib/api/cart";
 
 interface CartItemProps {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
+  item: CartItemType;
 }
 
 const DeleteIcon = () => (
@@ -57,34 +58,92 @@ const DeleteIcon = () => (
   </svg>
 );
 
-const QuantityControls = ({ quantity }: { quantity: number }) => (
-  <>
-    <button
-      aria-label="Decrease quantity"
-      className="w-8 h-8 flex items-center justify-center text-[#0B0B0B] hover:text-[#018884] transition-colors"
-    >
-      <Minus className="w-5 h-5" />
-    </button>
+const CartItem = ({ item }: CartItemProps) => {
+  const { t, i18n } = useTranslation("cart");
+  const { updateItemQuantity, removeItem } = useCartStore();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
 
-    <span className="text-xl font-medium text-[#0B0B0B] w-8 text-center">
-      {quantity}
-    </span>
+  const price = item.variant.has_discount
+    ? item.variant.final_price
+    : item.variant.price;
+  const total = price * item.quantity;
+  const name =
+    typeof item.name === "object"
+      ? item.name[i18n.language as keyof typeof item.name] || item.name.en
+      : item.name;
+  const image = item.image?.url || "/images/home/glass1.png";
 
-    <button
-      aria-label="Increase quantity"
-      className="w-10 h-10 flex items-center justify-center rounded-full bg-[#E6F3F3] text-[#018884] hover:bg-[#018884] hover:text-white transition-all duration-300 shrink-0"
-    >
-      <Plus className="w-5 h-5" />
-    </button>
-  </>
-);
-
-const CartItem = ({ id, name, price, quantity, image }: CartItemProps) => {
-  const total = price * quantity;
-
-  const handleRemove = () => {
-    // Handle remove logic here
+  const handleIncrease = async () => {
+    if (isUpdating) return;
+    setIsUpdating(true);
+    try {
+      await updateItemQuantity(item.id, item.quantity + 1);
+    } catch {
+      toast.error(t("failed_update_quantity", "Failed to update quantity"));
+    } finally {
+      setIsUpdating(false);
+    }
   };
+
+  const handleDecrease = async () => {
+    if (isUpdating) return;
+    if (item.quantity <= 1) return;
+    setIsUpdating(true);
+    try {
+      await updateItemQuantity(item.id, item.quantity - 1);
+    } catch {
+      toast.error(t("failed_update_quantity", "Failed to update quantity"));
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleRemove = async () => {
+    setIsRemoving(true);
+    try {
+      await removeItem(item.id);
+      toast.success(t("item_removed", "Item removed from cart"));
+    } catch {
+      toast.error(t("failed_remove_item", "Failed to remove item"));
+    } finally {
+      setIsRemoving(false);
+    }
+  };
+
+  const QuantityControls = () => (
+    <>
+      <button
+        aria-label="Decrease quantity"
+        onClick={handleDecrease}
+        disabled={isUpdating || item.quantity <= 1}
+        className="w-8 h-8 flex items-center justify-center text-[#0B0B0B] hover:text-[#018884] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {isUpdating ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <Minus className="w-5 h-5" />
+        )}
+      </button>
+
+      <span className="text-xl font-medium text-[#0B0B0B] w-8 text-center">
+        {item.quantity}
+      </span>
+
+      <button
+        aria-label="Increase quantity"
+        onClick={handleIncrease}
+        disabled={isUpdating}
+        className="w-10 h-10 flex items-center justify-center rounded-full bg-[#E6F3F3] text-[#018884] hover:bg-[#018884] hover:text-white transition-all duration-300 shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {isUpdating ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <Plus className="w-5 h-5" />
+        )}
+      </button>
+    </>
+  );
 
   return (
     <>
@@ -102,7 +161,7 @@ const CartItem = ({ id, name, price, quantity, image }: CartItemProps) => {
             </div>
             <div className="flex flex-col gap-1">
               <Link
-                to={`/product/${id}`}
+                to={`/product_details/${item.itemable_id}`}
                 className="text-lg font-medium text-[#0B0B0B]"
               >
                 {name}
@@ -121,16 +180,21 @@ const CartItem = ({ id, name, price, quantity, image }: CartItemProps) => {
           <RemoveItemPopup onConfirm={handleRemove}>
             <button
               aria-label="Remove item"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F4F4F4] hover:bg-[#ffe5e5] transition-colors duration-300"
+              disabled={isRemoving}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F4F4F4] hover:bg-[#ffe5e5] transition-colors duration-300 disabled:opacity-50"
             >
-              <DeleteIcon />
+              {isRemoving ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <DeleteIcon />
+              )}
             </button>
           </RemoveItemPopup>
         </div>
 
         {/* Bottom Card: Quantity */}
         <div className="flex items-center justify-center gap-8 py-3 border border-[#EAEAEA] rounded-full bg-white">
-          <QuantityControls quantity={quantity} />
+          <QuantityControls />
         </div>
       </div>
 
@@ -142,9 +206,14 @@ const CartItem = ({ id, name, price, quantity, image }: CartItemProps) => {
           <RemoveItemPopup onConfirm={handleRemove}>
             <button
               aria-label="Remove item"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F4F4F4] hover:bg-[#ffe5e5] transition-colors duration-300 shrink-0 absolute -mt-4 cursor-pointer"
+              disabled={isRemoving}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F4F4F4] hover:bg-[#ffe5e5] transition-colors duration-300 shrink-0 absolute -mt-4 cursor-pointer disabled:opacity-50"
             >
-              <DeleteIcon />
+              {isRemoving ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <DeleteIcon />
+              )}
             </button>
           </RemoveItemPopup>
 
@@ -160,7 +229,7 @@ const CartItem = ({ id, name, price, quantity, image }: CartItemProps) => {
           {/* Details */}
           <div className="flex flex-col gap-1 pt-2 ml-2">
             <Link
-              to={`/product/${id}`}
+              to={`/product_details/${item.itemable_id}`}
               className="text-xl font-medium text-[#0B0B0B] hover:text-[#018884] transition-colors"
             >
               {name}
@@ -179,7 +248,7 @@ const CartItem = ({ id, name, price, quantity, image }: CartItemProps) => {
         {/* Quantity Section - Centered */}
         <div className="col-span-3 flex justify-center">
           <div className="flex items-center justify-center gap-6 w-[152px]">
-            <QuantityControls quantity={quantity} />
+            <QuantityControls />
           </div>
         </div>
 

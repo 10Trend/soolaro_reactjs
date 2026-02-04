@@ -7,6 +7,8 @@ import ProductSlider, {
   type ProductItem,
 } from "../components/ui/ProductSlider";
 import { useTranslation } from "react-i18next";
+import { useCartStore } from "@/store/useCartStore";
+import { Loader2 } from "lucide-react";
 
 const youMayLikeProducts: ProductItem[] = [
   { image: "/images/home/glass1.png", height: "213" },
@@ -16,23 +18,25 @@ const youMayLikeProducts: ProductItem[] = [
 
 const CartPage = () => {
   const { t } = useTranslation("cart");
+  const { cart, isLoading } = useCartStore();
 
   const breadcrumbItems = [
     { nameEn: "Home", nameAr: "الرئيسية", Link: "/" },
-    { nameEn: "Best Seller", nameAr: "الأكثر مبيعاً", Link: "/explore" },
-    { nameEn: "Liwa Details", nameAr: "تفاصيل ليوا", Link: "/product/liwa" },
     { nameEn: "Cart", nameAr: "السلة" },
   ];
 
-  // Set to false to show the populated state
-  const isEmpty = false;
+  const isEmpty = !cart?.items || cart.items.length === 0;
 
   return (
     <div className="min-h-screen">
       <BreadCrumbs items={breadcrumbItems} hideOnMobile={true} />
       <div className="container py-6 md:py-10">
         <MobileBackHeader title={t("cart")} />
-        {isEmpty ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-[#018884]" />
+          </div>
+        ) : isEmpty ? (
           <>
             <h1 className="hidden md:block text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-[#0B0B0B]">
               {t("yourCart")}
@@ -48,11 +52,7 @@ const CartPage = () => {
             </div>
             {/* Sidebar / Checkout Summary */}
             <div className="w-full lg:w-auto shrink-0 animate-in fade-in slide-in-from-right-8 duration-700 delay-200">
-              <CartSummary
-                subtotal={269.0}
-                shipping={25.0}
-                disablePopup={true}
-              />
+              <CartSummary disablePopup={false} />
             </div>
           </div>
         )}

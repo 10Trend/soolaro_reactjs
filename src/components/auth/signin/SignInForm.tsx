@@ -12,12 +12,15 @@ import { setToken } from "@/lib/axios";
 import { useAuthStore } from "@/store/useAuthStore";
 import { getErrorMessage } from "@/lib/utils/auth";
 import SocialLogin from "@/components/auth/SocialLogin";
+import { clearCartSessionId } from "@/lib/api/cart";
+import { useCartStore } from "@/store/useCartStore";
 
 const SignInForm = () => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const location = useLocation();
   const { setUser } = useAuthStore();
+  const fetchCart = useCartStore((state) => state.fetchCart);
 
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +56,10 @@ const SignInForm = () => {
 
       // Store token
       setToken(response.token);
+
+      // Clear guest cart session and fetch user cart
+      clearCartSessionId();
+      await fetchCart();
 
       // Update auth store with user data
       setUser(response.user);

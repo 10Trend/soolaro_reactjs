@@ -26,11 +26,13 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import GuestRoute from "./components/auth/GuestRoute";
 import PageDetail from "./pages/PageDetail";
+import CartInitializer from "./components/cart/CartInitializer";
 
 function App() {
   return (
     <>
       <Toaster position="top-center" />
+      <CartInitializer />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>

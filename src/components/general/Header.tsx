@@ -13,6 +13,7 @@ import CategoryLogo from "../icons/category/Logo";
 import ChangeLanguage from "./ChangeLanguage";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/useAuthStore";
+import { useCartItemsCount } from "@/store/useCartStore";
 
 interface HeaderProps {
   className?: string;
@@ -21,6 +22,7 @@ interface HeaderProps {
 const Header = ({ className }: HeaderProps) => {
   const { t } = useTranslation("header");
   const { user } = useAuthStore();
+  const cartItemsCount = useCartItemsCount();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -93,8 +95,13 @@ const Header = ({ className }: HeaderProps) => {
             <button onClick={toggleSearch} aria-label="Search">
               <Search />
             </button>
-            <Link to="/cart">
+            <Link to="/cart" className="relative">
               <Cart />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-[#018884] text-white text-xs font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                  {cartItemsCount > 99 ? "99+" : cartItemsCount}
+                </span>
+              )}
             </Link>
             <ChangeLanguage />
             <Link
@@ -187,9 +194,14 @@ const Header = ({ className }: HeaderProps) => {
                 <Link
                   to="/cart"
                   onClick={closeSidebar}
-                  className="w-12 h-12 bg-[#F6F6F6] rounded-full flex items-center justify-center"
+                  className="relative w-12 h-12 bg-[#F6F6F6] rounded-full flex items-center justify-center"
                 >
                   <Cart />
+                  {cartItemsCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-[#018884] text-white text-xs font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                      {cartItemsCount > 99 ? "99+" : cartItemsCount}
+                    </span>
+                  )}
                 </Link>
                 <div className="w-12 h-12 bg-[#F6F6F6] rounded-full">
                   <ChangeLanguage />

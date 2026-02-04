@@ -13,6 +13,8 @@ import toast from "react-hot-toast";
 import FavHeart from "../icons/product/FavHeart";
 import { useAuthStore } from "@/store/useAuthStore";
 import { toggleFavorite } from "@/lib/api/favorites/toggle";
+import { useCartStore } from "@/store/useCartStore";
+import { Loader2 } from "lucide-react";
 
 interface ProductDetailsHeaderProps {
   product: Product;
@@ -23,15 +25,22 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(product.is_favorite || false);
   const [loadingFavorite, setLoadingFavorite] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const isLoggedIn = useAuthStore((state) => state.isAuthenticated());
+  const addToCart = useCartStore((state) => state.addToCart);
 
   const breadcrumbItems = [
     { nameEn: "Home", nameAr: "الرئيسية", Link: "/" },
     { nameEn: "Best Seller", nameAr: "الأكثر مبيعاً", Link: "/explore" },
-    { nameEn: product.name.en, nameAr: product.name.ar, Link: `/product_details/${product.id}` },
+    {
+      nameEn: product.name.en,
+      nameAr: product.name.ar,
+      Link: `/product_details/${product.id}`,
+    },
   ];
 
-  const productImages = product.images.map(img => img.url);
+  const productImages = product.images.map((img) => img.url);
 
   const handleToggleFavorite = async () => {
     if (!product.id) return;
@@ -48,7 +57,9 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
         favorable_type: "product",
       });
       setIsFavorite(!isFavorite);
-      toast.success(isFavorite ? t('removed_from_favorites') : t('added_to_favorites'));
+      toast.success(
+        isFavorite ? t("removed_from_favorites") : t("added_to_favorites"),
+      );
     } catch (error: any) {
       console.error(error);
       toast.error("Failed to update favorite");
@@ -57,11 +68,35 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
     }
   };
 
+  const handleAddToCart = async () => {
+    if (!product.id) return;
+
+    setIsAddingToCart(true);
+    try {
+      await addToCart(product.id, "product", quantity);
+      toast.success(t("added_to_cart_success") || "Added to cart");
+      setQuantity(1); // Reset quantity after adding
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.message || "Failed to add to cart");
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
+  const incrementQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const decrementQuantity = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
   return (
     <section className="w-full md:max-w-[1280px] md:mx-auto px-0 md:px-4">
       <BreadCrumbs items={breadcrumbItems} hideOnMobile={true} />
-      
-      <Link to='/' className="md:hidden flex items-center gap-3 px-4">
+
+      <Link to="/" className="md:hidden flex items-center gap-3 px-4">
         <MobileBackHeader />
         <p className="text-[#0B0B0B] text-base font-semibold mb-6">
           {i18n.language === "ar" ? product.name.ar : product.name.en}
@@ -127,7 +162,10 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
             </div>
             {isLoggedIn && (
               <div className="md:block hidden">
-                <button onClick={handleToggleFavorite} disabled={loadingFavorite}>
+                <button
+                  onClick={handleToggleFavorite}
+                  disabled={loadingFavorite}
+                >
                   {isFavorite ? <FavHeart /> : <Heart />}
                 </button>
               </div>
@@ -159,16 +197,32 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
             </p>
           </div>
 
-          <button className="w-full h-14 bg-[#018884] rounded-4xl md:mt-8 mt-6 text-[#FEFEFE] md:text-lg text-base md:font-bold font-semibold">
-            {t('add_to_cart')}
+          <button
+            onClick={handleAddToCart}
+            disabled={isAddingToCart}
+            className="w-full h-14 bg-[#018884] rounded-4xl md:mt-8 mt-6 text-[#FEFEFE] md:text-lg text-base md:font-bold font-semibold flex items-center justify-center disabled:opacity-50"
+          >
+            {isAddingToCart ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              t("add_to_cart")
+            )}
           </button>
 
           <div className="w-full h-14 border border-[#018884] rounded-4xl mt-4 flex items-center justify-center gap-14.5">
-            <button className="text-2xl hover:bg-[#0188841A] w-10 h-10 rounded-full hover:text-[#018884] flex items-center justify-center">
+            <button
+              onClick={decrementQuantity}
+              disabled={quantity <= 1 || isAddingToCart}
+              className="text-2xl hover:bg-[#0188841A] w-10 h-10 rounded-full hover:text-[#018884] flex items-center justify-center disabled:opacity-50"
+            >
               <Minus />
             </button>
-            <p className="text-[#025D5B] text-2xl font-medium">1</p>
-            <button className="text-2xl hover:bg-[#0188841A] w-10 h-10 rounded-full hover:text-[#018884] flex items-center justify-center">
+            <p className="text-[#025D5B] text-2xl font-medium">{quantity}</p>
+            <button
+              onClick={incrementQuantity}
+              disabled={isAddingToCart}
+              className="text-2xl hover:bg-[#0188841A] w-10 h-10 rounded-full hover:text-[#018884] flex items-center justify-center disabled:opacity-50"
+            >
               <Plus />
             </button>
           </div>
