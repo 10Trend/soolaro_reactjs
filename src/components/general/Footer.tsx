@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Image } from "@/components/ui/image";
 import Phone from "../icons/footer/Phone";
 import Email from "../icons/footer/Email";
 import Clover from "../icons/footer/Clover";
@@ -7,6 +6,13 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getPages, type Page } from "@/lib/api/pages";
 import { getStoreSetting, type StoreSettingResponse } from "@/lib/api/storeSetting";
+import Strip from "../icons/footer/Strip";
+import Amex from "../icons/footer/Amex";
+import Mastercard from "../icons/footer/Mastercard";
+import GooglePay from "../icons/footer/GooglePay";
+import Visa from "../icons/footer/Visa";
+import ApplePay from "../icons/footer/ApplePay";
+import Tabby from "../icons/footer/Tabby";
 
 const Footer = () => {
   const { t, i18n } = useTranslation("header");
@@ -218,11 +224,15 @@ const Footer = () => {
           <p className="text-[#F6F6F6] md:text-base text-[8px] font-medium leading-[100%]">
             {t("copyright")}
           </p>
-          <Image
-            src="/images/footer/payment.png"
-            alt="payment"
-            className="md:mt-4 mt-3 md:w-70 w-38.25"
-          />
+          <div className="flex items-center mt-4">
+            <Strip />
+            <Amex />
+            <Mastercard />
+            <GooglePay />
+            <Visa />
+            <ApplePay />
+            <Tabby />
+          </div>
         </div>
       </div>
     </footer>
