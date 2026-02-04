@@ -1,33 +1,21 @@
 import CartItem from "./CartItem";
 import { useTranslation } from "react-i18next";
+import { useCartStore } from "@/store/useCartStore";
+import { Loader2 } from "lucide-react";
 
 const CartListing = () => {
   const { t } = useTranslation("cart");
+  const { cart, isLoading } = useCartStore();
 
-  // Mock Data
-  const items = [
-    {
-      id: 1,
-      name: "Liwa-Black",
-      price: 269.0,
-      quantity: 1,
-      image: "/images/home/glass1.png",
-    },
-    {
-      id: 2,
-      name: "Liwa-Orange",
-      price: 269.0,
-      quantity: 2,
-      image: "/images/home/glass2.png",
-    },
-    {
-      id: 3,
-      name: "Liwa-Gold",
-      price: 349.0,
-      quantity: 1,
-      image: "/images/home/glass3.png",
-    },
-  ];
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-8 h-8 animate-spin text-[#018884]" />
+      </div>
+    );
+  }
+
+  const items = cart?.items || [];
 
   return (
     <div className="w-full">
@@ -47,7 +35,7 @@ const CartListing = () => {
       {/* Cart Items List */}
       <div className="flex flex-col">
         {items.map((item) => (
-          <CartItem key={item.id} {...item} />
+          <CartItem key={item.id} item={item} />
         ))}
       </div>
     </div>

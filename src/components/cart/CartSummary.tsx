@@ -1,36 +1,55 @@
 import { useState } from "react";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import LoginRequiredPopup from "./LoginRequiredPopup";
 import { useTranslation } from "react-i18next";
+import { useCartStore } from "@/store/useCartStore";
+import { useAuthStore } from "@/store/useAuthStore";
+import toast from "react-hot-toast";
 
 interface CartSummaryProps {
-  subtotal: number;
-  shipping: number;
   disablePopup?: boolean;
 }
 
-const CartSummary = ({
-  subtotal,
-  shipping,
-  disablePopup = false,
-}: CartSummaryProps) => {
+const CartSummary = ({ disablePopup = false }: CartSummaryProps) => {
   const { t } = useTranslation("cart");
   const navigate = useNavigate();
+  const { cart, appliedCoupon, isCouponLoading, applyCoupon, clearCoupon } =
+    useCartStore();
+  const isLoggedIn = useAuthStore((state) => state.isAuthenticated());
+
   const [couponCode, setCouponCode] = useState("");
   const [couponStatus, setCouponStatus] = useState<
     "idle" | "success" | "error"
-  >("idle");
-  const total = subtotal + shipping;
+  >(appliedCoupon ? "success" : "idle");
 
-  const handleApplyCoupon = () => {
-    if (!couponCode) return;
+  const calculations = cart?.calculations;
+  const subtotal = calculations?.subtotal || 0;
+  const shipping = calculations?.delivery_fees || 0;
+  const discount = calculations?.discount || 0;
+  const total = calculations?.total || 0;
 
-    // Simulate coupon validation
-    if (couponCode.toUpperCase() === "A12345") {
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+
+    try {
+      await applyCoupon(couponCode.trim());
       setCouponStatus("success");
-    } else {
+      toast.success(t("couponSuccess", "Coupon applied successfully"));
+    } catch {
       setCouponStatus("error");
+      toast.error(t("couponError", "Invalid coupon code"));
+    }
+  };
+
+  const handleClearCoupon = async () => {
+    try {
+      await clearCoupon();
+      setCouponCode("");
+      setCouponStatus("idle");
+      toast.success(t("couponCleared", "Coupon removed"));
+    } catch {
+      toast.error(t("couponClearError", "Failed to remove coupon"));
     }
   };
 
@@ -74,8 +93,11 @@ const CartSummary = ({
           </div>
 
           <button
-            onClick={handleApplyCoupon}
-            className={`px-8 font-semibold text-lg transition-colors ltr:rounded-r-lg rtl:rounded-l-lg h-full border-t border-r border-b ${
+            onClick={
+              couponStatus === "success" ? handleClearCoupon : handleApplyCoupon
+            }
+            disabled={isCouponLoading}
+            className={`px-8 font-semibold text-lg transition-colors ltr:rounded-r-lg rtl:rounded-l-lg h-full border-t border-r border-b disabled:opacity-50 ${
               couponStatus === "success"
                 ? "bg-[#2A6F02] text-white border-[#2A6F02]"
                 : couponStatus === "error"
@@ -83,7 +105,13 @@ const CartSummary = ({
                   : "bg-[#EDEDED] text-[#3B3B3B] border-[#EAEAEA]"
             }`}
           >
-            {couponStatus === "success" ? t("applied") : t("apply")}
+            {isCouponLoading ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : couponStatus === "success" ? (
+              t("clear", "Clear")
+            ) : (
+              t("apply")
+            )}
           </button>
         </div>
 
@@ -125,6 +153,19 @@ const CartSummary = ({
             />
           </span>
         </div>
+        {discount > 0 && (
+          <div className="flex justify-between items-center text-[#2A6F02] text-lg font-medium">
+            <span>{t("discount", "Discount")}:</span>
+            <span className="flex items-center gap-1">
+              -{discount.toFixed(2)}
+              <img
+                src="/images/currency.png"
+                alt="c_currency"
+                className="w-4.5 h-4.5"
+              />
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="w-full h-[1px] bg-[#EAEAEA] mb-6"></div>
@@ -143,7 +184,7 @@ const CartSummary = ({
         </span>
       </div>
 
-      {disablePopup ? (
+      {disablePopup || isLoggedIn ? (
         <button
           onClick={() => navigate("/checkout")}
           className="w-full bg-[#018884] hover:bg-[#006F6C] text-white md:text-xl text-base md:font-bold font-semibold md:py-4 py-2 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
@@ -151,7 +192,10 @@ const CartSummary = ({
           {t("checkout")}
         </button>
       ) : (
-        <LoginRequiredPopup isLoggedIn={false} onProceed={() => {}}>
+        <LoginRequiredPopup
+          isLoggedIn={isLoggedIn}
+          onProceed={() => navigate("/checkout")}
+        >
           <button className="w-full bg-[#018884] hover:bg-[#006F6C] text-white md:text-xl text-base md:font-bold font-semibold md:py-4 py-2 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer">
             {t("checkout")}
           </button>

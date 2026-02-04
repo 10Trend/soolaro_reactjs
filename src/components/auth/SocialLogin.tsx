@@ -10,12 +10,15 @@ import { useTranslation } from "react-i18next";
 import Google from "@/components/icons/auth/Google";
 import { getErrorMessage } from "@/lib/utils/auth";
 import { Loader2 } from "lucide-react";
+import { clearCartSessionId } from "@/lib/api/cart";
+import { useCartStore } from "@/store/useCartStore";
 
 const SocialLogin = () => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const location = useLocation();
   const { setUser } = useAuthStore();
+  const fetchCart = useCartStore((state) => state.fetchCart);
   const [isLoading, setIsLoading] = useState(false);
 
   // Get the intended destination from location state, or default to home
@@ -44,6 +47,9 @@ const SocialLogin = () => {
       if (authedUser) {
         // Store token
         setToken(response.token);
+        // Clear guest cart session and fetch user cart
+        clearCartSessionId();
+        await fetchCart();
         // Update auth store with user data
         setUser(authedUser);
         // Navigate to intended destination
