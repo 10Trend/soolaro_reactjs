@@ -105,7 +105,11 @@ function HomeSlider() {
               />
               <div className="slider-overlay absolute inset-0 bg-black/50 z-10 pointer-events-none" />
             </div>
-            <div className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0 z-20">
+              <a
+                href={slide.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute md:w-68.75 w-[206px] h-10 bg-[#FFFFFF33] bottom-0 backdrop-blur-[20px] rounded-bl-4xl rounded-br-4xl flex items-center justify-between px-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0 z-20"              >
               <p className="text-[#FFFFFF] md:text-xs text-[10px] font-medium">
                 {slideTitle}
               </p>
@@ -115,7 +119,7 @@ function HomeSlider() {
                 </p>
                 <SliderArrow />
               </div>
-            </div>
+            </a>
           </div>
         )})}
       </SliderSlick>
