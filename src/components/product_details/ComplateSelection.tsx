@@ -3,17 +3,22 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/lib/api/products/products";
 
-const ComplateSelection = () => {
+interface ComplateSelectionProps {
+  categoryId: number;
+}
+
+const ComplateSelection = ({ categoryId }: ComplateSelectionProps) => {
   const { t } = useTranslation("product");
 
   const { data, isLoading } = useQuery({
-    queryKey: ["top-rated-products"],
+    queryKey: ["category-products", categoryId],
     queryFn: () =>
       getProducts({
-        is_top_rated: true,
+        category_id: categoryId,
         sort_by: "created_at",
         sort_order: "desc",
       }),
+      enabled: !!categoryId,
   });
 
   const products: ProductItem[] =
@@ -34,7 +39,7 @@ const ComplateSelection = () => {
   return (
     <ProductSlider
       title={t("complete_selection")}
-      seeAllLink="/products?top_rated=1"
+      seeAllLink={`/products?category=${categoryId}`}
       products={products}
       containerClassName="container md:py-17 py-10"
     />

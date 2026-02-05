@@ -29,7 +29,7 @@ const ProductDetailsPage = () => {
               reviewable_id={product.id.toString()}
               description={product.description}
             />
-            <ComplateSelection />
+            <ComplateSelection categoryId={product.category.id} />
             <SeeStyle />
             <ProductExploreShop />
             <YouMayLike />
