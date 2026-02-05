@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Card from "@/components/home/GlassCard";
 import Filter from "@/components/icons/explore/Filter";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,10 +8,14 @@ import Search from "@/components/icons/header/Search";
 import { useTranslation } from "react-i18next";
 import { DirhamIcon } from "@/components/icons/checkout/DirhamIcon";
 import ProductEmptyState from "@/components/product_details/ProductEmptyState";
-import { getProducts, type GetProductsParams, type Product } from "@/lib/api/products/products";
+import {
+  getProducts,
+  type GetProductsParams,
+  type Product,
+} from "@/lib/api/products/products";
 
 const ExploreProductsPage = () => {
-  const { t, i18n } = useTranslation("explore");
+  const { t } = useTranslation("explore");
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [minPrice, setMinPrice] = useState(100);
@@ -24,9 +28,9 @@ const ExploreProductsPage = () => {
   const [, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [currentPage, ] = useState(1);
+  const [currentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
-  
+
   const MIN = 100;
   const MAX = 1000;
 
@@ -43,7 +47,7 @@ const ExploreProductsPage = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const params: GetProductsParams = {
           page: currentPage,
           sort_by: "created_at",
@@ -62,7 +66,9 @@ const ExploreProductsPage = () => {
         const response = await getProducts(params);
         setProducts(response.data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to fetch products");
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch products",
+        );
         console.error("Error fetching products:", err);
       } finally {
         setLoading(false);
@@ -75,12 +81,12 @@ const ExploreProductsPage = () => {
   useEffect(() => {
     let result = [...products];
 
-
     if (activeTab === "best") {
       result = result.filter((product) => product.is_top_rated === 1);
     } else if (activeTab === "new") {
-      result = result.sort((a, b) => 
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      result = result.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
       );
     } else if (activeTab === "summer") {
       result = result.filter((product) => product.is_featured === 1);
@@ -174,9 +180,7 @@ const ExploreProductsPage = () => {
               className="w-6 h-6 hidden group-hover:block transition-all duration-300"
             />
 
-            <p
-              className="md:text-[#3B3B3B] text-white group-hover:text-white text-lg font-semibold leading-[100%] md:rotate-180 transition-colors duration-300"
-            >
+            <p className="md:text-[#3B3B3B] text-white group-hover:text-white text-lg font-semibold leading-[100%] md:rotate-180 transition-colors duration-300">
               {t("filter")}
             </p>
           </div>
@@ -301,7 +305,7 @@ const ExploreProductsPage = () => {
             </div>
           </div>
 
-          <button 
+          <button
             className="mt-6 w-full bg-[#018884] text-[#FEFEFE] py-4 text-lg rounded-4xl font-medium"
             onClick={applyFilter}
           >

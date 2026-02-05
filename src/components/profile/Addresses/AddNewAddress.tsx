@@ -2,12 +2,31 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { getCountries } from "@/lib/api/country";
 import { getCitiesByCountry } from "@/lib/api/cities";
-import { createAddress } from "@/lib/api/addresses/postAddress";
-import { updateAddress, type UpdateAddressPayload } from "@/lib/api/addresses/updateAddress";
+import {
+  createAddress,
+  type AddressRequest,
+} from "@/lib/api/addresses/postAddress";
+import {
+  updateAddress,
+  type UpdateAddressPayload,
+} from "@/lib/api/addresses/updateAddress";
 import { getSingleAddress } from "@/lib/api/addresses/getSingleAddress";
 import { Loader2 } from "lucide-react";
 
@@ -17,36 +36,38 @@ interface AddNewAddressProps {
 }
 
 const AddNewAddress = ({ addressId, onSuccess }: AddNewAddressProps) => {
-    const { t, i18n } = useTranslation("profile");
-    const queryClient = useQueryClient();
+  const { t, i18n } = useTranslation("profile");
+  const queryClient = useQueryClient();
 
-    const [selectedCountryId, setSelectedCountryId] = useState<number | null>(
-        null,
-    );
-    const [selectedCityId, setSelectedCityId] = useState<number | null>(null);
-    const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedCountryId, setSelectedCountryId] = useState<number | null>(
+    null,
+  );
+  const [selectedCityId, setSelectedCityId] = useState<number | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
-        const [formData, setFormData] = useState({
-        area: "",
-        street: "",
-        floor: "",
-        apartment: "",
-    });
+  const [formData, setFormData] = useState({
+    area: "",
+    street: "",
+    floor: "",
+    apartment: "",
+  });
 
-    const { data: countries } = useQuery({
-        queryKey: ["countries"],
-        queryFn: getCountries,
-    });
+  const { data: countries } = useQuery({
+    queryKey: ["countries"],
+    queryFn: getCountries,
+  });
 
   const { data: cities } = useQuery({
     queryKey: ["cities", selectedCountryId],
-    queryFn: () => (selectedCountryId ? getCitiesByCountry(selectedCountryId) : []),
+    queryFn: () =>
+      selectedCountryId ? getCitiesByCountry(selectedCountryId) : [],
     enabled: !!selectedCountryId,
   });
 
   const { data: address, isLoading: loadingAddress } = useQuery({
     queryKey: ["address", addressId],
-    queryFn: () => (addressId ? getSingleAddress(addressId) : Promise.resolve(null)),
+    queryFn: () =>
+      addressId ? getSingleAddress(addressId) : Promise.resolve(null),
     enabled: !!addressId,
   });
 
@@ -58,14 +79,22 @@ const AddNewAddress = ({ addressId, onSuccess }: AddNewAddressProps) => {
       setFormData({
         area: address.title || "",
         street: detailsParts[0] || "",
-        floor: detailsParts.find(p => p.trim().startsWith("Floor"))?.replace("Floor", "").trim() || "",
-        apartment: detailsParts.find(p => p.trim().startsWith("Apt"))?.replace("Apt", "").trim() || "",
+        floor:
+          detailsParts
+            .find((p) => p.trim().startsWith("Floor"))
+            ?.replace("Floor", "")
+            .trim() || "",
+        apartment:
+          detailsParts
+            .find((p) => p.trim().startsWith("Apt"))
+            ?.replace("Apt", "")
+            .trim() || "",
       });
     }
   }, [address]);
 
   const createMutation = useMutation({
-    mutationFn: (data: UpdateAddressPayload) => createAddress(data),
+    mutationFn: (data: AddressRequest) => createAddress(data),
     onSuccess: () => {
       setShowSuccess(true);
       setFormData({ area: "", street: "", floor: "", apartment: "" });
@@ -74,7 +103,10 @@ const AddNewAddress = ({ addressId, onSuccess }: AddNewAddressProps) => {
       queryClient.invalidateQueries({ queryKey: ["addresses"] });
     },
     onError: (error: any) => {
-      const message = error.response?.data?.message || error.message || t("errorAddingAddress");
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        t("errorAddingAddress");
       toast.error(message);
     },
   });
@@ -87,13 +119,16 @@ const AddNewAddress = ({ addressId, onSuccess }: AddNewAddressProps) => {
       queryClient.invalidateQueries({ queryKey: ["address", addressId] });
     },
     onError: (error: any) => {
-      const message = error.response?.data?.message || error.message || t("errorUpdatingAddress");
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        t("errorUpdatingAddress");
       toast.error(message);
     },
   });
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = () => {
@@ -109,128 +144,203 @@ const AddNewAddress = ({ addressId, onSuccess }: AddNewAddressProps) => {
 
     const details = `${formData.street}${formData.floor ? `, Floor ${formData.floor}` : ""}${formData.apartment ? `, Apt ${formData.apartment}` : ""}`;
 
-    const payload: UpdateAddressPayload = {
-      title: formData.area,
-      country_id: String(selectedCountryId),
-      city_id: String(selectedCityId),
-      details,
-      location: { lat: 0, lng: 0 },
-    };
-
     if (addressId) {
-      updateMutation.mutate(payload);
+      const updatePayload: UpdateAddressPayload = {
+        title: formData.area,
+        country_id: String(selectedCountryId),
+        city_id: String(selectedCityId),
+        details,
+        location: { lat: 0, lng: 0 },
+      };
+      updateMutation.mutate(updatePayload);
     } else {
-      createMutation.mutate(payload);
+      const createPayload: AddressRequest = {
+        title: formData.area,
+        country_id: String(selectedCountryId),
+        city_id: String(selectedCityId),
+        details,
+        location: "",
+        lat: 0,
+        lng: 0,
+      };
+      createMutation.mutate(createPayload);
     }
   };
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-  if (loadingAddress) return <div className="flex justify-center py-10"><Loader2 className="animate-spin w-8 h-8" /></div>;
-
+  if (loadingAddress)
     return (
-        <section>
-        <h2 className="text-[#0B0B0B] text-xl font-medium">{addressId ? t("editAddress") : t("addNewAddress")}</h2>
+      <div className="flex justify-center py-10">
+        <Loader2 className="animate-spin w-8 h-8" />
+      </div>
+    );
 
-        <div className="mt-6">
-            <label className="text-[#0B0B0B] text-base font-semibold">{t("country")}</label>
-            <Select
-            value={selectedCountryId ? String(selectedCountryId) : undefined}
-            onValueChange={(val) => {
-                setSelectedCountryId(Number(val));
-                setSelectedCityId(null);
-            }}
-            >
-            <SelectTrigger className="w-full h-14! mt-3 rounded-4xl">
-                <SelectValue placeholder={t("chooseCountry")} />
-            </SelectTrigger>
-            <SelectContent>
-                {countries?.map(c => {
-                const name = c.name[i18n.language as "ar" | "en"] ?? c.name.en;
-                return <SelectItem key={c.id} value={String(c.id)}>{name}</SelectItem>;
-                })}
-            </SelectContent>
-            </Select>
-        </div>
+  return (
+    <section>
+      <h2 className="text-[#0B0B0B] text-xl font-medium">
+        {addressId ? t("editAddress") : t("addNewAddress")}
+      </h2>
 
-        {/* City */}
-        <div className="mt-6">
-            <label className="text-[#0B0B0B] text-base font-semibold">{t("emirateCity")}</label>
-            <Select
-            value={selectedCityId ? String(selectedCityId) : undefined}
-            onValueChange={val => setSelectedCityId(Number(val))}
-            disabled={!selectedCountryId}
-            >
-            <SelectTrigger className="w-full h-14! mt-3 rounded-4xl">
-                <SelectValue placeholder={selectedCountryId ? t("chooseEmirateCity") : t("chooseCountryFirst")} />
-            </SelectTrigger>
-            <SelectContent>
-                {cities?.map(city => {
-                const name = city.name[i18n.language as "ar" | "en"] ?? city.name.en;
-                return <SelectItem key={city.id} value={String(city.id)}>{name}</SelectItem>;
-                })}
-            </SelectContent>
-            </Select>
-        </div>
-
-        {/* Area / Street / Floor / Apartment */}
-        <div className="mt-6">
-            <label className="text-[#0B0B0B] text-base font-semibold">{t("area")}</label>
-            <input type="text" value={formData.area} onChange={e => handleInputChange("area", e.target.value)} className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3" placeholder={t("enterArea")} />
-        </div>
-        <div className="mt-6">
-            <label className="text-[#0B0B0B] text-base font-semibold">{t("street")}</label>
-            <input type="text" value={formData.street} onChange={e => handleInputChange("street", e.target.value)} className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3" placeholder={t("enterStreet")} />
-        </div>
-        <div className="flex items-center gap-6">
-            <div className="mt-6 w-full">
-            <label className="text-[#0B0B0B] text-base font-semibold">{t("floorNo")}</label>
-            <input type="text" value={formData.floor} onChange={e => handleInputChange("floor", e.target.value)} className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3" placeholder={t("enterFloorNo")} />
-            </div>
-            <div className="mt-6 w-full">
-            <label className="text-[#0B0B0B] text-base font-semibold">{t("apartmentNo")}</label>
-            <input type="text" value={formData.apartment} onChange={e => handleInputChange("apartment", e.target.value)} className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3" placeholder={t("enterApartmentNo")} />
-            </div>
-        </div>
-
-        <button
-            onClick={handleSubmit}
-            disabled={isPending}
-            className="md:mt-10 mt-6 w-full md:h-14 h-12 bg-[#018884] rounded-4xl text-[#FEFEFE] text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      <div className="mt-6">
+        <label className="text-[#0B0B0B] text-base font-semibold">
+          {t("country")}
+        </label>
+        <Select
+          value={selectedCountryId ? String(selectedCountryId) : undefined}
+          onValueChange={(val) => {
+            setSelectedCountryId(Number(val));
+            setSelectedCityId(null);
+          }}
         >
-            {isPending && <Loader2 className="animate-spin w-5 h-5" />}
-            {isPending ? t("saving") : t("save")}
-        </button>
+          <SelectTrigger className="w-full h-14! mt-3 rounded-4xl">
+            <SelectValue placeholder={t("chooseCountry")} />
+          </SelectTrigger>
+          <SelectContent>
+            {countries?.map((c) => {
+              const name = c.name[i18n.language as "ar" | "en"] ?? c.name.en;
+              return (
+                <SelectItem key={c.id} value={String(c.id)}>
+                  {name}
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+      </div>
 
-        <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
-            <DialogContent className="md:w-[655px] flex flex-col items-center justify-end">
-            <DialogHeader>
-                <img src="/images/profile/check.gif" alt="success" className="w-[213px] h-[213px] mx-auto" />
-                <DialogTitle className="text-[#0B0B0B] md:text-2xl text-base font-semibold text-center">
-                {addressId ? t("addressUpdatedSuccess") : t("addressAddedSuccess")}
-                </DialogTitle>
-                <DialogFooter className="sm:justify-start flex flex-row md:mt-0 mt-6 gap-4">
-                <DialogClose asChild>
-                    <button type="button" className="w-full h-14 border border-[#DEDDDD] rounded-4xl md:mt-10 text-[#3B3B3B] text-base font-bold">
-                    {t("cancel")}
-                    </button>
-                </DialogClose>
-                <button 
-                    type="button" 
-                    onClick={() => {
-                    setShowSuccess(false);
-                    onSuccess?.();
-                    }} 
-                    className="w-full h-14 bg-[#018884] rounded-4xl md:mt-10 text-[#FEFEFE] text-base font-bold"
+      {/* City */}
+      <div className="mt-6">
+        <label className="text-[#0B0B0B] text-base font-semibold">
+          {t("emirateCity")}
+        </label>
+        <Select
+          value={selectedCityId ? String(selectedCityId) : undefined}
+          onValueChange={(val) => setSelectedCityId(Number(val))}
+          disabled={!selectedCountryId}
+        >
+          <SelectTrigger className="w-full h-14! mt-3 rounded-4xl">
+            <SelectValue
+              placeholder={
+                selectedCountryId
+                  ? t("chooseEmirateCity")
+                  : t("chooseCountryFirst")
+              }
+            />
+          </SelectTrigger>
+          <SelectContent>
+            {cities?.map((city) => {
+              const name =
+                city.name[i18n.language as "ar" | "en"] ?? city.name.en;
+              return (
+                <SelectItem key={city.id} value={String(city.id)}>
+                  {name}
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Area / Street / Floor / Apartment */}
+      <div className="mt-6">
+        <label className="text-[#0B0B0B] text-base font-semibold">
+          {t("area")}
+        </label>
+        <input
+          type="text"
+          value={formData.area}
+          onChange={(e) => handleInputChange("area", e.target.value)}
+          className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3"
+          placeholder={t("enterArea")}
+        />
+      </div>
+      <div className="mt-6">
+        <label className="text-[#0B0B0B] text-base font-semibold">
+          {t("street")}
+        </label>
+        <input
+          type="text"
+          value={formData.street}
+          onChange={(e) => handleInputChange("street", e.target.value)}
+          className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3"
+          placeholder={t("enterStreet")}
+        />
+      </div>
+      <div className="flex items-center gap-6">
+        <div className="mt-6 w-full">
+          <label className="text-[#0B0B0B] text-base font-semibold">
+            {t("floorNo")}
+          </label>
+          <input
+            type="text"
+            value={formData.floor}
+            onChange={(e) => handleInputChange("floor", e.target.value)}
+            className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3"
+            placeholder={t("enterFloorNo")}
+          />
+        </div>
+        <div className="mt-6 w-full">
+          <label className="text-[#0B0B0B] text-base font-semibold">
+            {t("apartmentNo")}
+          </label>
+          <input
+            type="text"
+            value={formData.apartment}
+            onChange={(e) => handleInputChange("apartment", e.target.value)}
+            className="w-full h-14 border border-[#DEDDDD] rounded-4xl px-4 mt-3"
+            placeholder={t("enterApartmentNo")}
+          />
+        </div>
+      </div>
+
+      <button
+        onClick={handleSubmit}
+        disabled={isPending}
+        className="md:mt-10 mt-6 w-full md:h-14 h-12 bg-[#018884] rounded-4xl text-[#FEFEFE] text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      >
+        {isPending && <Loader2 className="animate-spin w-5 h-5" />}
+        {isPending ? t("saving") : t("save")}
+      </button>
+
+      <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
+        <DialogContent className="md:w-[655px] flex flex-col items-center justify-end">
+          <DialogHeader>
+            <img
+              src="/images/profile/check.gif"
+              alt="success"
+              className="w-[213px] h-[213px] mx-auto"
+            />
+            <DialogTitle className="text-[#0B0B0B] md:text-2xl text-base font-semibold text-center">
+              {addressId
+                ? t("addressUpdatedSuccess")
+                : t("addressAddedSuccess")}
+            </DialogTitle>
+            <DialogFooter className="sm:justify-start flex flex-row md:mt-0 mt-6 gap-4">
+              <DialogClose asChild>
+                <button
+                  type="button"
+                  className="w-full h-14 border border-[#DEDDDD] rounded-4xl md:mt-10 text-[#3B3B3B] text-base font-bold"
                 >
-                    {t("continue")}
+                  {t("cancel")}
                 </button>
-                </DialogFooter>
-            </DialogHeader>
-            </DialogContent>
-        </Dialog>
-        </section>
-    )
-}
+              </DialogClose>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowSuccess(false);
+                  onSuccess?.();
+                }}
+                className="w-full h-14 bg-[#018884] rounded-4xl md:mt-10 text-[#FEFEFE] text-base font-bold"
+              >
+                {t("continue")}
+              </button>
+            </DialogFooter>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </section>
+  );
+};
 
-export default AddNewAddress
+export default AddNewAddress;

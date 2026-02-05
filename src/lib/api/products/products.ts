@@ -10,6 +10,10 @@ export interface GetProductsParams {
   is_featured?: boolean;
   is_top_rated?: boolean;
   page?: number;
+  min_price?: number;
+  max_price?: number;
+  search?: string;
+  category_id?: number;
 }
 
 export interface LocalizedText {
@@ -57,7 +61,6 @@ export interface ProductVariant {
   attributes: Attribute[];
 }
 
-
 export interface Category {
   id: number;
   name: LocalizedText;
@@ -87,7 +90,6 @@ export interface Product {
   category: Category;
 }
 
-
 export interface PaginationLinks {
   first: string | null;
   last: string | null;
@@ -104,7 +106,6 @@ export interface PaginationMeta {
   to: number;
 }
 
-
 export interface GetProductsResponse {
   data: Product[];
   links: PaginationLinks;
@@ -112,18 +113,15 @@ export interface GetProductsResponse {
 }
 
 export const getProducts = async (
-  params?: GetProductsParams
+  params?: GetProductsParams,
 ): Promise<GetProductsResponse> => {
-  const response = await axios.get<GetProductsResponse>(
-    `/products`,
-    {
-      params,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    }
-  );
+  const response = await axios.get<GetProductsResponse>(`/products`, {
+    params,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
 
   return response.data;
 };

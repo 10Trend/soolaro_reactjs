@@ -192,7 +192,7 @@ const CheckoutPage = () => {
                     type="button"
                     onClick={handlePlaceOrder}
                     disabled={isProcessing}
-                    className="md:hidden w-full h-14 bg-[#018884] text-white text-lg font-bold rounded-4xl hover:bg-[#006F6C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="md:hidden w-full h-14 bg-[#018884] text-white text-lg font-bold rounded-4xl hover:bg-[#006F6C]  disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     {isProcessing ? t("processing") : t("payNow")}
                   </button>

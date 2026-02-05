@@ -8,7 +8,10 @@ interface DeleteAddressDialogProps {
   onClose?: () => void;
 }
 
-const DeleteAddressDialog = ({ addressId, onClose }: DeleteAddressDialogProps) => {
+const DeleteAddressDialog = ({
+  addressId,
+  onClose,
+}: DeleteAddressDialogProps) => {
   const { t } = useTranslation("profile");
   const queryClient = useQueryClient();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -17,7 +20,7 @@ const DeleteAddressDialog = ({ addressId, onClose }: DeleteAddressDialogProps) =
     setIsDeleting(true);
     try {
       await deleteAddress(String(addressId));
-      queryClient.invalidateQueries(["addresses"]);
+      queryClient.invalidateQueries({ queryKey: ["addresses"] });
 
       if (onClose) onClose();
     } catch (error) {
@@ -35,7 +38,9 @@ const DeleteAddressDialog = ({ addressId, onClose }: DeleteAddressDialogProps) =
         className="w-[267px] h-[267px] object-contain"
       />
       <h2 className="md:text-4xl text-2xl font-bold">{t("deleteAddress")}</h2>
-      <p className="md:text-2xl my-4 text-center">{t("deleteAddressConfirmation")}</p>
+      <p className="md:text-2xl my-4 text-center">
+        {t("deleteAddressConfirmation")}
+      </p>
       <div className="w-full flex items-center gap-4">
         <button
           type="button"
