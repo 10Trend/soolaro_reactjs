@@ -60,5 +60,6 @@
     "chooseCountryFirst": "اختر الدولة أولاً",
     "pleaseSelectCountryAndCity": "يرجى اختيار الدولة والمدينة",
     "pleaseEnterRequiredFields": "يرجى إدخال جميع الحقول المطلوبة (المنطقة والشارع)",
-    "errorAddingAddress": "خطأ في إضافة العنوان. يرجى المحاولة مرة أخرى."
+    "errorAddingAddress": "خطأ في إضافة العنوان. يرجى المحاولة مرة أخرى.",
+    "editAddress": "تعديل العنوان"
 }

@@ -11,7 +11,8 @@ import { getAddresses, type Address } from "@/lib/api/addresses/getAddresses"
 import { Skeleton } from "@/components/ui/skeleton"
 
 const Addresses = () => {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [editAddressId, setEditAddressId] = useState<number | null>(null);
   const { t } = useTranslation("profile")
 
   const { data: addresses = [], isLoading, isError } = useQuery<Address[]>({
@@ -35,7 +36,7 @@ const Addresses = () => {
 
         <div className="md:mt-8 mt-4 space-y-6">
             {isLoading
-            ? [1, 2, 3].map((i) => (
+            ? [1, 2, 3].map(i => (
                 <Skeleton
                     key={i}
                     className="w-full md:px-4 px-3 md:py-7 py-3 rounded-4xl h-16"
@@ -58,36 +59,32 @@ const Addresses = () => {
                     {address.details || address.title}
                     </p>
 
-                    <Dialog>
-                    <DialogTrigger className="w-full flex-1 justify-end">
+                    <Dialog open={editAddressId === address.id} onOpenChange={open => !open && setEditAddressId(null)}>
+                    <DialogTrigger onClick={() => setEditAddressId(address.id)}>
                         <div>
                             <Edit />
                         </div>
                     </DialogTrigger>
-                    <DialogContent
-                        className=" w-163.75 max-h-[90vh] flex flex-col p-0"
-                        >
+                    <DialogContent className="w-163.75 max-h-[90vh] flex flex-col p-0">
                         <div className="flex-1 overflow-y-auto px-6 py-6">
-                            <AddNewAddress address={address} />
+                        <AddNewAddress addressId={address.id} onSuccess={() => setEditAddressId(null)} />
                         </div>
-                        </DialogContent>
-                </Dialog>
-            </div>
-            ))}
+                    </DialogContent>
+                    </Dialog>
+                </div>
+                ))}
 
             <Dialog>
             <DialogTrigger className="w-full">
-                    <button className="w-full h-14 border border-[#018884] rounded-4xl md:mt-8 mt-4 text-[#018884] text-lg font-bold">
-                        {t("addNewAddress")}
-                    </button>
+                <button className="w-full h-14 border border-[#018884] rounded-4xl md:mt-8 mt-4 text-[#018884] text-lg font-bold">
+                {t("addNewAddress")}
+                </button>
             </DialogTrigger>
-            <DialogContent
-                className=" w-163.75 max-h-[90vh] flex flex-col p-0"
-                >
+            <DialogContent className="w-163.75 max-h-[90vh] flex flex-col p-0">
                 <div className="flex-1 overflow-y-auto px-6 py-6">
-                    <AddNewAddress />
+                <AddNewAddress onSuccess={() => {}} />
                 </div>
-                </DialogContent>
+            </DialogContent>
             </Dialog>
         </div>
         </section>
