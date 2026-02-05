@@ -222,7 +222,6 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
             </p>
           </div>
 
-
           <button
             onClick={handleAddToCart}
             disabled={isAddingToCart}
@@ -235,7 +234,7 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
             )}
           </button>
 
-          <div className="w-full h-14 border border-[#018884] rounded-4xl mt-4 flex items-center justify-center gap-14.5">
+          <div className="w-full h-14 border border-[#018884] rounded-4xl mt-4 flex items-center justify-center gap-14.5 ">
             <button
               onClick={decrementQuantity}
               disabled={quantity <= 1 || isAddingToCart}
