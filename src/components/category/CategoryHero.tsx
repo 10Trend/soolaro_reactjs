@@ -17,7 +17,7 @@ const CategoryHero = () => {
         (cat) => cat.id === parseInt(parentId || "0")
     );
 
-    const backgroundImage = currentCategory?.image?.url || "/images/category/category_hero.jpg";
+    const backgroundImage = currentCategory?.image?.url || "";
 
     if (isLoading) {
         return (
