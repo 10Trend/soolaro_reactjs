@@ -14,6 +14,8 @@ import ChangeLanguage from "./ChangeLanguage";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/useAuthStore";
 import { useCartItemsCount } from "@/store/useCartStore";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "@/lib/api/home/category";
 
 interface HeaderProps {
   className?: string;
@@ -46,6 +48,13 @@ const Header = ({ className }: HeaderProps) => {
   const isHome = location.pathname === "/";
   const isCategory = location.pathname === "/category";
 
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategories(),
+  });
+
+  const lastThreeCategories = categories?.slice(-3);
+
   return (
     <>
       <header
@@ -71,24 +80,20 @@ const Header = ({ className }: HeaderProps) => {
             >
               {t("home")}
             </Link>
-            <Link
-              to="/category"
-              className="text-[#0B0B0B] text-base font-semibold hover:text-[#003D3B] hover:font-bold"
-            >
-              {t("best_seller")}
-            </Link>
-            <Link
-              to="/category"
-              className="text-[#0B0B0B] text-base font-semibold hover:text-[#003D3B] hover:font-bold"
-            >
-              {t("new_arrival")}
-            </Link>
-            <Link
-              to="/category"
-              className="text-[#0B0B0B] text-base font-semibold hover:text-[#003D3B] hover:font-bold"
-            >
-              {t("summer_collection")}
-            </Link>
+            <nav className="flex items-center gap-4 my-6">
+              {lastThreeCategories?.map((category) => (
+                <Link
+                  key={category.id}
+                  to={`/category?parent_id=${category.id}`}
+                  className="text-[#0B0B0B] text-base font-semibold hover:text-[#003D3B] hover:font-bold"
+                  onClick={() => {
+                    closeSidebar();
+                  }}
+                >
+                  {category.name.en}
+                </Link>
+              ))}
+            </nav>
           </div>
 
           <div className="lg:flex hidden items-center gap-6">
@@ -157,27 +162,20 @@ const Header = ({ className }: HeaderProps) => {
                 >
                   {t("home")}
                 </Link>
-                <Link
-                  to="/category"
-                  className="text-[#0B0B0B] text-lg font-semibold hover:text-[#003D3B] py-2"
-                  onClick={closeSidebar}
-                >
-                  {t("best_seller")}
-                </Link>
-                <Link
-                  to="/category"
-                  className="text-[#0B0B0B] text-lg font-semibold hover:text-[#003D3B] py-2"
-                  onClick={closeSidebar}
-                >
-                  {t("new_arrival")}
-                </Link>
-                <Link
-                  to="/category"
-                  className="text-[#0B0B0B] text-lg font-semibold hover:text-[#003D3B] py-2"
-                  onClick={closeSidebar}
-                >
-                  {t("summer_collection")}
-                </Link>
+                <nav className="flex flex-col items-center gap-4 ">
+                {lastThreeCategories?.map((category) => (
+                  <Link
+                    key={category.id}
+                    to={`/category?parent_id=${category.id}`}
+                    className="text-[#0B0B0B] text-base font-semibold hover:text-[#003D3B] hover:font-bold"
+                    onClick={() => {
+                      closeSidebar();
+                    }}
+                  >
+                    {category.name.en}
+                  </Link>
+                ))}
+              </nav>
               </nav>
 
               <button className="w-53.75 h-12 bg-[#018884] rounded-4xl flex items-center justify-center gap-2 mx-auto mt-14.5">

@@ -81,7 +81,7 @@ const SignInForm = () => {
 
       <div className="md:mt-34 mt-8">
         <MobileBackHeader title={t("sign_in_to_account")} />
-        <h2 className="hidden md:block text-[#0B0B0B] text-[40px] font-semibold leading-[100%] mx-auto mb-14.5">
+        <h2 className="hidden md:block text-[#0B0B0B] text-[40px] font-semibold leading-[100%] mx-auto mb-14.5 text-center">
           {t("sign_in_to_account")}
         </h2>
 

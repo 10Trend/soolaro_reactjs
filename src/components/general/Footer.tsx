@@ -16,6 +16,7 @@ import Tabby from "../icons/footer/Tabby";
 import { useState } from "react";
 import { subscribeToNewsletter } from "@/lib/api/subscribe";
 import toast from "react-hot-toast";
+import { getCategories } from "@/lib/api/home/category";
 
 const Footer = () => {
   const { t, i18n } = useTranslation("header");
@@ -55,6 +56,13 @@ const Footer = () => {
       setLoading(false);
     }
   };
+
+    const { data: categories } = useQuery({
+      queryKey: ["categories"],
+      queryFn: () => getCategories(),
+    });
+  
+    const lastThreeCategories = categories?.slice(-3);
 
   return (
     <footer className="bg-[#018884]">
@@ -154,24 +162,17 @@ const Footer = () => {
               >
                 {t("home")}
               </Link>
-              <Link
-                to="/category"
-                className="text-[#FEFEFE] md:text-sm text-xs font-semibold"
-              >
-                {t("best_seller")}
-              </Link>
-              <Link
-                to="/category"
-                className="text-[#FEFEFE] md:text-sm text-xs font-semibold"
-              >
-                {t("new_arrival")}
-              </Link>
-              <Link
-                to="/category"
-                className="text-[#FEFEFE] md:text-sm text-xs font-semibold"
-              >
-                {t("summer_collection")}
-              </Link>
+              <nav className="flex flex-col gap-4">
+                {lastThreeCategories?.map((category) => (
+                  <Link
+                    key={category.id}
+                    to={`/category?parent_id=${category.id}`}
+                    className="text-[#FEFEFE] md:text-sm text-xs font-semibold"
+                  >
+                    {category.name.en}
+                  </Link>
+                ))}
+              </nav>
             </div>
 
             <div className="flex flex-col items-center md:items-start gap-3">
