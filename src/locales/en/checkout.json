@@ -48,5 +48,14 @@
   "apply": "Apply",
   "subTotal": "Sub Total",
   "shippingCost": "Shipping Cost",
-  "total": "Total"
+  "total": "Total",
+  "pleaseEnterName": "Please enter your name",
+  "pleaseEnterEmail": "Please enter your email",
+  "pleaseEnterPhone": "Please enter your phone number",
+  "pleaseSelectCountry": "Please select a country",
+  "pleaseSelectCity": "Please select a city",
+  "pleaseEnterStreet": "Please enter your street address",
+  "orderPlacedSuccess": "Order placed successfully!",
+  "orderPlacedError": "Failed to place order. Please try again.",
+  "noAreasAvailable": "No areas available"
 }

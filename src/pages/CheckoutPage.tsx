@@ -6,10 +6,14 @@ import { CheckoutShippingAddress } from "../components/checkout/CheckoutShipping
 import { CheckoutOrderSummary } from "../components/checkout/CheckoutOrderSummary";
 import type { PhoneValue } from "../components/ui/PhoneInput";
 import { useTranslation } from "react-i18next";
+import { createCheckout } from "@/lib/api/checkout";
+import { useCartStore } from "@/store/useCartStore";
+import toast from "react-hot-toast";
 
 const CheckoutPage = () => {
   const { t } = useTranslation("checkout");
   const navigate = useNavigate();
+  const { appliedCoupon } = useCartStore();
 
   // Contact Info State
   const [contactInfo, setContactInfo] = useState({
@@ -27,9 +31,9 @@ const CheckoutPage = () => {
 
   // Shipping Address State
   const [shippingAddress, setShippingAddress] = useState({
-    country: "",
-    emirate: "",
-    area: "",
+    countryId: "",
+    cityId: "",
+    areaId: "",
     street: "",
     floorNo: "",
     apartmentNo: "",
@@ -49,15 +53,86 @@ const CheckoutPage = () => {
     setShippingAddress((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
+    // Validation
+    const userName =
+      `${contactInfo.firstName.trim()} ${contactInfo.lastName.trim()}`.trim();
+    if (!userName) {
+      toast.error(t("pleaseEnterName"));
+      return;
+    }
+    if (!contactInfo.email) {
+      toast.error(t("pleaseEnterEmail"));
+      return;
+    }
+    if (!contactInfo.phone.number || !contactInfo.phone.number.trim()) {
+      toast.error(t("pleaseEnterPhone"));
+      return;
+    }
+    if (!shippingAddress.countryId) {
+      toast.error(t("pleaseSelectCountry"));
+      return;
+    }
+    if (!shippingAddress.cityId) {
+      toast.error(t("pleaseSelectCity"));
+      return;
+    }
+    if (!shippingAddress.street) {
+      toast.error(t("pleaseEnterStreet"));
+      return;
+    }
+
     setIsProcessing(true);
-    // Add order placement logic here
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      // Build address details from form fields
+      const addressDetails = [
+        shippingAddress.street,
+        shippingAddress.floorNo && `Floor: ${shippingAddress.floorNo}`,
+        shippingAddress.apartmentNo &&
+          `Apartment: ${shippingAddress.apartmentNo}`,
+      ]
+        .filter(Boolean)
+        .join(", ");
+
+      const checkoutData = {
+        payment_method: "stripe",
+        user_name: userName,
+        email: contactInfo.email,
+        phone: contactInfo.phone.number,
+        phone_country: contactInfo.phone.code,
+        country_id: shippingAddress.countryId,
+        city_id: shippingAddress.cityId,
+        area_id: shippingAddress.areaId || undefined,
+        details:
+          addressDetails +
+          (shippingAddress.orderNote
+            ? ` - Note: ${shippingAddress.orderNote}`
+            : ""),
+        coupon_code: appliedCoupon || undefined,
+      };
+
+      const response = await createCheckout(checkoutData);
+
+      toast.success(response.message || t("orderPlacedSuccess"));
+
+      // If there's a payment URL, redirect to it
+      const paymentUrl =
+        response.data?.payment_url || (response as any).payment_url;
+      if (paymentUrl) {
+        window.location.href = paymentUrl;
+      } else {
+        // Otherwise navigate to order confirmation or home
+        navigate("/");
+      }
+    } catch (error: any) {
+      console.error("Checkout error:", error);
+      toast.error(
+        error.response?.data?.message || error.message || t("orderPlacedError"),
+      );
+    } finally {
       setIsProcessing(false);
-      // Navigate to order confirmation page
-      // navigate("/order-confirmation");
-    }, 2000);
+    }
   };
 
   return (

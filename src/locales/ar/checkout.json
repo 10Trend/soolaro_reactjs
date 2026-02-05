@@ -48,6 +48,14 @@
   "apply": "تطبيق",
   "subTotal": "المجموع الفرعي",
   "shippingCost": "تكلفة الشحن",
-  "total": "الإجمالي"
-
+  "total": "الإجمالي",
+  "pleaseEnterName": "الرجاء إدخال اسمك",
+  "pleaseEnterEmail": "الرجاء إدخال بريدك الإلكتروني",
+  "pleaseEnterPhone": "الرجاء إدخال رقم هاتفك",
+  "pleaseSelectCountry": "الرجاء اختيار البلد",
+  "pleaseSelectCity": "الرجاء اختيار المدينة",
+  "pleaseEnterStreet": "الرجاء إدخال عنوان الشارع",
+  "orderPlacedSuccess": "تم تقديم الطلب بنجاح!",
+  "orderPlacedError": "فشل تقديم الطلب. يرجى المحاولة مرة أخرى.",
+  "noAreasAvailable": "لا توجد مناطق متاحة"
 }

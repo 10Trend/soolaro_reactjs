@@ -1,12 +1,16 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { getCountries } from "@/lib/api/country";
+import { getCitiesByCountry } from "@/lib/api/cities";
+import { getAreasByCity } from "@/lib/api/areas";
 
 interface CheckoutShippingAddressProps {
   formData: {
-    country: string;
-    emirate: string;
-    area: string;
+    countryId: string;
+    cityId: string;
+    areaId: string;
     street: string;
     floorNo: string;
     apartmentNo: string;
@@ -19,32 +23,45 @@ export const CheckoutShippingAddress = ({
   formData,
   onChange,
 }: CheckoutShippingAddressProps) => {
-  const { t } = useTranslation("checkout");
+  const { t, i18n } = useTranslation("checkout");
+  const lang = i18n.language as "ar" | "en";
 
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-  const [showEmirateDropdown, setShowEmirateDropdown] = useState(false);
+  const [showCityDropdown, setShowCityDropdown] = useState(false);
+  const [showAreaDropdown, setShowAreaDropdown] = useState(false);
 
-  const countries = [
-    t("countries.uae"),
-    t("countries.sa"),
-    t("countries.kw"),
-    t("countries.qa"),
-    t("countries.bh"),
-    t("countries.om"),
-  ];
-  const emirates = [
-    t("emirates.dubai"),
-    t("emirates.abudhabi"),
-    t("emirates.sharjah"),
-    t("emirates.ajman"),
-    t("emirates.rak"),
-    t("emirates.fujairah"),
-    t("emirates.uaq"),
-  ];
+  // Fetch countries
+  const { data: countries = [] } = useQuery({
+    queryKey: ["countries"],
+    queryFn: getCountries,
+  });
+
+  // Fetch cities based on selected country
+  const { data: cities = [] } = useQuery({
+    queryKey: ["cities", formData.countryId],
+    queryFn: () => getCitiesByCountry(Number(formData.countryId)),
+    enabled: !!formData.countryId,
+  });
+
+  // Fetch areas based on selected city
+  const { data: areas = [] } = useQuery({
+    queryKey: ["areas", formData.cityId],
+    queryFn: () => getAreasByCity(Number(formData.cityId)),
+    enabled: !!formData.cityId,
+  });
+
+  // Get selected names for display
+  const selectedCountryName =
+    countries.find((c) => c.id.toString() === formData.countryId)?.name[lang] ||
+    "";
+  const selectedCityName =
+    cities.find((c) => c.id.toString() === formData.cityId)?.name[lang] || "";
+  const selectedAreaName =
+    areas.find((a) => a.id.toString() === formData.areaId)?.name[lang] || "";
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Country and Emirate Row */}
+      {/* Country and City Row */}
       <div className="flex flex-col md:flex-row gap-6 md:gap-8">
         <div className="flex-1 flex flex-col gap-3">
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
@@ -58,26 +75,28 @@ export const CheckoutShippingAddress = ({
             >
               <span
                 className={
-                  formData.country ? "text-[#0B0B0B]" : "text-[#3B3B3B]"
+                  selectedCountryName ? "text-[#0B0B0B]" : "text-[#3B3B3B]"
                 }
               >
-                {formData.country || t("countryPlaceholder")}
+                {selectedCountryName || t("countryPlaceholder")}
               </span>
               <ChevronDown className="w-5 h-5" />
             </button>
             {showCountryDropdown && (
-              <div className="absolute z-10 w-full mt-2 bg-white border rounded-[20px] shadow-lg">
+              <div className="absolute z-10 w-full mt-2 bg-white border rounded-[20px] shadow-lg max-h-60 overflow-y-auto">
                 {countries.map((country) => (
                   <button
-                    key={country}
+                    key={country.id}
                     type="button"
                     className="w-full px-4 py-3 text-left hover:bg-[#F5FAFA] text-sm md:text-base"
                     onClick={() => {
-                      onChange("country", country);
+                      onChange("countryId", country.id.toString());
+                      onChange("cityId", "");
+                      onChange("areaId", "");
                       setShowCountryDropdown(false);
                     }}
                   >
-                    {country}
+                    {country.name[lang]}
                   </button>
                 ))}
               </div>
@@ -91,31 +110,36 @@ export const CheckoutShippingAddress = ({
           <div className="relative">
             <button
               type="button"
-              className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-left flex items-center justify-between text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors"
-              onClick={() => setShowEmirateDropdown(!showEmirateDropdown)}
+              className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-left flex items-center justify-between text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => setShowCityDropdown(!showCityDropdown)}
+              disabled={!formData.countryId}
             >
               <span
                 className={
-                  formData.emirate ? "text-[#0B0B0B]" : "text-[#3B3B3B]"
+                  selectedCityName ? "text-[#0B0B0B]" : "text-[#3B3B3B]"
                 }
               >
-                {formData.emirate || t("emiratePlaceholder")}
+                {selectedCityName ||
+                  (formData.countryId
+                    ? t("emiratePlaceholder")
+                    : t("countryPlaceholder"))}
               </span>
               <ChevronDown className="w-5 h-5" />
             </button>
-            {showEmirateDropdown && (
-              <div className="absolute z-10 w-full mt-2 bg-white border rounded-[20px] shadow-lg">
-                {emirates.map((emirate) => (
+            {showCityDropdown && formData.countryId && (
+              <div className="absolute z-10 w-full mt-2 bg-white border rounded-[20px] shadow-lg max-h-60 overflow-y-auto">
+                {cities.map((city) => (
                   <button
-                    key={emirate}
+                    key={city.id}
                     type="button"
                     className="w-full px-4 py-3 text-left hover:bg-[#F5FAFA]"
                     onClick={() => {
-                      onChange("emirate", emirate);
-                      setShowEmirateDropdown(false);
+                      onChange("cityId", city.id.toString());
+                      onChange("areaId", "");
+                      setShowCityDropdown(false);
                     }}
                   >
-                    {emirate}
+                    {city.name[lang]}
                   </button>
                 ))}
               </div>
@@ -130,13 +154,49 @@ export const CheckoutShippingAddress = ({
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
             {t("area")}
           </label>
-          <input
-            type="text"
-            className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors"
-            placeholder={t("areaPlaceholder")}
-            value={formData.area}
-            onChange={(e) => onChange("area", e.target.value)}
-          />
+          <div className="relative">
+            <button
+              type="button"
+              className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-left flex items-center justify-between text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => setShowAreaDropdown(!showAreaDropdown)}
+              disabled={!formData.cityId}
+            >
+              <span
+                className={
+                  selectedAreaName ? "text-[#0B0B0B]" : "text-[#3B3B3B]"
+                }
+              >
+                {selectedAreaName ||
+                  (formData.cityId
+                    ? t("areaPlaceholder")
+                    : t("emiratePlaceholder"))}
+              </span>
+              <ChevronDown className="w-5 h-5" />
+            </button>
+            {showAreaDropdown && formData.cityId && (
+              <div className="absolute z-10 w-full mt-2 bg-white border rounded-[20px] shadow-lg max-h-60 overflow-y-auto">
+                {areas.length > 0 ? (
+                  areas.map((area) => (
+                    <button
+                      key={area.id}
+                      type="button"
+                      className="w-full px-4 py-3 text-left hover:bg-[#F5FAFA]"
+                      onClick={() => {
+                        onChange("areaId", area.id.toString());
+                        setShowAreaDropdown(false);
+                      }}
+                    >
+                      {area.name[lang]}
+                    </button>
+                  ))
+                ) : (
+                  <div className="px-4 py-3 text-sm text-[#8E8E8E]">
+                    {t("noAreasAvailable")}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex-1 flex flex-col gap-3">
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
