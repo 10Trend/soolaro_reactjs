@@ -32,7 +32,7 @@ const ProductDetailsPage = () => {
             <ComplateSelection categoryId={product.category.id} />
             <SeeStyle />
             <ProductExploreShop />
-            <YouMayLike />
+            <YouMayLike categoryId={product.category.id}/>
         </div>
     )
 }
