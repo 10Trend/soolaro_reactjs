@@ -79,7 +79,7 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
 
     setIsAddingToCart(true);
     try {
-      await addToCart(product.id, "product", quantity);
+      await addToCart(product.id, "product", quantity, selectedVariant?.id);
       toast.success(t("added_to_cart_success") || "Added to cart");
       setQuantity(1); // Reset quantity after adding
     } catch (error: any) {
