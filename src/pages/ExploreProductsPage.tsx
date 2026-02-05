@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Card from "@/components/home/GlassCard";
 import Filter from "@/components/icons/explore/Filter";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,18 +14,29 @@ const ExploreProductsPage = () => {
   const { t, i18n } = useTranslation("explore");
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [minPrice, setMinPrice] = useState(200);
-  const [maxPrice, setMaxPrice] = useState(900);
+  const [minPrice, setMinPrice] = useState(100);
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const [tempMinPrice, setTempMinPrice] = useState(100);
+  const [tempMaxPrice, setTempMaxPrice] = useState(1000);
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage, ] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
   
   const MIN = 100;
   const MAX = 1000;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -39,6 +50,15 @@ const ExploreProductsPage = () => {
           sort_order: "desc",
         };
 
+        if (minPrice !== MIN || maxPrice !== MAX) {
+          params.min_price = minPrice;
+          params.max_price = maxPrice;
+        }
+
+        if (debouncedSearch.trim()) {
+          params.search = debouncedSearch;
+        }
+
         const response = await getProducts(params);
         setProducts(response.data);
       } catch (err) {
@@ -50,27 +70,16 @@ const ExploreProductsPage = () => {
     };
 
     fetchProducts();
-  }, [currentPage]);
+  }, [currentPage, minPrice, maxPrice, debouncedSearch]);
 
   useEffect(() => {
     let result = [...products];
 
-    if (searchQuery.trim()) {
-      result = result.filter((product) => {
-        const name = product.name[i18n.language as keyof typeof product.name] || product.name.en;
-        return name.toLowerCase().includes(searchQuery.toLowerCase());
-      });
-    }
-
-    result = result.filter((product) => {
-      const productPrice = product.variants[0]?.final_price || 0;
-      return productPrice >= minPrice && productPrice <= maxPrice;
-    });
 
     if (activeTab === "best") {
       result = result.filter((product) => product.is_top_rated === 1);
     } else if (activeTab === "new") {
-      result.sort((a, b) => 
+      result = result.sort((a, b) => 
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
     } else if (activeTab === "summer") {
@@ -78,24 +87,40 @@ const ExploreProductsPage = () => {
     }
 
     setFilteredProducts(result);
-  }, [products, searchQuery, minPrice, maxPrice, activeTab, i18n.language]);
+  }, [products, activeTab]);
 
   const handleMinChange = (value: number) => {
-    if (value <= maxPrice) setMinPrice(value);
+    if (value <= tempMaxPrice) {
+      setTempMinPrice(value);
+    }
   };
 
   const handleMaxChange = (value: number) => {
-    if (value >= minPrice) setMaxPrice(value);
+    if (value >= tempMinPrice) {
+      setTempMaxPrice(value);
+    }
   };
 
   const resetFilter = () => {
+    setTempMinPrice(MIN);
+    setTempMaxPrice(MAX);
     setMinPrice(MIN);
     setMaxPrice(MAX);
+    setSearchQuery("");
   };
 
   const applyFilter = () => {
+    setMinPrice(tempMinPrice);
+    setMaxPrice(tempMaxPrice);
     setIsSidebarOpen(false);
   };
+
+  useEffect(() => {
+    if (isSidebarOpen) {
+      setTempMinPrice(minPrice);
+      setTempMaxPrice(maxPrice);
+    }
+  }, [isSidebarOpen, minPrice, maxPrice]);
 
   if (loading) {
     return (
@@ -223,15 +248,15 @@ const ExploreProductsPage = () => {
               <div
                 className="absolute top-1/2 h-1 bg-[#018884] rounded transform -translate-y-1/2"
                 style={{
-                  left: `${((minPrice - MIN) / (MAX - MIN)) * 100}%`,
-                  width: `${((maxPrice - minPrice) / (MAX - MIN)) * 100}%`,
+                  left: `${((tempMinPrice - MIN) / (MAX - MIN)) * 100}%`,
+                  width: `${((tempMaxPrice - tempMinPrice) / (MAX - MIN)) * 100}%`,
                 }}
               />
               <input
                 type="range"
                 min={MIN}
                 max={MAX}
-                value={minPrice}
+                value={tempMinPrice}
                 onChange={(e) => handleMinChange(Number(e.target.value))}
                 className="absolute w-full h-10 bg-transparent pointer-events-none appearance-none"
                 style={{ zIndex: 3 }}
@@ -240,7 +265,7 @@ const ExploreProductsPage = () => {
                 type="range"
                 min={MIN}
                 max={MAX}
-                value={maxPrice}
+                value={tempMaxPrice}
                 onChange={(e) => handleMaxChange(Number(e.target.value))}
                 className="absolute w-full h-10 bg-transparent pointer-events-none appearance-none"
                 style={{ zIndex: 4 }}
@@ -251,7 +276,7 @@ const ExploreProductsPage = () => {
               <div className="relative w-full">
                 <input
                   type="number"
-                  value={minPrice}
+                  value={tempMinPrice}
                   onChange={(e) => handleMinChange(Number(e.target.value))}
                   className="rounded-xl w-full py-4 pl-3 pr-8 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                 />
@@ -265,7 +290,7 @@ const ExploreProductsPage = () => {
               <div className="relative w-full">
                 <input
                   type="number"
-                  value={maxPrice}
+                  value={tempMaxPrice}
                   onChange={(e) => handleMaxChange(Number(e.target.value))}
                   className="rounded-xl w-full py-4 pl-3 pr-8 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                 />
