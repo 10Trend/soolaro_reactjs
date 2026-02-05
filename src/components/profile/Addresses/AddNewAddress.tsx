@@ -3,13 +3,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getCountries } from "@/lib/api/country";
+import { getCitiesByCountry } from "@/lib/api/cities";
+import { useState } from "react";
 
 const AddNewAddress = () => {
     const { t, i18n } = useTranslation("profile");
 
-    const { data: countries, isLoading } = useQuery({
+  const [selectedCountryId, setSelectedCountryId] = useState<number | null>(
+    null,
+  );
+  const [selectedCityId, setSelectedCityId] = useState<number | null>(null);
+
+    const { data: countries, isLoading: loadingCountries } = useQuery({
         queryKey: ["countries"],
         queryFn: getCountries,
+    });
+
+    const { data: cities, isLoading: loadingCities } = useQuery({
+        queryKey: ["cities", selectedCountryId],
+        queryFn: () =>
+        selectedCountryId ? getCitiesByCountry(selectedCountryId) : [],
+        enabled: !!selectedCountryId,
     });
 
     return (
@@ -22,11 +36,11 @@ const AddNewAddress = () => {
                 <label htmlFor="country" className="text-[#0B0B0B] text-base font-semibold">
                 {t("country")}
                 </label>
-                <Select>
+                <Select onValueChange={(val) => setSelectedCountryId(Number(val))}>
                     <SelectTrigger className="w-full h-14! mt-3 rounded-4xl">
                         <SelectValue
                         placeholder={
-                            isLoading ? t("loading") : t("chooseCountry")
+                        loadingCountries ? t("loading") : t("chooseCountry")
                         }
                         />
                     </SelectTrigger>
@@ -38,10 +52,7 @@ const AddNewAddress = () => {
                             country.name.en;
 
                         return (
-                            <SelectItem
-                            key={country.id}
-                            value={String(country.id)}
-                            >
+                            <SelectItem key={country.id} value={String(country.id)}>
                             {name}
                             </SelectItem>
                         );
@@ -54,14 +65,33 @@ const AddNewAddress = () => {
                 <label htmlFor="city" className="text-[#0B0B0B] text-base font-semibold">
                 {t("emirateCity")}
                 </label>
-                <Select>
+
+                <Select
+                onValueChange={(val) => setSelectedCityId(Number(val))}
+                disabled={!selectedCountryId}
+                >
                     <SelectTrigger className="w-full h-14! mt-3 rounded-4xl">
-                        <SelectValue placeholder={t("chooseEmirateCity")} />
+                        <SelectValue
+                    placeholder={
+                        selectedCountryId
+                        ? loadingCities
+                            ? t("loading")
+                            : t("chooseEmirateCity")
+                        : t("chooseCountryFirst")
+                    }
+                    />
                     </SelectTrigger>
+
                     <SelectContent>
-                        <SelectItem value="a">A</SelectItem>
-                        <SelectItem value="b">B</SelectItem>
-                        <SelectItem value="c">C</SelectItem>
+                        {cities?.map((city) => {
+                        const name =
+                            city.name[i18n.language as "ar" | "en"] ?? city.name.en;
+                        return (
+                            <SelectItem key={city.id} value={String(city.id)}>
+                            {name}
+                            </SelectItem>
+                        );
+                        })}
                     </SelectContent>
                     </Select>
             </div>
