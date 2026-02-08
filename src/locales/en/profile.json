@@ -64,5 +64,14 @@
     "editAddress": "Edit Address",
     "addressUpdatedSuccess": "Address updated successfully.",
     "deleteAddress": "Delete Address",
-    "deleteAddressConfirmation": "Are you sure you want to delete this address?"
+    "deleteAddressConfirmation": "Are you sure you want to delete this address?",
+    "order_status": {
+      "preorder": "Preorder",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "ready_for_shipping": "Ready for Shipping",
+      "in_shipping": "In Shipping",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
 }

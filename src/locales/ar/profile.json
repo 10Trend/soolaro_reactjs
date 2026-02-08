@@ -64,5 +64,14 @@
     "editAddress": "تعديل العنوان",
     "addressUpdatedSuccess": "تم تحديث العنوان بنجاح.",
     "deleteAddress": "حذف العنوان",
-    "deleteAddressConfirmation": "هل أنت متأكد أنك تريد حذف هذا العنوان؟"
+    "deleteAddressConfirmation": "هل أنت متأكد أنك تريد حذف هذا العنوان؟",
+    "order_status": {
+      "preorder": "قيد الطلب",
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "ready_for_shipping": "جاهز للشحن",
+      "in_shipping": "قيد الشحن",
+      "completed": "مكتمل",
+      "cancelled": "ملغي"
+    }
 }

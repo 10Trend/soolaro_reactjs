@@ -64,13 +64,13 @@ const Orders = () => {
     }
   };
 
-  const capitalizeStatus = (status: string) => {
-    // Convert snake_case to Title Case
-    return status
-      .split("_")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  };
+  // const capitalizeStatus = (status: string) => {
+  //   // Convert snake_case to Title Case
+  //   return status
+  //     .split("_")
+  //     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+  //     .join(" ");
+  // };
 
   const renderOrderItem = (order: Order, showOrderAgain: boolean = false) => {
     // Get the first order item for display
@@ -119,7 +119,7 @@ const Orders = () => {
           <div
             className={`px-3 py-1.5 h-fit rounded-xl text-sm font-medium flex items-center justify-center ${getStatusColor(order.status)}`}
           >
-            {capitalizeStatus(order.status)}
+            {t(`order_status.${order.status.toLowerCase()}`)}
           </div>
           {showOrderAgain && (
             <button className="flex items-center gap-2 mt-2">
