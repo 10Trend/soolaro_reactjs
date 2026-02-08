@@ -5,9 +5,10 @@ import EmptyStar from "../icons/product/EmptyStar";
 import FullStar from "../icons/product/FullStar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { toast } from "react-hot-toast";
-import { Loader2 } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import { createReview } from "@/lib/api/review/postreview";
 import { getReviewSummary } from "@/lib/api/review";
+import { getReviewableReviews } from "@/lib/api/review/getReviewableReviews";
 
 interface ProductDetialsDataProps {
   reviewable_id: string;
@@ -31,6 +32,17 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
     queryFn: () => getReviewSummary(reviewable_id),
     enabled: !!reviewable_id,
   });
+
+  const { data: reviews, isLoading: isReviewsLoading } = useQuery({
+  queryKey: ["reviewable-reviews", reviewable_id],
+  queryFn: () =>
+    getReviewableReviews({
+      reviewable_id,
+      reviewable_type: "product",
+    }),
+  enabled: !!reviewable_id,
+});
+
 
   const ratingsDistribution = summaryData
     ? Object.entries(summaryData)
@@ -266,6 +278,49 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div className="md:mt-10 mt-6">
+              <h2 className="text-[#0B0B0B] md:text-[40px] text-xl font-semibold">
+                {t("cutomer_review")}
+              </h2>
+
+              {isReviewsLoading && (
+                <div>
+                  <Loader />
+                </div>
+              )}
+
+              {!isReviewsLoading && reviews?.length === 0 && (
+                <p className="mt-6 text-center text-gray-500">
+                  {t("no_reviews")}
+                </p>
+              )}
+
+              {reviews?.map((review) => (
+                <div
+                  key={review.id}
+                  className="p-4 border border-[#DEDDDD] md:mt-10 mt-8 rounded-[20px]"
+                >
+                  <h3 className="text-[#3B3B3B] text-base font-medium">
+                    {review.name}
+                  </h3>
+
+                  <div className="flex items-center mt-4 gap-1">
+                    {[1, 2, 3, 4, 5].map((star) =>
+                      star <= review.rating ? (
+                        <FullStar key={star} />
+                      ) : (
+                        <EmptyStar key={star} />
+                      )
+                    )}
+                  </div>
+
+                  <p className="text-[#0B0B0B] text-lg font-medium mt-3.5">
+                    {review.comment}
+                  </p>
+                </div>
+              ))}
             </div>
           </TabsContent>
         </Tabs>

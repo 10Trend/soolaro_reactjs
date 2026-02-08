@@ -24,5 +24,6 @@
   "added_to_cart_success": "Added to cart successfully",
   "failed_add_to_cart": "Failed to add to cart",
   "login_required_for_favorites": "You need to log in to add favorites",
-  "failed_update_favorite": "Failed to update favorite"
+  "failed_update_favorite": "Failed to update favorite",
+  "cutomer_review": "Customer review"
 }
