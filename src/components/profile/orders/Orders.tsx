@@ -104,8 +104,13 @@ const Orders = () => {
                 </span>
               )}
             </h2>
-            <h2 className="text-[#0B0B0B] md:text-xl text-sm font-semibold md:mt-1.5 mt-1">
-              {order.total.toFixed(2)} AED
+            <h2 className="text-[#0B0B0B] md:text-xl text-sm font-semibold md:mt-1.5 mt-1 flex items-center">
+              {order.total.toFixed(2)}
+              <img 
+                src="/images/currency.png"
+                alt="currency"
+                className="w-[22.5px] h-6"
+              />
             </h2>
             <p className="text-[#3B3B3B] md:text-xs text-[8px] font-medium mt-1.5">
               {formatDate(
