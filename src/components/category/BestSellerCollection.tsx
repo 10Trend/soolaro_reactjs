@@ -6,6 +6,7 @@ import { getProducts, type Product } from "@/lib/api/products/products";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import ProductEmptyState from "../product_details/ProductEmptyState";
+import { useTranslation } from "react-i18next";
 
 interface BestSellerCollectionProps {
   parentId: number;
@@ -16,6 +17,7 @@ const BestSellerCollection = ({
   parentId,
   categoryName,
 }: BestSellerCollectionProps) => {
+    const { t, i18n } = useTranslation("explore");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [minPrice, setMinPrice] = useState(100);
     const [maxPrice, setMaxPrice] = useState(10000);
@@ -106,25 +108,25 @@ const BestSellerCollection = ({
                 >
                     <Filter />
                     <p className="md:text-[#3B3B3B] text-white text-lg font-semibold leading-[100%] rotate-180">
-                        Filter
+                        {t('filter')}
                     </p>
                 </div>
             </div>
 
             <div className="md:mt-12 mt-6">
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="bg-transparent md:mb-17 mb-6 flex-wrap gap-4">
+            <Tabs value={activeTab} onValueChange={setActiveTab} dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+            <TabsList className="bg-transparent md:mb-17 mb-6 flex-wrap gap-4" >
                 <TabsTrigger
                 value="all"
                 className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4"
                 >
-                All
+                {t('all')}
                 </TabsTrigger>
                 <TabsTrigger
                 value="latest"
                 className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] md:px-8 py-4"
                 >
-                Latest Products
+                {t('latest_products')}
                 </TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="grid lg:grid-cols-3 grid-cols-2 gap-8">

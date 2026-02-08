@@ -9,5 +9,6 @@
     "set_prices_range": "Set prices between {{min}} AED and {{max}} AED.",
     "apply": "Apply",
     "reset_filter": "Reset Filter",
-    "search": "Search"
+    "search": "Search",
+    "latest_products": "Latest Products"
 }

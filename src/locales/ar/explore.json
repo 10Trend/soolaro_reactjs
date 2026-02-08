@@ -9,5 +9,6 @@
     "set_prices_range": "حدد الأسعار بين {{min}} و {{max}} درهم.",
     "apply": "تطبيق",
     "reset_filter": "إعادة التصفية",
-    "search": "بحث"
+    "search": "بحث",
+    "latest_products": "أحدث المنتجات"
 }

@@ -10,7 +10,7 @@ const CategoryPage = () => {
   const [searchParams] = useSearchParams();
   const parentId = Number(searchParams.get("parent_id"));
 
-  const { data: categories, isLoading } = useQuery({
+  const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: () => getCategories({ parent_only: true }),
   });
@@ -21,12 +21,7 @@ const CategoryPage = () => {
     ? i18n.language === "ar"
       ? currentCategory.name.ar
       : currentCategory.name.en
-    : "Best Seller Collection";
-
-
-  if (isLoading) {
-    return <div className="text-center py-20">Loading...</div>;
-  }
+    : "";
 
     return (
         <div>
