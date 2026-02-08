@@ -5,9 +5,134 @@ import OrderEmptyState from "./OrderEmptyState";
 import { Link } from "react-router-dom";
 import MobileBackHeader from "@/components/general/MobileBackHeader";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { getOrders, type Order } from "@/lib/api/orders/getOrders";
+import { formatDate } from "@/lib/utils/dateUtils";
 
 const Orders = () => {
-  const { t } = useTranslation("profile");
+  const { t, i18n } = useTranslation("profile");
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const currentLanguage = i18n.language;
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        const response = await getOrders();
+        setOrders(response.orders.data);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err);
+        setError("Failed to load orders");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  // Filter orders based on status
+  // Current orders: everything except completed and cancelled
+  const currentOrders = orders.filter(
+    (order) => order.status !== "completed" && order.status !== "cancelled",
+  );
+  // Last orders: only completed and cancelled
+  const lastOrders = orders.filter(
+    (order) => order.status === "completed" || order.status === "cancelled",
+  );
+
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "preorder":
+        return "bg-[#F3E8FF] text-[#A855F7]";
+      case "pending":
+        return "bg-[#FEF3E2] text-[#F59E0B]";
+      case "confirmed":
+        return "bg-[#DBEAFE] text-[#3B82F6]";
+      case "ready_for_shipping":
+        return "bg-[#E0E7FF] text-[#6366F1]";
+      case "in_shipping":
+        return "bg-[#DBEAFE] text-[#0EA5E9]";
+      case "completed":
+        return "bg-[#D1FAE5] text-[#10B981]";
+      case "cancelled":
+        return "bg-[#FEE2E2] text-[#EF4444]";
+      default:
+        return "bg-[#F6F6F6] text-[#3B3B3B]";
+    }
+  };
+
+  const capitalizeStatus = (status: string) => {
+    // Convert snake_case to Title Case
+    return status
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
+
+  const renderOrderItem = (order: Order, showOrderAgain: boolean = false) => {
+    // Get the first order item for display
+    const firstItem = order.orderItems[0];
+    const itemCount = order.orderItems.length;
+    const productName =
+      firstItem.product_name[currentLanguage as "en" | "ar"] ||
+      firstItem.product_name.en;
+    const itemImage =
+      firstItem.variant.images[0]?.url || firstItem.productable.image.url;
+
+    return (
+      <div
+        key={order.id}
+        className="w-full h-full border border-[#DEDDDD] p-3 rounded-4xl flex justify-between mb-4"
+      >
+        <div className="flex items-center gap-4">
+          <div className="md:w-21 w-14 md:h-21 h-14 bg-[#F6F6F6] rounded-xl flex items-center justify-center overflow-hidden">
+            <Image
+              src={itemImage}
+              alt={productName}
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div>
+            <h2 className="text-[#0B0B0B] md:text-lg text-xs font-medium">
+              {productName}
+              {itemCount > 1 && (
+                <span className="text-[#3B3B3B] md:text-sm text-[10px] ml-2">
+                  +{itemCount - 1} more
+                </span>
+              )}
+            </h2>
+            <h2 className="text-[#0B0B0B] md:text-xl text-sm font-semibold md:mt-1.5 mt-1">
+              {order.total.toFixed(2)} AED
+            </h2>
+            <p className="text-[#3B3B3B] md:text-xs text-[8px] font-medium mt-1.5">
+              {formatDate(
+                order.created_at,
+                currentLanguage === "ar" ? "ar-AE" : "en-US",
+              )}
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col items-end justify-between">
+          <div
+            className={`px-3 py-1.5 h-fit rounded-xl text-sm font-medium flex items-center justify-center ${getStatusColor(order.status)}`}
+          >
+            {capitalizeStatus(order.status)}
+          </div>
+          {showOrderAgain && (
+            <button className="flex items-center gap-2 mt-2">
+              <OrderAgain />
+              <p className="text-[#018884] md:text-base text-xs font-semibold">
+                {t("orderAgain")}
+              </p>
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section>
@@ -38,68 +163,40 @@ const Orders = () => {
               {t("lastOrders")}
             </TabsTrigger>
           </TabsList>
+
           <TabsContent
             value="current"
             className="text-[#3B3B3B] text-base font-semibold leading-[150%]"
           >
-            {/* <div className="w-full h-full border border-[#DEDDDD] p-3 rounded-4xl flex justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div className="md:w-21 w-14 md:h-21 h-14 bg-[#F6F6F6] rounded-xl flex items-center justify-center">
-                                        <img
-                                            src="/images/home/glass4.png"
-                                        />
-                                    </div>
-                                    <div>
-                                        <h2 className="text-[#0B0B0B] md:text-lg text-xs font-medium">
-                                            Liwa-Black
-                                        </h2>
-                                        <h2 className="text-[#0B0B0B] md:text-xl text-sm font-semibold md:mt-1.5 mt-1">
-                                            269.00
-                                        </h2>
-                                        <p className="text-[#3B3B3B] md:text-xs text-[8px] font-medium mt-1.5">
-                                            20 jun 2026
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="p-2 h-7.5 bg-[#F6F6F6] rounded-xl text-[#3B3B3B] text-sm font-medium flex items-center justify-center">
-                                    Pending
-                                </div>
-                            </div> */}
-            <OrderEmptyState />
+            {loading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#018884]"></div>
+              </div>
+            ) : error ? (
+              <div className="text-center py-12 text-red-500">{error}</div>
+            ) : currentOrders.length === 0 ? (
+              <OrderEmptyState />
+            ) : (
+              <div>
+                {currentOrders.map((order) => renderOrderItem(order, false))}
+              </div>
+            )}
           </TabsContent>
+
           <TabsContent value="last">
-            <div>
-              <div className="w-full h-full border border-[#DEDDDD] p-3 rounded-4xl flex justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="md:w-21 w-14 md:h-21 h-14 bg-[#F6F6F6] rounded-xl flex items-center justify-center">
-                    <Image
-                      src="/images/home/glass4.png"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div>
-                    <h2 className="text-[#0B0B0B] md:text-lg text-xs font-medium">
-                      Liwa-Black
-                    </h2>
-                    <h2 className="text-[#0B0B0B] md:text-xl text-sm font-semibold md:mt-1.5 mt-1">
-                      269.00
-                    </h2>
-                    <p className="text-[#3B3B3B] md:text-xs text-[8px] font-medium mt-1.5">
-                      20 jun 2026
-                    </p>
-                  </div>
-                </div>
-                <div className="p-2 h-7.5 bg-[#F6F6F6] rounded-xl text-[#3B3B3B] text-sm font-medium flex items-center justify-center">
-                  {t("pending")}
-                </div>
+            {loading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#018884]"></div>
               </div>
-              <div className="flex items-center justify-end gap-2 mt-4">
-                <OrderAgain />
-                <p className="text-[#018884] text-lg font-semibold">
-                  {t("orderAgain")}
-                </p>
+            ) : error ? (
+              <div className="text-center py-12 text-red-500">{error}</div>
+            ) : lastOrders.length === 0 ? (
+              <OrderEmptyState />
+            ) : (
+              <div>
+                {lastOrders.map((order) => renderOrderItem(order, true))}
               </div>
-            </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>
