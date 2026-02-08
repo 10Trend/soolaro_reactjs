@@ -25,5 +25,6 @@
   "failed_add_to_cart": "فشل في إضافة المنتج إلى السلة",
   "login_required_for_favorites": "تحتاج إلى تسجيل الدخول لإضافة المفضلات",
   "failed_update_favorite": "فشل في تحديث المفضلة",
-  "cutomer_review": "أراء العميل"
+  "cutomer_review": "أراء العميل",
+  "no_reviews": "لا توجد مراجعات حتي الأن"
 }

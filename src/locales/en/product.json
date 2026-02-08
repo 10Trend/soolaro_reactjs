@@ -25,5 +25,6 @@
   "failed_add_to_cart": "Failed to add to cart",
   "login_required_for_favorites": "You need to log in to add favorites",
   "failed_update_favorite": "Failed to update favorite",
-  "cutomer_review": "Customer review"
+  "cutomer_review": "Customer review",
+  "no_reviews": "No reviews yet"
 }
