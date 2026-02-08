@@ -242,14 +242,14 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
               );
             })}
           </div>
-          <div className="md:mt-6 mt-4 flex items-center gap-6">
+          {/* <div className="md:mt-6 mt-4 flex items-center gap-6">
             <p className="text-[#0B0B0B] md:text-base text-[10px] font-medium">
               Frame : <span className="text-[#3B3B3B] text-sm">Black</span>
             </p>
             <p className="text-[#0B0B0B] md:text-base text-[10px] font-medium">
               Lenses : <span className="text-[#3B3B3B] text-sm">Black</span>
             </p>
-          </div>
+          </div> */}
 
           <button
             onClick={handleAddToCart}

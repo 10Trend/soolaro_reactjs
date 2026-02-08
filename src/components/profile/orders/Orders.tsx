@@ -149,7 +149,7 @@ const Orders = () => {
 
       <div className="md:mt-8 mt-4 mb-12">
         <Tabs defaultValue="current">
-          <TabsList className="bg-[#F6F6F6] flex flex-wrap mb-8 md:gap-4 w-full py-6">
+          <TabsList className="bg-[#F6F6F6] flex flex-wrap mb-8 md:gap-4 w-full py-6" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
             <TabsTrigger
               value="current"
               className="data-[state=active]:bg-[#018884] data-[state=active]:shadow-none bg-transparent data-[state=active]:text-[#FEFEFE] text-base font-medium text-[#3B3B3B] md:px-8 py-4 rounded-[12px] -mt-4.25"
@@ -167,6 +167,7 @@ const Orders = () => {
           <TabsContent
             value="current"
             className="text-[#3B3B3B] text-base font-semibold leading-[150%]"
+            dir={i18n.language === "ar" ? "rtl" : "ltr"}
           >
             {loading ? (
               <div className="flex items-center justify-center py-12">
