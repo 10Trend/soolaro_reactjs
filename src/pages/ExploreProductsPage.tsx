@@ -13,10 +13,10 @@ import {
   type GetProductsParams,
   type Product,
 } from "@/lib/api/products/products";
-import i18n from "@/i18n";
 
 const ExploreProductsPage = () => {
-  const { t } = useTranslation("explore");
+  const { t, i18n } = useTranslation("explore");
+  const isRTL = i18n.language === "ar";
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLanguageChanging, setIsLanguageChanging] = useState(false);
@@ -143,7 +143,7 @@ const ExploreProductsPage = () => {
     return () => {
       i18n.off("languageChanged", handleLanguageChange);
     };
-  }, []);
+  }, [i18n]);
 
   if (loading) {
     return (
@@ -253,7 +253,7 @@ const ExploreProductsPage = () => {
       </div>
 
       <div
-        className={`fixed top-0 right-0 h-full w-68.6 bg-white shadow-lg transform ${
+        className={`fixed top-0 right-0 h-full w-full md:w-[343px] bg-white shadow-lg transform ${
           isLanguageChanging ? "" : "transition-transform duration-300"
         } ${
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
@@ -267,11 +267,12 @@ const ExploreProductsPage = () => {
 
           <div className="mt-6">
             <div className="relative h-10">
-              <div className="absolute top-1/2 w-full h-1 bg-gray-300 rounded transform -translate-y-1/2"></div>
+              <div className="absolute top-1/2 w-full h-1 bg-gray-300 rounded transform -translate-y-1/2 pointer-events-none"></div>
               <div
-                className="absolute top-1/2 h-1 bg-[#018884] rounded transform -translate-y-1/2"
+                className="absolute top-1/2 h-1 bg-[#018884] rounded transform -translate-y-1/2 pointer-events-none"
                 style={{
-                  left: `${((tempMinPrice - MIN) / (MAX - MIN)) * 100}%`,
+                  [isRTL ? "right" : "left"]:
+                    `${((tempMinPrice - MIN) / (MAX - MIN)) * 100}%`,
                   width: `${((tempMaxPrice - tempMinPrice) / (MAX - MIN)) * 100}%`,
                 }}
               />
@@ -281,8 +282,9 @@ const ExploreProductsPage = () => {
                 max={MAX}
                 value={tempMinPrice}
                 onChange={(e) => handleMinChange(Number(e.target.value))}
-                className="absolute w-full h-10 bg-transparent pointer-events-none appearance-none"
-                style={{ zIndex: 3 }}
+                className="absolute w-full h-10 bg-transparent appearance-none price-range-slider"
+                style={{ zIndex: tempMinPrice > (MIN + MAX) / 2 ? 5 : 3 }}
+                dir={isRTL ? "rtl" : "ltr"}
               />
               <input
                 type="range"
@@ -290,8 +292,9 @@ const ExploreProductsPage = () => {
                 max={MAX}
                 value={tempMaxPrice}
                 onChange={(e) => handleMaxChange(Number(e.target.value))}
-                className="absolute w-full h-10 bg-transparent pointer-events-none appearance-none"
-                style={{ zIndex: 4 }}
+                className="absolute w-full h-10 bg-transparent appearance-none price-range-slider"
+                style={{ zIndex: tempMaxPrice > (MIN + MAX) / 2 ? 5 : 3 }}
+                dir={isRTL ? "rtl" : "ltr"}
               />
             </div>
 
@@ -301,9 +304,11 @@ const ExploreProductsPage = () => {
                   type="number"
                   value={tempMinPrice}
                   onChange={(e) => handleMinChange(Number(e.target.value))}
-                  className="rounded-xl w-full py-4 pl-3 pr-8 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                  className="rounded-xl w-full py-4 px-8 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                 />
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                <div
+                  className={`absolute ${isRTL ? "left-3" : "right-3"} top-1/2 -translate-y-1/2 pointer-events-none`}
+                >
                   <DirhamIcon className="w-4 h-4 text-[#0B0B0B]" />
                 </div>
               </div>
@@ -315,9 +320,11 @@ const ExploreProductsPage = () => {
                   type="number"
                   value={tempMaxPrice}
                   onChange={(e) => handleMaxChange(Number(e.target.value))}
-                  className="rounded-xl w-full py-4 pl-3 pr-8 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                  className="rounded-xl w-full py-4 px-8 text-center bg-[#EDECEC] text-[#0B0B0B] text-base font-medium appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                 />
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                <div
+                  className={`absolute ${isRTL ? "left-3" : "right-3"} top-1/2 -translate-y-1/2 pointer-events-none`}
+                >
                   <DirhamIcon className="w-4 h-4 text-[#0B0B0B]" />
                 </div>
               </div>

@@ -188,9 +188,67 @@ button {
   --tw-translate-x: -100%;
 }
 
-.quicksand-<uniquifier > {
+/* 
+.quicksand-<uniquifier> {
   font-family: "Quicksand", sans-serif;
   font-optical-sizing: auto;
   font-weight: <weight>;
   font-style: normal;
+}
+*/
+
+/* Price Range Slider Styling */
+.price-range-slider {
+  pointer-events: none;
+}
+
+.price-range-slider[dir="rtl"] {
+  transform: scaleX(-1);
+}
+
+.price-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #018884;
+  cursor: pointer;
+  pointer-events: all;
+  position: relative;
+  z-index: 100;
+}
+
+.price-range-slider[dir="rtl"]::-webkit-slider-thumb {
+  transform: scaleX(-1);
+}
+
+.price-range-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #018884;
+  cursor: pointer;
+  pointer-events: all;
+  border: none;
+  position: relative;
+  z-index: 100;
+}
+
+.price-range-slider[dir="rtl"]::-moz-range-thumb {
+  transform: scaleX(-1);
+}
+
+.price-range-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: transparent;
+}
+
+.price-range-slider::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: transparent;
 }
