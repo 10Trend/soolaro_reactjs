@@ -8,9 +8,10 @@ export interface AddressRequest {
   area_id?: string;
   details: string;
   zipcode?: string;
-  location: string;
-  lat: number;
-  lng: number;
+  location: {
+    lat: number;
+    lng: number;
+  };
   email?: string;
   phone?: string;
   phone_country?: string;

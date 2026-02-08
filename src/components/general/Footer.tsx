@@ -221,7 +221,7 @@ const Footer = () => {
                   className="flex items-center gap-2"
                 >
                   <Phone />
-                  <p className="text-[#F6F6F6] text-sm font-medium">
+                  <p className="text-[#F6F6F6] text-sm font-medium" dir="ltr">
                     {social.phone}
                   </p>
                 </a>

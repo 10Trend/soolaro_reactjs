@@ -159,9 +159,10 @@ const AddNewAddress = ({ addressId, onSuccess }: AddNewAddressProps) => {
         country_id: String(selectedCountryId),
         city_id: String(selectedCityId),
         details,
-        location: "",
-        lat: 0,
-        lng: 0,
+        location: {
+          lat: 0,
+          lng: 0,
+        },
       };
       createMutation.mutate(createPayload);
     }
