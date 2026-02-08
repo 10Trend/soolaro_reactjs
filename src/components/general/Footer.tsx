@@ -5,7 +5,10 @@ import Clover from "../icons/footer/Clover";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getPages, type Page } from "@/lib/api/pages";
-import { getStoreSetting, type StoreSettingResponse } from "@/lib/api/storeSetting";
+import {
+  getStoreSetting,
+  type StoreSettingResponse,
+} from "@/lib/api/storeSetting";
 import Strip from "../icons/footer/Strip";
 import Amex from "../icons/footer/Amex";
 import Mastercard from "../icons/footer/Mastercard";
@@ -17,11 +20,14 @@ import { useState } from "react";
 import { subscribeToNewsletter } from "@/lib/api/subscribe";
 import toast from "react-hot-toast";
 import { getCategories } from "@/lib/api/home/category";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const Footer = () => {
   const { t, i18n } = useTranslation("header");
+  const { t: tProfile } = useTranslation("profile");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
 
   const { data: pages = [] } = useQuery<Page[]>({
     queryKey: ["pages"],
@@ -37,7 +43,7 @@ const Footer = () => {
 
   const handleSubscribe = async () => {
     if (!email) {
-      toast.dismiss()
+      toast.dismiss();
       toast.error(t("please_enter_email") || "Please enter your email");
       return;
     }
@@ -46,23 +52,23 @@ const Footer = () => {
 
     try {
       const response = await subscribeToNewsletter({ email });
-      toast.dismiss()
+      toast.dismiss();
       toast.success(response.message);
       setEmail("");
     } catch (error: any) {
-      toast.dismiss()
+      toast.dismiss();
       toast.error(error.message || t("subscription_failed"));
     } finally {
       setLoading(false);
     }
   };
 
-    const { data: categories } = useQuery({
-      queryKey: ["categories"],
-      queryFn: () => getCategories(),
-    });
-  
-    const lastThreeCategories = categories?.slice(-3);
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategories(),
+  });
+
+  const lastThreeCategories = categories?.slice(-3);
 
   return (
     <footer className="bg-[#018884]">
@@ -76,7 +82,7 @@ const Footer = () => {
               {t("newsletter_description")}
             </p>
 
-          <div className="mt-6 relative md:w-171.75 w-full">
+            <div className="mt-6 relative md:w-171.75 w-full">
               <input
                 type="text"
                 value={email}
@@ -183,7 +189,7 @@ const Footer = () => {
                 to="/profile"
                 className="text-[#FEFEFE] md:text-sm text-xs font-semibold"
               >
-                {t("create_account")}
+                {isAuthenticated ? tProfile("myProfile") : t("create_account")}
               </Link>
               <Link
                 to="/"
@@ -210,25 +216,28 @@ const Footer = () => {
                 {t("contact_us")}
               </h3>
               {social?.phone && (
-                  <a href={`tel:${social.phone}`} className="flex items-center gap-2">
-                    <Phone />
-                    <p className="text-[#F6F6F6] text-sm font-medium">
-                      {social.phone}
-                    </p>
-                  </a>
-                )}
+                <a
+                  href={`tel:${social.phone}`}
+                  className="flex items-center gap-2"
+                >
+                  <Phone />
+                  <p className="text-[#F6F6F6] text-sm font-medium">
+                    {social.phone}
+                  </p>
+                </a>
+              )}
 
-                {social?.email && (
-                  <a
-                    href={`mailto:${social.email}`}
-                    className="flex items-center gap-2"
-                  >
-                    <Email />
-                    <p className="text-[#F6F6F6] text-sm font-medium">
-                      {social.email}
-                    </p>
-                  </a>
-                )}
+              {social?.email && (
+                <a
+                  href={`mailto:${social.email}`}
+                  className="flex items-center gap-2"
+                >
+                  <Email />
+                  <p className="text-[#F6F6F6] text-sm font-medium">
+                    {social.email}
+                  </p>
+                </a>
+              )}
               <a href="" className="flex items-center gap-2">
                 <Clover />
                 <p className="text-[#F6F6F6] text-sm font-medium">
