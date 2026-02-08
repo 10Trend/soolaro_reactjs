@@ -20,7 +20,10 @@ export interface StoreSocial {
   city_id: number;
   country_id: number;
   details: string | null;
-  location: unknown[];
+  location: {
+    lat: number;
+    lng: number;
+  } | null;
   city_name: string | null;
   area_name: string | null;
   country_name: string | null;

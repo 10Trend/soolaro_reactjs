@@ -1,4 +1,4 @@
-import { DirhamIcon } from "../icons/checkout/DirhamIcon";
+// import { DirhamIcon } from "../icons/checkout/DirhamIcon";
 import { Image } from "@/components/ui/image";
 
 interface CheckoutProductItemProps {
