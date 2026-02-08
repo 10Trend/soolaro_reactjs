@@ -24,10 +24,10 @@ const CartListing = () => {
         <div className="col-span-6 text-[#003D3B] font-bold text-lg pl-2">
           {t("product")}
         </div>
-        <div className="col-span-3 text-[#0B0B0B] font-bold text-lg text-center flex justify-center">
-          <span className="w-[152px] text-left">{t("quantity")}</span>
+        <div className="col-span-3 text-[#0B0B0B] font-bold text-lg ltr:text-center flex ltr:justify-center">
+          <span className="w-[152px] ltr:text-left">{t("quantity")}</span>
         </div>
-        <div className="col-span-3 text-right text-[#0B0B0B] font-bold text-lg pr-2">
+        <div className="col-span-3 ltr:text-right text-center text-[#0B0B0B] font-bold text-lg pr-2">
           {t("total")}
         </div>
       </div>
