@@ -5,6 +5,7 @@ import EmptyStar from "../icons/product/EmptyStar";
 import FullStar from "../icons/product/FullStar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { toast } from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 import { createReview } from "@/lib/api/review/postreview";
 import { getReviewSummary } from "@/lib/api/review";
 
@@ -23,6 +24,7 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
   const [selectedStar, setSelectedStar] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { data: summaryData } = useQuery({
     queryKey: ["review-summary", reviewable_id],
@@ -46,14 +48,20 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
   });
 
   const averageRating = totalReviews
-    ? ratingsDistribution.reduce((acc, r) => acc + r.stars * r.count, 0) / totalReviews
+    ? ratingsDistribution.reduce((acc, r) => acc + r.stars * r.count, 0) /
+      totalReviews
     : 0;
 
   const handleSubmitReview = async () => {
+    // Prevent duplicate submissions
+    if (isSubmitting) return;
+
     if (!name || !selectedStar) {
       toast.error(t("please_fill_all_fields"));
       return;
     }
+
+    setIsSubmitting(true);
     try {
       await createReview({
         reviewable_type: "product",
@@ -61,14 +69,22 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
         rating: selectedStar,
         comment,
       });
+
+      toast.success(t("review_success"));
       setName("");
       setComment("");
       setSelectedStar(0);
 
-      queryClient.invalidateQueries({ queryKey: ["review-summary", reviewable_id] });
-      queryClient.invalidateQueries({ queryKey: ["reviewable-reviews", reviewable_id] });
+      queryClient.invalidateQueries({
+        queryKey: ["review-summary", reviewable_id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reviewable-reviews", reviewable_id],
+      });
     } catch (error: any) {
       toast.error(error.message || t("review_error"));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -206,9 +222,11 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
                 </div>
 
                 <button
-                  className="w-full h-14 bg-[#018884] rounded-4xl mt-6 text-[#FEFEFE] text-lg font-bold"
+                  className="w-full h-14 bg-[#018884] rounded-4xl mt-6 text-[#FEFEFE] text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   onClick={handleSubmitReview}
+                  disabled={isSubmitting}
                 >
+                  {isSubmitting && <Loader2 className="w-5 h-5 animate-spin" />}
                   {t("send_review")}
                 </button>
               </div>
@@ -255,6 +273,5 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
     </section>
   );
 };
-
 
 export default ProductDetialsData;
