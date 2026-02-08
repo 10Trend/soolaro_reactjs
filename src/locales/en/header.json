@@ -26,5 +26,14 @@
     "subscription_failed": "Subscription failed",
     "search": "Search...",
     "type_keyword": "Type a keyword above to find what you’re looking for.",
-    "no_products_found": "No products found for"
+    "no_products_found": "No products found for",
+    "checkout": {
+    "success": {
+        "alt": "Order success",
+        "title": "Order Successful!",
+        "description": "Thank you for your order. Your payment was successful.",
+        "viewOrder": "View Order",
+        "continueShopping": "Continue Shopping"
+        }
+    }
 }

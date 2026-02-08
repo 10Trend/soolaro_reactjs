@@ -26,5 +26,14 @@
     "subscription_failed": "فشل الاشتراك",
     "search": "بحث...",
     "type_keyword": "اكتب كلمة مفتاحية بالأعلى للعثور على ما تبحث عنه.",
-    "no_products_found": "لا توجد منتجات مطابقة لـ"
+    "no_products_found": "لا توجد منتجات مطابقة لـ",
+    "checkout": {
+    "success": {
+        "alt": "تم إتمام الطلب بنجاح",
+        "title": "تم الطلب بنجاح!",
+        "description": "شكرًا لطلبك. تم الدفع بنجاح.",
+        "viewOrder": "عرض الطلب",
+        "continueShopping": "متابعة التسوق"
+        }
+    }
 }
