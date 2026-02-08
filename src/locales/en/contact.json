@@ -10,6 +10,11 @@
         "message_placeholder": "Enter your message",
         "send": "Send",
         "sending": "Sending...",
-        "success": "Your message has been sent successfully"
+        "success": "Your message has been sent successfully",
+        "errors": {
+        "name": "Name is required",
+        "email": "Email is required",
+        "message": "Message is required"
+        }
     }
 }

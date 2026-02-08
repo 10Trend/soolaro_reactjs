@@ -3,6 +3,12 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
+type Errors = {
+  name?: string;
+  email?: string;
+  message?: string;
+};
+
 const ContactUsForm = () => {
   const { t } = useTranslation("contact");
 
@@ -12,34 +18,57 @@ const ContactUsForm = () => {
     message: "",
   });
 
+  const [errors, setErrors] = useState<Errors>({});
   const [loading, setLoading] = useState(false);
-  const [error, ] = useState<string | null>(null);
-  const [success, ] = useState(false);
-
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    const { name, value } = e.target;
+
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
+
+    setErrors(prev => ({
+      ...prev,
+      [name]: undefined,
+    }));
+  };
+
+  const validate = () => {
+    const newErrors: Errors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = t("form.errors.name");
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = t("form.errors.email");
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = t("form.errors.message");
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!validate()) return;
+
     try {
       setLoading(true);
 
-      await postSuggestion({
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-      });
+      await postSuggestion(formData);
 
       toast.success(t("form.success"));
       setFormData({ name: "", email: "", message: "" });
+      setErrors({});
     } catch (err: any) {
       toast.error(err?.message || t("form.error"));
     } finally {
@@ -65,6 +94,9 @@ const ContactUsForm = () => {
                         className="w-full h-14 border border-[#DEDDDD] rounded-4xl mt-3 px-4"
                         placeholder={t("form.name_placeholder")}
                     />
+                    {errors.name && (
+                      <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+                    )}
                 </div>
 
                 <div className="mt-6">
@@ -79,6 +111,9 @@ const ContactUsForm = () => {
                         className="w-full h-14 border border-[#DEDDDD] rounded-4xl mt-3 px-4"
                         placeholder={t("form.email_placeholder")}
                     />
+                    {errors.email && (
+                      <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                    )}
                 </div>
 
                 <div className="mt-6">
@@ -91,20 +126,11 @@ const ContactUsForm = () => {
                         onChange={handleChange}
                         className="w-full h-44 border border-[#DEDDDD] rounded-4xl mt-3 px-4"
                         placeholder={t("form.message_placeholder")}
-                    ></textarea>
+                      />
+                    {errors.message && (
+                      <p className="mt-1 text-sm text-red-600">{errors.message}</p>
+                    )}
                 </div>
-
-              {error && (
-                <p className="mt-4 text-sm text-red-600">
-                  {error}
-                </p>
-              )}
-
-              {success && (
-                <p className="mt-4 text-sm text-green-600">
-                  {t("form.success")}
-                </p>
-              )}
 
               <button
                 type="submit"
