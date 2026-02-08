@@ -15,7 +15,7 @@ const SearchResults = ({
   searchTerm,
   onClose,
 }: SearchResultsProps) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation('header');
   const currentLang = i18n.language;
 
   if (isLoading) {
@@ -42,7 +42,7 @@ const SearchResults = ({
     return (
       <div className="text-center py-8">
         <p className="text-[#3B3B3B] text-base">
-          No products found for "{searchTerm}"
+          {t('no_products_found')} "{searchTerm}"
         </p>
       </div>
     );

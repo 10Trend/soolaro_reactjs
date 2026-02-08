@@ -23,5 +23,8 @@
     "copyright": "Copyright © Soolaro 2026. All rights reserved.",
     "joining": "Joining...",
     "please_enter_email": "Please enter your email",
-    "subscription_failed": "Subscription failed"
+    "subscription_failed": "Subscription failed",
+    "search": "Search...",
+    "type_keyword": "Type a keyword above to find what you’re looking for.",
+    "no_products_found": "No products found for"
 }

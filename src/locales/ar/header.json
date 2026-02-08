@@ -23,5 +23,8 @@
     "copyright": "حقوق النشر © Soolaro 2026. جميع الحقوق محفوظة.",
     "joining": "جارٍ الاشتراك...",
     "please_enter_email": "يرجى إدخال بريدك الإلكتروني",
-    "subscription_failed": "فشل الاشتراك"
+    "subscription_failed": "فشل الاشتراك",
+    "search": "بحث...",
+    "type_keyword": "اكتب كلمة مفتاحية بالأعلى للعثور على ما تبحث عنه.",
+    "no_products_found": "لا توجد منتجات مطابقة لـ"
 }
