@@ -13,6 +13,8 @@ import {
   type GetProductsParams,
   type Product,
 } from "@/lib/api/products/products";
+import { getCategories } from "@/lib/api/home/category";
+import { useQuery } from "@tanstack/react-query";
 
 const ExploreProductsPage = () => {
   const { t, i18n } = useTranslation("explore");
@@ -31,7 +33,13 @@ const ExploreProductsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [currentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState<string>("all");
+
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategories(),
+  });
+  const lastThreeCategories = categories?.slice(-3) ?? [];
 
   const MIN = 100;
   const MAX = 1000;
@@ -83,15 +91,11 @@ const ExploreProductsPage = () => {
   useEffect(() => {
     let result = [...products];
 
-    if (activeTab === "best") {
-      result = result.filter((product) => product.is_top_rated === 1);
-    } else if (activeTab === "new") {
-      result = result.sort(
-        (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    if (activeTab !== "all") {
+      const categoryId = Number(activeTab);
+      result = result.filter(
+        (product) => product.category_id === categoryId
       );
-    } else if (activeTab === "summer") {
-      result = result.filter((product) => product.is_featured === 1);
     }
 
     setFilteredProducts(result);
@@ -213,27 +217,19 @@ const ExploreProductsPage = () => {
             >
               {t("all")}
             </TabsTrigger>
-            <TabsTrigger
-              value="best"
-              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] px-6 py-4 shrink-0 flex-none transition-all duration-200"
-            >
-              {t("best_seller")}
-            </TabsTrigger>
-            <TabsTrigger
-              value="new"
-              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] px-6 py-4 shrink-0 flex-none transition-all duration-200"
-            >
-              {t("new_arrival")}
-            </TabsTrigger>
-            <TabsTrigger
-              value="summer"
-              className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] px-6 py-4 shrink-0 flex-none transition-all duration-200"
-            >
-              {t("summer_collection")}
-            </TabsTrigger>
+            {lastThreeCategories.map((category) => (
+              <TabsTrigger
+                key={category.id}
+                value={String(category.id)}
+                className="data-[state=active]:bg-[#018884] bg-[#F6F6F6] data-[state=active]:text-white text-[#3B3B3B] rounded-[100px] px-6 py-4 shrink-0 flex-none transition-all duration-200"
+              >
+                {category.name[i18n.language as "ar" | "en"]}
+              </TabsTrigger>
+            ))}
+
           </TabsList>
 
-          <TabsContent value={activeTab}>
+          <TabsContent value={activeTab} dir={i18n.language === "ar" ? "rtl" : "ltr"}>
             {filteredProducts.length > 0 ? (
               <div className="grid lg:grid-cols-3 grid-cols-2 gap-8">
                 {filteredProducts.map((product) => (
