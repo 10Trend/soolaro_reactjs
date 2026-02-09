@@ -23,7 +23,7 @@ const ProfileInfo = () => {
   const [isSaving, setIsSaving] = useState(false);
 
   const [formData, setFormData] = useState<{
-    phone_country: null;
+    phone_country: string | null;
     name: string;
     phone: PhoneValue | string;
     email: string;
@@ -42,9 +42,15 @@ const ProfileInfo = () => {
     setFormData({
       name: user.name ?? "",
       email: user.email ?? "",
-      phone: user.phone_e164 ?? "",
+      phone: {
+        number: user.phone ?? "",
+        e164: user.phone_e164 ?? "",
+        countryCode: user.phone_country ?? "EG",
+        national: user.phone_national ?? "",
+        code: "20",
+      },
       password: "",
-      phone_country: null,
+      phone_country: user.phone_country ?? "EG",
     });
   }, [user]);
 
