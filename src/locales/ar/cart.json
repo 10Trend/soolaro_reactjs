@@ -29,5 +29,7 @@
   "failed_update_quantity": "فشل في تحديث الكمية",
   "failed_remove_item": "فشل في إزالة المنتج",
   "couponCleared": "تم مسح الكوبون بنجاح",
-  "couponClearError": "فشل في مسح الكوبون"
+  "couponClearError": "فشل في مسح الكوبون",
+  "item_added": "تم إضافة المنتج إلي السلة",
+  "view_cart": "عرض السلة"
 }

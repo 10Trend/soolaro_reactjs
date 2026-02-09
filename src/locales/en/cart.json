@@ -29,5 +29,7 @@
   "failed_update_quantity": "Failed to update quantity",
   "failed_remove_item": "Failed to remove item",
   "couponCleared": "Coupon cleared successfully",
-  "couponClearError": "Failed to clear coupon"
+  "couponClearError": "Failed to clear coupon",
+  "item_added": "Item added to your cart",
+  "view_cart": "View cart"
 }

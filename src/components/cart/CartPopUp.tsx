@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Check from "../icons/cart/Check";
+import { useTranslation } from "react-i18next";
 
 interface CartPopUpProps {
   productName: string;
@@ -9,6 +10,7 @@ interface CartPopUpProps {
 }
 
 const CartPopUp = ({ productName, productImage, productPrice, onClose }: CartPopUpProps) => {
+    const { t } = useTranslation("cart");
     return (
         <>
             <div 
@@ -20,7 +22,7 @@ const CartPopUp = ({ productName, productImage, productPrice, onClose }: CartPop
                 <div className='w-full p-2 bg-[#1255001A] flex items-center justify-center gap-3'>
                     <Check />
                     <p className='text-[#125500] text-lg font-semibold'>
-                        Item added to your cart
+                        {t('item_added')}
                     </p>
                 </div>
 
@@ -47,11 +49,11 @@ const CartPopUp = ({ productName, productImage, productPrice, onClose }: CartPop
 
                 <div className='mt-8 flex justify-between gap-6'>
                     <Link to='/cart' className='w-full h-14 border border-[#018884] rounded-[20px] text-[#018884] text-lg font-bold flex items-center justify-center'>
-                        View Cart
+                        {t('view_cart')}
                     </Link>
 
                     <Link to='/checkout' className='w-full h-14 border bg-[#018884] rounded-[20px] text-[#FEFEFE] text-lg font-bold flex items-center justify-center'>
-                        Check Out
+                        {t('checkout')}
                     </Link>
                 </div>
             </section>
