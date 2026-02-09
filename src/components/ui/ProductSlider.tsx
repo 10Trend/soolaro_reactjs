@@ -64,6 +64,12 @@ const ProductSlider = ({
           slidesPerView={1.25}
           breakpoints={{
             768: {
+              slidesPerView: 1.5,
+            },
+            1024: {
+              slidesPerView: 2.5,
+            },
+            1025: {
               slidesPerView: 3,
             },
           }}
