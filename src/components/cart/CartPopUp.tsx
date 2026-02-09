@@ -9,7 +9,12 @@ interface CartPopUpProps {
   onClose?: () => void;
 }
 
-const CartPopUp = ({ productName, productImage, productPrice, onClose }: CartPopUpProps) => {
+const CartPopUp = ({
+  productName = "",
+  productImage = "",
+  productPrice = 0,
+  onClose,
+}: CartPopUpProps) => {
     const { t } = useTranslation("cart");
     return (
         <>
