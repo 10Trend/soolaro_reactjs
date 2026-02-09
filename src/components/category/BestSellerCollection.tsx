@@ -31,9 +31,7 @@ const BestSellerCollection = ({
   const { data, isLoading } = useQuery({
     queryKey: ["categoryProducts", parentId],
     queryFn: () =>
-      getProducts({ page: 1 }).then((res) =>
-        res.data.filter((p) => p.category_id === parentId),
-      ),
+      getProducts({ page: 1, category_id: parentId }).then(res => res.data),
     enabled: !!parentId,
   });
 
