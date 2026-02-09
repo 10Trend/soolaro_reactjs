@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import ProductEmptyState from "../product_details/ProductEmptyState";
 import { useTranslation } from "react-i18next";
+import { Skeleton } from "../ui/skeleton";
 
 interface BestSellerCollectionProps {
   parentId: number;
@@ -87,12 +88,19 @@ const BestSellerCollection = ({
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center py-10">
-                <Loader className="animate-spin" />
-            </div>
+            <section className="container md:py-17 py-8">
+                <div className="grid lg:grid-cols-3 grid-cols-2 gap-8">
+                    {Array.from({ length: 6 }).map((_, index) => (
+                        <div key={index} className="flex flex-col gap-4">
+                            <Skeleton className="w-full h-56 rounded-2xl" />
+                            <Skeleton className="h-4 w-3/4 rounded" />
+                            <Skeleton className="h-4 w-1/2 rounded" />
+                        </div>
+                    ))}
+                </div>
+            </section>
         );
     }
-
 
   return (
         <section className="container md:py-17 py-8">
