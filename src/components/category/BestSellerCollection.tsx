@@ -167,21 +167,10 @@ const BestSellerCollection = ({
             } z-50 flex flex-col`}
         >
             <div className="p-8 flex flex-col gap-4">
-                <h3 className="text-2xl font-medium">Filter by price</h3>
-                <p className="text-[#3B3B3B] text-sm font-medium flex items-center">
-                    Set prices between {MIN}
-                    <img
-                        src="/images/currency.png"
-                        alt="c_currency"
-                        className="w-4.5 h-4.5 mx-1"
-                    />
-                    and {MAX}
-                        <img
-                            src="/images/currency.png"
-                            alt="c_currency"
-                            className="w-4.5 h-4.5 mx-1"
-                        />.
-                    </p>
+                <h3 className="text-2xl font-medium">{t('filter_by_price')}</h3>
+                <p className="text-[#3B3B3B] text-sm font-medium">
+                    {t("set_prices_range", { min: MIN, max: MAX })}
+                </p>
 
             <div className="mt-6">
                 <div className="relative h-10">
@@ -231,13 +220,13 @@ const BestSellerCollection = ({
             </div>
 
             <button className="mt-6 w-full bg-[#018884] text-[#FEFEFE] py-4 text-lg rounded-4xl font-medium"onClick={applyFilter}>
-                Apply
+                {t('apply')}
             </button>
             <button
                 className="w-full text-[#018884] font-semibold text-lg mt-7"
                 onClick={resetFilter}
             >
-                Reset Filter
+                {t('reset_filter')}
             </button>
             </div>
         </div>
