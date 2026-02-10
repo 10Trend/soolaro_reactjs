@@ -74,5 +74,11 @@
       "completed": "مكتمل",
       "cancelled": "ملغي"
     },
-  "deleting": "جار الحذف ..."
+  "deleting": "جار الحذف ...",
+  "adding": "جار الإضافة",
+  "order_failed": "فشل الطلب!",
+  "order_failed_message": "تعذر معالجة طلبك. يرجى التحقق من بياناتك أو المحاولة مرة أخرى.",
+  "go_back": "العودة",
+  "try_again": "حاول مرة أخرى",
+  "failed_alt": "فشل"
 }
