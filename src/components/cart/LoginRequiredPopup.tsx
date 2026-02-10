@@ -27,7 +27,7 @@ const LoginRequiredPopup = ({
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    navigate("/login");
+    navigate("/signin");
   };
 
   // If logged in, just render the children with their original onClick
