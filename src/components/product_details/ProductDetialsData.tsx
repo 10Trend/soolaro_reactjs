@@ -314,23 +314,34 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
                   key={review.id}
                   className="p-4 border border-[#DEDDDD] md:mt-10 mt-8 rounded-[20px]"
                 >
-                  <h3 className="text-[#3B3B3B] text-base font-medium">
-                    {review.name}
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-[#3B3B3B] text-base font-medium">
+                    {review.guest_name}
                   </h3>
 
-                  <div className="flex items-center mt-4 gap-1">
+                  <p className="text-sm text-gray-500 mt-1">
+                    {new Date(review.created_at).toLocaleDateString(
+                      i18n.language === "ar" ? "ar-EG" : "en-US",
+                      { year: "numeric", month: "long", day: "numeric" }
+                    )}
+                  </p>
+                  </div>
+
+                  <div className="flex items-center mt-3 gap-1">
                     {[1, 2, 3, 4, 5].map((star) =>
                       star <= review.rating ? (
                         <FullStar key={star} />
                       ) : (
                         <EmptyStar key={star} />
-                      ),
+                      )
                     )}
                   </div>
 
-                  <p className="text-[#0B0B0B] text-lg font-medium mt-3.5">
-                    {review.comment}
-                  </p>
+                  {review.comment && (
+                    <p className="text-[#0B0B0B] text-lg font-medium mt-3.5">
+                      {review.comment}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>

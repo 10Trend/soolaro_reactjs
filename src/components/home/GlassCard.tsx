@@ -23,7 +23,7 @@ type CardProps = {
 
 const Card = ({
   image,
-  priceColor = "#0B0B0B",
+  // priceColor = "#0B0B0B",
   // width = "w-88.75",
   // height = "h-44.25",
   showHeart = false,
