@@ -113,7 +113,7 @@ const CheckoutPage = () => {
       };
 
       const response = await createCheckout(checkoutData);
-
+      toast.dismiss();
       toast.success(response.message || t("orderPlacedSuccess"));
 
       // If there's a payment URL, redirect to it
