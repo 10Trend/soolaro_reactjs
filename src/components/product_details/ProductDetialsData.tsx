@@ -309,41 +309,51 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
                 </p>
               )}
 
-              {reviews?.map((review) => (
-                <div
-                  key={review.id}
-                  className="p-4 border border-[#DEDDDD] md:mt-10 mt-8 rounded-[20px]"
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[#3B3B3B] text-base font-medium">
-                    {review.guest_name}
-                  </h3>
+              {reviews?.map((review) => {
+                // Determine the display name based on review type
+                const displayName =
+                  review.guest_name ||
+                  review.reviewer?.name ||
+                  (review.reviewer_type === "user"
+                    ? t("registered_user")
+                    : t("guest"));
 
-                  <p className="text-sm text-gray-500 mt-1">
-                    {new Date(review.created_at).toLocaleDateString(
-                      i18n.language === "ar" ? "ar-EG" : "en-US",
-                      { year: "numeric", month: "long", day: "numeric" }
+                return (
+                  <div
+                    key={review.id}
+                    className="p-4 border border-[#DEDDDD] md:mt-10 mt-8 rounded-[20px]"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-[#3B3B3B] text-base font-medium">
+                        {displayName}
+                      </h3>
+
+                      <p className="text-sm text-gray-500 mt-1">
+                        {new Date(review.created_at).toLocaleDateString(
+                          i18n.language === "ar" ? "ar-EG" : "en-US",
+                          { year: "numeric", month: "long", day: "numeric" },
+                        )}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center mt-3 gap-1">
+                      {[1, 2, 3, 4, 5].map((star) =>
+                        star <= review.rating ? (
+                          <FullStar key={star} />
+                        ) : (
+                          <EmptyStar key={star} />
+                        ),
+                      )}
+                    </div>
+
+                    {review.comment && (
+                      <p className="text-[#0B0B0B] text-lg font-medium mt-3.5">
+                        {review.comment}
+                      </p>
                     )}
-                  </p>
                   </div>
-
-                  <div className="flex items-center mt-3 gap-1">
-                    {[1, 2, 3, 4, 5].map((star) =>
-                      star <= review.rating ? (
-                        <FullStar key={star} />
-                      ) : (
-                        <EmptyStar key={star} />
-                      )
-                    )}
-                  </div>
-
-                  {review.comment && (
-                    <p className="text-[#0B0B0B] text-lg font-medium mt-3.5">
-                      {review.comment}
-                    </p>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           </TabsContent>
         </Tabs>

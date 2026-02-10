@@ -26,5 +26,7 @@
   "login_required_for_favorites": "تحتاج إلى تسجيل الدخول لإضافة المفضلات",
   "failed_update_favorite": "فشل في تحديث المفضلة",
   "cutomer_review": "أراء العميل",
-  "no_reviews": "لا توجد مراجعات حتي الأن"
+  "no_reviews": "لا توجد مراجعات حتي الأن",
+  "registered_user": "مستخدم",
+  "guest": "ضيف"
 }

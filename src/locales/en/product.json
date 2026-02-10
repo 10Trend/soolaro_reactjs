@@ -26,5 +26,7 @@
   "login_required_for_favorites": "You need to log in to add favorites",
   "failed_update_favorite": "Failed to update favorite",
   "cutomer_review": "Customer review",
-  "no_reviews": "No reviews yet"
+  "no_reviews": "No reviews yet",
+  "registered_user": "User",
+  "guest": "Guest"
 }
