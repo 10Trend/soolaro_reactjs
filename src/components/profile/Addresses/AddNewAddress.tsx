@@ -28,8 +28,13 @@ interface AddNewAddressProps {
   onShowSuccess?: (isEdit: boolean) => void;
 }
 
-const AddNewAddress = ({ addressId, onSuccess, onShowSuccess }: AddNewAddressProps) => {
+const AddNewAddress = ({
+  addressId,
+  onSuccess,
+  onShowSuccess,
+}: AddNewAddressProps) => {
   const { t, i18n } = useTranslation("profile");
+  const lang = (i18n.language?.startsWith("ar") ? "ar" : "en") as "ar" | "en";
   const queryClient = useQueryClient();
 
   const [selectedCountryId, setSelectedCountryId] = useState<number | null>(
@@ -197,7 +202,7 @@ const AddNewAddress = ({ addressId, onSuccess, onShowSuccess }: AddNewAddressPro
           </SelectTrigger>
           <SelectContent>
             {countries?.map((c) => {
-              const name = c.name[i18n.language as "ar" | "en"] ?? c.name.en;
+              const name = c.name[lang] ?? c.name.en;
               return (
                 <SelectItem key={c.id} value={String(c.id)}>
                   {name}
@@ -229,8 +234,7 @@ const AddNewAddress = ({ addressId, onSuccess, onShowSuccess }: AddNewAddressPro
           </SelectTrigger>
           <SelectContent>
             {cities?.map((city) => {
-              const name =
-                city.name[i18n.language as "ar" | "en"] ?? city.name.en;
+              const name = city.name[lang] ?? city.name.en;
               return (
                 <SelectItem key={city.id} value={String(city.id)}>
                   {name}

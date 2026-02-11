@@ -20,7 +20,7 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [orderingAgain, setOrderingAgain] = useState<number | null>(null);
-  const currentLanguage = i18n.language;
+  const currentLanguage = i18n.language?.startsWith("ar") ? "ar" : "en";
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -109,7 +109,7 @@ const Orders = () => {
     const itemImage =
       getResponsiveImageUrl(firstItem.variant.images[0], "thumbnail") ||
       getResponsiveImageUrl(firstItem.productable.image, "thumbnail");
-    
+
     const isProcessing = orderingAgain === order.id;
 
     return (
@@ -157,7 +157,7 @@ const Orders = () => {
             {t(`order_status.${order.status.toLowerCase()}`)}
           </div>
           {showOrderAgain && (
-            <button 
+            <button
               className="flex items-center gap-2 mt-2 disabled:opacity-50"
               onClick={() => handleOrderAgain(order)}
               disabled={isProcessing}
@@ -225,7 +225,10 @@ const Orders = () => {
             )}
           </TabsContent>
 
-          <TabsContent value="last" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+          <TabsContent
+            value="last"
+            dir={i18n.language === "ar" ? "rtl" : "ltr"}
+          >
             {loading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#018884]"></div>

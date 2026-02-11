@@ -1,5 +1,6 @@
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useOnClickOutside } from "@/lib/hooks/use-outside-click";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getCountries } from "@/lib/api/country";
@@ -24,11 +25,19 @@ export const CheckoutShippingAddress = ({
   onChange,
 }: CheckoutShippingAddressProps) => {
   const { t, i18n } = useTranslation("checkout");
-  const lang = i18n.language as "ar" | "en";
+  const lang = (i18n.language?.startsWith("ar") ? "ar" : "en") as "ar" | "en";
 
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [showAreaDropdown, setShowAreaDropdown] = useState(false);
+
+  const countryRef = useRef<HTMLDivElement>(null);
+  const cityRef = useRef<HTMLDivElement>(null);
+  const areaRef = useRef<HTMLDivElement>(null);
+
+  useOnClickOutside(countryRef, () => setShowCountryDropdown(false));
+  useOnClickOutside(cityRef, () => setShowCityDropdown(false));
+  useOnClickOutside(areaRef, () => setShowAreaDropdown(false));
 
   // Fetch countries
   const { data: countries = [] } = useQuery({
@@ -67,7 +76,7 @@ export const CheckoutShippingAddress = ({
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
             {t("country")}
           </label>
-          <div className="relative">
+          <div className="relative" ref={countryRef}>
             <button
               type="button"
               className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-left flex items-center justify-between text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors"
@@ -107,7 +116,7 @@ export const CheckoutShippingAddress = ({
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
             {t("emirate")}
           </label>
-          <div className="relative">
+          <div className="relative" ref={cityRef}>
             <button
               type="button"
               className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-left flex items-center justify-between text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -154,7 +163,7 @@ export const CheckoutShippingAddress = ({
           <label className="text-[#0B0B0B] text-sm md:text-base font-semibold">
             {t("area")}
           </label>
-          <div className="relative">
+          <div className="relative" ref={areaRef}>
             <button
               type="button"
               className="w-full h-12 md:h-14 border border-[#DEDDDD] rounded-[20px] px-4 text-left flex items-center justify-between text-sm md:text-base hover:border-[#018884] focus:outline-none focus:border-[#018884] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"

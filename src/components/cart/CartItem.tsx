@@ -69,9 +69,10 @@ const CartItem = ({ item }: CartItemProps) => {
     ? item.variant.final_price
     : item.variant.price;
   const total = price * item.quantity;
+  const lang = i18n.language?.startsWith("ar") ? "ar" : "en";
   const name =
     typeof item.name === "object"
-      ? item.name[i18n.language as keyof typeof item.name] || item.name.en
+      ? item.name[lang as keyof typeof item.name] || item.name.en
       : item.name;
   const image =
     getResponsiveImageUrl(item.image, "thumbnail") || "/images/home/glass1.png";

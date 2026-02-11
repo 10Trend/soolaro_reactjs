@@ -21,6 +21,7 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
   description,
 }) => {
   const { t, i18n } = useTranslation("product");
+  const lang = (i18n.language?.startsWith("ar") ? "ar" : "en") as "ar" | "en";
   const queryClient = useQueryClient();
 
   const [name, setName] = useState("");
@@ -151,9 +152,7 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: description
-                  ? description[i18n.language as "ar" | "en"]
-                  : "",
+                __html: description ? description[lang] : "",
               }}
             />
           </TabsContent>

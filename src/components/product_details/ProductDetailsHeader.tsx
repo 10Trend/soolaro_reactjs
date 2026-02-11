@@ -24,6 +24,7 @@ interface ProductDetailsHeaderProps {
 
 const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
   const { t, i18n } = useTranslation("product");
+  const lang = (i18n.language?.startsWith("ar") ? "ar" : "en") as "ar" | "en";
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const selectedVariant = product.variants?.[selectedVariantIndex];
@@ -89,13 +90,20 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
       const existingItem = cart?.items.find(
         (item) => Number(item.variant?.id) === Number(selectedVariant?.id),
       );
-        const totalQuantity = existingItem ? existingItem.quantity + quantity : quantity;
+      const totalQuantity = existingItem
+        ? existingItem.quantity + quantity
+        : quantity;
 
-        await addToCart(product.id, "product", totalQuantity, selectedVariant?.id);
-        toast.dismiss();
-        setQuantity(1);
-    setShowCartPopUp(true);
-    setTimeout(() => setShowCartPopUp(false), 200000);
+      await addToCart(
+        product.id,
+        "product",
+        totalQuantity,
+        selectedVariant?.id,
+      );
+      toast.dismiss();
+      setQuantity(1);
+      setShowCartPopUp(true);
+      setTimeout(() => setShowCartPopUp(false), 200000);
     } catch (error: any) {
       console.error(error);
       toast.dismiss();
@@ -174,7 +182,7 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
           <div className="flex flex-1 items-center justify-between">
             <div className="flex flex-1 md:flex-col flex-row md:items-start items-center justify-between">
               <h2 className="text-[#000000] md:text-2xl text-base font-semibold">
-                {product.name[i18n.language as "ar" | "en"] || product.name.en}
+                {product.name[lang] || product.name.en}
               </h2>
               <p className="text-[#025D5B] md:text-[32px] text-xl font-medium leading-[100%] md:mt-6">
                 {selectedVariant?.final_price?.toFixed(2)}
@@ -270,7 +278,7 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
 
         {showCartPopUp && (
           <CartPopUp
-            productName={product.name[i18n.language as "ar" | "en"] || product.name.en}
+            productName={product.name[lang] || product.name.en}
             productImage={productImages[0]}
             productPrice={selectedVariant?.final_price || 0}
             onClose={() => setShowCartPopUp(false)}
