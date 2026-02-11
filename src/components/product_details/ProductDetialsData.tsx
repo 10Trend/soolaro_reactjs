@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import EmptyStar from "../icons/product/EmptyStar";
@@ -64,7 +64,13 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
       totalReviews
     : 0;
 
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
+
+  useEffect(() => {
+    if (user?.name) {
+      setName(user.name);
+    }
+  }, [user]);
 
   const handleSubmitReview = async () => {
     // Prevent duplicate submissions
@@ -230,6 +236,8 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full h-14 border border-[#DEDDDD] rounded-[20px] mt-3 px-4"
+                    readOnly={isAuthenticated()}
+                    disabled={isAuthenticated()}
                     placeholder={t("enter_name")}
                   />
                 </div>
