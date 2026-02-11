@@ -26,15 +26,25 @@ const BestSellerCollection = ({
   const [tempMinPrice, setTempMinPrice] = useState(0);
   const [tempMaxPrice, setTempMaxPrice] = useState(10000);
   const [activeTab, setActiveTab] = useState("all");
+  const [requestedPage, setRequestedPage] = useState(1);
+  const [perPage,] = useState(15);
   const MIN = 0;
   const MAX = 10000;
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["categoryProducts", parentId],
+  const { data: apiResponse, isLoading } = useQuery({
+    queryKey: ["categoryProducts", parentId, requestedPage, perPage],
     queryFn: () =>
-      getProducts({ page: 1, category_id: parentId }).then((res) => res.data),
+      getProducts({ 
+        page: requestedPage,
+        category_id: parentId,
+        per_page: perPage
+      }),
     enabled: !!parentId,
   });
+
+  const data = apiResponse?.data;
+  const meta = apiResponse?.meta;
+  const links = apiResponse?.links;
 
   const filteredByPrice = useMemo(() => {
     if (!data) return [];
@@ -77,12 +87,21 @@ const BestSellerCollection = ({
     setIsSidebarOpen(false);
   };
 
+  const handlePageChange = (page: number) => {
+    setRequestedPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     if (isSidebarOpen) {
       setTempMinPrice(minPrice);
       setTempMaxPrice(maxPrice);
     }
   }, [isSidebarOpen, minPrice, maxPrice]);
+
+  useEffect(() => {
+    setRequestedPage(1);
+  }, [minPrice, maxPrice, activeTab]);
 
   if (isLoading) {
     return (
@@ -99,6 +118,93 @@ const BestSellerCollection = ({
       </section>
     );
   }
+
+  const renderPagination = () => {
+    if (!meta || !links) return null;
+
+    const totalPages = meta.last_page || 1;
+    const currentPage = meta.current_page;
+    
+    if (totalPages <= 1 || (meta.total && meta.total <= perPage)) {
+      return null;
+    }
+
+    const getPageNumbers = () => {
+      const pages: (number | string)[] = [];
+      const maxVisible = 5;
+
+      if (totalPages <= maxVisible) {
+        for (let i = 1; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+
+        if (currentPage > 3) {
+          pages.push('...');
+        }
+
+        const start = Math.max(2, currentPage - 1);
+        const end = Math.min(totalPages - 1, currentPage + 1);
+
+        for (let i = start; i <= end; i++) {
+          pages.push(i);
+        }
+
+        if (currentPage < totalPages - 2) {
+          pages.push('...');
+        }
+
+        if (totalPages > 1) {
+          pages.push(totalPages);
+        }
+      }
+
+      return pages;
+    };
+
+    return (
+      <div className="flex justify-center items-center gap-2 mt-12">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={!links.prev}
+          className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+        >
+          {isRTL ? t("next") : t("previous")}
+        </button>
+
+        <div className="flex gap-2">
+          {getPageNumbers().map((page, index) => (
+            typeof page === 'number' ? (
+              <button
+                key={index}
+                onClick={() => handlePageChange(page)}
+                className={`min-w-[40px] h-10 rounded-lg text-sm font-medium transition-colors ${
+                  currentPage === page
+                    ? 'bg-[#018884] text-white'
+                    : 'border border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                {page}
+              </button>
+            ) : (
+              <span key={index} className="px-2 py-2 text-gray-400">
+                {page}
+              </span>
+            )
+          ))}
+        </div>
+
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={!links.next}
+          className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+        >
+          {isRTL ? t("previous") : t("next")}
+        </button>
+      </div>
+    );
+  };
 
   return (
     <section className="container md:py-17 py-8">
@@ -166,6 +272,8 @@ const BestSellerCollection = ({
             )}
           </TabsContent>
         </Tabs>
+
+        {renderPagination()}
       </div>
 
       <div

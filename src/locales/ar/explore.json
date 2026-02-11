@@ -10,5 +10,7 @@
     "apply": "تطبيق",
     "reset_filter": "إعادة التصفية",
     "search": "بحث",
-    "latest_products": "أحدث المنتجات"
+    "latest_products": "أحدث المنتجات",
+    "next": "التالي",
+    "previous": "السابق"
 }

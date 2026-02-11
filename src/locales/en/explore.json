@@ -10,5 +10,7 @@
     "apply": "Apply",
     "reset_filter": "Reset Filter",
     "search": "Search",
-    "latest_products": "Latest Products"
+    "latest_products": "Latest Products",
+    "next": "Next",
+    "previous": "Previous"
 }

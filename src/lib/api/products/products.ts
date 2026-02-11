@@ -10,6 +10,7 @@ export interface GetProductsParams {
   is_featured?: boolean;
   is_top_rated?: boolean;
   page?: number;
+  per_page?: number;
   min_price?: number;
   max_price?: number;
   search?: string;
@@ -106,6 +107,8 @@ export interface PaginationMeta {
   path: string;
   per_page: number;
   to: number;
+  total?: number;
+  last_page?: number; 
 }
 
 export interface GetProductsResponse {
