@@ -59,6 +59,7 @@ function App() {
             />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/contact_us" element={<ContactUsPage />} />
+            <Route path="/404" element={<NotFoundPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/page/:id" element={<PageDetail />} />
             <Route

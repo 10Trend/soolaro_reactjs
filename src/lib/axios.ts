@@ -204,6 +204,15 @@ axios.interceptors.response.use(
         removeToken();
       }
     }
+
+    // Handle 404 Not Found: redirect to /404
+    if (error.response?.status === 404) {
+      if (typeof window !== "undefined") {
+        window.location.replace("/404");
+        return new Promise(() => {}); // Prevent further error handling
+      }
+    }
+
     return Promise.reject(error);
   },
 );
