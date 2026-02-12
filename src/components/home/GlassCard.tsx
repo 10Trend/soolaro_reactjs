@@ -188,7 +188,7 @@ const Card = ({
           {product?.variants?.[0]?.is_out_of_stock && (
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-15">
               <span className="text-white font-bold md:text-xl text-base bg-red-600 px-4 py-2 rounded-lg">
-                OUT OF STOCK
+                {t('out_of_stock')}
               </span>
             </div>
           )}
