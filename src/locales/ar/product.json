@@ -28,5 +28,6 @@
   "cutomer_review": "أراء العميل",
   "no_reviews": "لا توجد مراجعات حتي الأن",
   "registered_user": "مستخدم",
-  "guest": "ضيف"
+  "guest": "ضيف",
+  "out_of_stock": "تم نفاد الكمية"
 }
