@@ -36,6 +36,7 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const cart = useCartStore((state) => state.cart);
   const [showCartPopUp, setShowCartPopUp] = useState(false);
+  const isVariantOutOfStock = selectedVariant?.stock === 0;
 
   const breadcrumbItems = [
     { nameEn: "Home", nameAr: "الرئيسية", Link: "/" },
@@ -138,6 +139,14 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
             alt={i18n.language === "ar" ? product.name.ar : product.name.en}
             className="w-full h-full object-cover"
           />
+
+          {selectedVariant?.stock === 0 && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="bg-red-600 text-white font-bold text-sm md:text-base px-4 py-2 rounded-full shadow-lg">
+                {t("out_of_stock")}
+              </span>
+            </div>
+          )}
 
           {isLoggedIn && (
             <div className="md:hidden block absolute top-3 right-3">
@@ -251,14 +260,12 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
 
           <button
             onClick={handleAddToCart}
-            disabled={isAddingToCart}
+            disabled={isAddingToCart || isVariantOutOfStock}
             className="w-full h-14 bg-[#018884] rounded-4xl md:mt-8 mt-6 text-[#FEFEFE] md:text-lg text-base md:font-bold font-semibold flex items-center justify-center disabled:opacity-50"
           >
             {isAddingToCart ? (
               <Loader2 className="w-5 h-5 animate-spin" />
-            ) : (
-              t("add_to_cart")
-            )}
+            ) : isVariantOutOfStock ? t("out_of_stock") : t("add_to_cart")}
           </button>
 
           <div className="w-full h-14 border border-[#018884] rounded-4xl mt-4 flex items-center justify-center gap-14.5 ">
