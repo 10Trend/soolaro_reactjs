@@ -149,8 +149,21 @@ axios.interceptors.response.use(
     );
     if (method && ["post", "put", "patch", "delete"].includes(method)) {
       if (!isExcluded) {
-        const message = getSuccessMessageFromResponse(response);
+        let message = getSuccessMessageFromResponse(response);
         if (message) {
+          // Check for specific backend translation keys
+          if (
+            message === "passwords.sent" ||
+            message === "pasword.sent_target"
+          ) {
+            message = i18n.t("auth:passwords.sent");
+          } else if (message.includes("passwords.")) {
+            // Try to translate generic password messages if they exist
+            const key = `auth:${message}`;
+            if (i18n.exists(key)) {
+              message = i18n.t(key);
+            }
+          }
           toast.success(message);
         }
       }

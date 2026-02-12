@@ -134,12 +134,12 @@ export const verifyOtp = async (data: {
 
 /**
  * Resend OTP
- * POST /user/resend
+ * POST /user/forgot
  */
 export const resendOtp = async (email: string): Promise<void> => {
-  await axios.post("/user/resend", {
+  await axios.post("/user/forgot", {
     email,
-    type: "reset",
+    reset_type: "mail_otp",
   });
 };
 
