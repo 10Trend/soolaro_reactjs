@@ -26,13 +26,19 @@ const SignUpForm = () => {
 
   const [formData, setFormData] = useState<{
     name: string;
-    phone: PhoneValue | string;
+    phone: PhoneValue;
     email: string;
     password: string;
     password_confirmation: string;
   }>({
     name: "",
-    phone: "",
+    phone: {
+      code: "AE",
+      number: "",
+      e164: "",
+      countryCode: "",
+      national: "",
+    },
     email: "",
     password: "",
     password_confirmation: "",
@@ -79,15 +85,9 @@ const SignUpForm = () => {
     setIsLoading(true);
     try {
       // Build phone string and country if provided
-      const phone =
-        typeof formData.phone === "object" && formData.phone.number
-          ? formData.phone.number
-          : undefined;
+      const phone = formData.phone.number || undefined;
 
-      const phone_country =
-        typeof formData.phone === "object" && formData.phone.code
-          ? formData.phone.code
-          : undefined;
+      const phone_country = formData.phone.code || undefined;
 
       const response = await register({
         name: formData.name,
@@ -158,10 +158,10 @@ const SignUpForm = () => {
               {t("phone_number")}
             </label>
             <PhoneInput
-              value={formData.phone as PhoneValue}
+              value={formData.phone}
               onChange={(value) => onChange("phone", value)}
               radius="md"
-              className="h-12 md:h-14 rounded-[20px] border-[#DEDDDD] mt-3"
+              className="h-12 md:h-14 rounded-4xl border-[#DEDDDD] mt-3"
               disabled={isLoading}
             />
           </div>
