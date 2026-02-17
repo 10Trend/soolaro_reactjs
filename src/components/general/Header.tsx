@@ -76,7 +76,7 @@ const Header = ({ className }: HeaderProps) => {
   return (
     <>
       <header
-        className={`md:py-8 py-8 ${isHome ? "bg-[#A8D4D3]" : "bg-transparent"} ${className ? className : ""}`}
+        className={`${isHome ? "bg-[#A8D4D3] py-8" : "bg-[#ffffff]"} ${className ? className : ""}`}
       >
         <div className="container flex items-center justify-between">
           <div className="lg:hidden flex">
@@ -85,7 +85,7 @@ const Header = ({ className }: HeaderProps) => {
             </button>
           </div>
           <Link to="/" className="lg:block hidden">
-            {isCategory ? <CategoryLogo /> : <Logo />}
+            {isCategory ? <Logo /> : <Logo />}
           </Link>
           <Link to="/" className="lg:hidden block">
             <MobileLogo />
@@ -190,7 +190,7 @@ const Header = ({ className }: HeaderProps) => {
                         closeSidebar();
                       }}
                     >
-                    {category.name[i18n.language as keyof typeof category.name] || category.name.en}
+                      {category.name[i18n.language as keyof typeof category.name] || category.name.en}
                     </Link>
                   ))}
                 </nav>
