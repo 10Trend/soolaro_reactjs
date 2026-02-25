@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Card from "@/components/home/GlassCard";
 import Filter from "@/components/icons/explore/Filter";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,11 +29,15 @@ const ExploreProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [currentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const [activeTab, setActiveTab] = useState<string>("all");
+
+  const loaderRef = useRef<HTMLDivElement | null>(null);
 
   const { data: categories } = useQuery({
     queryKey: ["categories"],
@@ -44,18 +48,30 @@ const ExploreProductsPage = () => {
   const MIN = 100;
   const MAX = 1000;
 
+  // Debounce search
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
     }, 500);
-
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
+  // Reset when filters/search change
+  useEffect(() => {
+    setProducts([]);
+    setCurrentPage(1);
+    setHasNextPage(true);
+  }, [minPrice, maxPrice, debouncedSearch]);
+
+  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        setLoading(true);
+        if (currentPage === 1) {
+          setLoading(true);
+        } else {
+          setLoadingMore(true);
+        }
         setError(null);
 
         const params: GetProductsParams = {
@@ -74,7 +90,13 @@ const ExploreProductsPage = () => {
         }
 
         const response = await getProducts(params);
-        setProducts(response.data);
+
+        setProducts((prev) =>
+          currentPage === 1 ? response.data : [...prev, ...response.data],
+        );
+
+        // Stop fetching when next is null
+        setHasNextPage(response.links.next !== null);
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Failed to fetch products",
@@ -82,20 +104,47 @@ const ExploreProductsPage = () => {
         console.error("Error fetching products:", err);
       } finally {
         setLoading(false);
+        setLoadingMore(false);
       }
     };
 
-    fetchProducts();
+    if (hasNextPage || currentPage === 1) {
+      fetchProducts();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, minPrice, maxPrice, debouncedSearch]);
 
+  // Infinite scroll observer
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
+      if (target.isIntersecting && hasNextPage && !loading && !loadingMore) {
+        setCurrentPage((prev) => prev + 1);
+      }
+    },
+    [hasNextPage, loading, loadingMore],
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: "200px",
+      threshold: 0,
+    });
+    const current = loaderRef.current;
+    if (current) observer.observe(current);
+    return () => {
+      if (current) observer.unobserve(current);
+    };
+  }, [handleObserver]);
+
+  // Filter products by active tab
   useEffect(() => {
     let result = [...products];
 
     if (activeTab !== "all") {
       const categoryId = Number(activeTab);
-      result = result.filter(
-        (product) => product.category_id === categoryId
-      );
+      result = result.filter((product) => product.category_id === categoryId);
     }
 
     setFilteredProducts(result);
@@ -226,10 +275,12 @@ const ExploreProductsPage = () => {
                 {category.name[i18n.language as "ar" | "en"]}
               </TabsTrigger>
             ))}
-
           </TabsList>
 
-          <TabsContent value={activeTab} dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+          <TabsContent
+            value={activeTab}
+            dir={i18n.language === "ar" ? "rtl" : "ltr"}
+          >
             {filteredProducts.length > 0 ? (
               <div className="grid lg:grid-cols-3 grid-cols-2 gap-8">
                 {filteredProducts.map((product) => (
@@ -246,6 +297,15 @@ const ExploreProductsPage = () => {
             )}
           </TabsContent>
         </Tabs>
+
+        {/* Infinite scroll trigger */}
+        <div ref={loaderRef} className="h-4" />
+
+        {loadingMore && (
+          <div className="flex items-center justify-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#018884]" />
+          </div>
+        )}
       </div>
 
       <div
