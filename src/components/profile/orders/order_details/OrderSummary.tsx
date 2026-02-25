@@ -98,6 +98,17 @@ const OrderSummary = () => {
                     </h3>
                 </div>
             </div>
+
+            {/* Delivery Information */}
+            <div className="md:mt-8 mt-6 p-3 border border-[#DEDDDD] rounded-[20px]">
+                <p className="text-[#0B0B0B] md:text-xl text-lg font-medium">
+                    Delivery Information
+                </p>
+                <h3 className="text-[#0B0B0B] md:text-base text-sm font-medium mt-1">
+                    United Arab Emirates, Dubai, Business Bay, Al Abraj Street, Al Nakheel Tower, Floor 12, Apartment 1205
+                </h3>
+            </div>
+
         </section>
     )
 }
