@@ -52,6 +52,52 @@ const OrderSummary = () => {
                     on Sun, 3 Jan,2025
                 </h3>
             </div>
+
+            {/* Order Summary */}
+            <div className="md:mt-8 mt-6 p-3 border border-[#DEDDDD] rounded-[20px]">
+                <p className="text-[#0B0B0B] md:text-xl text-lg font-medium">
+                    Order Summary
+                </p>
+                <div className="md:mt-4 mt-2 flex justify-between">
+                    <h3 className="text-[#0B0B0B] md:text-base text-xs font-normal">
+                        Sub Total:
+                    </h3>
+                    <h3 className="text-[#0B0B0B] md:text-base text-xs font-medium flex items-center">
+                        269.00
+                        <img
+                            src="/images/currency.png"
+                            alt="currency"
+                            className="w-6 h-6 inline-block ml-1"
+                        />
+                    </h3>
+                </div>
+                <div className="md:mt-4 mt-2 flex justify-between">
+                    <h3 className="text-[#0B0B0B] md:text-base text-sm font-normal">
+                        Shipping Cost:
+                    </h3>
+                    <h3 className="text-[#0B0B0B] md:text-base text-sm font-medium flex items-center">
+                        15.99
+                        <img
+                            src="/images/currency.png"
+                            alt="currency"
+                            className="w-6 h-6 inline-block ml-1"
+                        />
+                    </h3>
+                </div>
+                <div className="mt-2 flex justify-between pt-4">
+                    <h3 className="text-[#0B0B0B] md:text-lg text-sm font-semibold">
+                        Total:
+                    </h3>
+                    <h3 className="text-[#025D5B] md:text-xl text-base font-bold flex items-center">
+                        295.98
+                        <img
+                            src="/images/c_currency.png"
+                            alt="currency"
+                            className="w-7 h-6 inline-block ml-1"
+                        />
+                    </h3>
+                </div>
+            </div>
         </section>
     )
 }
