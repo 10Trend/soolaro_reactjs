@@ -52,6 +52,22 @@ const OrderSummary = ({ order }: Props) => {
                                 className="w-9 h-9"
                             />
                         </div>
+                        {order.orderItems[0]?.variant?.attributes?.map((attr) => {
+                            if (attr.attribute.type === "Color") {
+                                return (
+                                    <div key={attr.id} className="md:mt-2 flex items-center gap-1">
+                                        <h3 className="text-[#0B0B0B] md:text-base text-xs font-semibold">
+                                            Color:
+                                        </h3>
+                                        <div
+                                            className="w-6 h-6 rounded-full border border-gray-200"
+                                            style={{ backgroundColor: attr.value.special_value }}
+                                        />
+                                    </div>
+                                );
+                            }
+                            return null;
+                        })}
                     </div>
                 </div>
             ))}

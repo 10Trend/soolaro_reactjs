@@ -1,14 +1,54 @@
 import { axios } from "@/lib/axios";
 
+interface VariantAttribute {
+  id: number;
+  attribute: { id: number; name: { ar: string; en: string }; type: string };
+  value: { id: number; value: { ar: string; en: string }; special_value: string };
+}
+
+interface VariantImage {
+  id: number;
+  uuid: string;
+  url: string;
+  responsive_urls: string[];
+}
+
+interface Variant {
+  id: number;
+  product_id: number;
+  sku: string;
+  barcode: string | null;
+  price: number;
+  final_price: number;
+  discount: number | null;
+  has_discount: boolean;
+  is_active: boolean;
+  is_stock: boolean;
+  is_out_of_stock: boolean;
+  stock: number;
+  images: VariantImage[];
+  attributes: VariantAttribute[];
+  group_addons: unknown[];
+}
+
 export interface OrderItem {
   id: number;
   order_id: number;
+  code: string;
+  order_code: string;
   product_name: { en: string; ar: string };
   price: number;
   quantity: number;
   subtotal: number;
+  discount_amount: number;
   tax: number;
   total: number;
+  status: string;
+  is_reviewed: boolean;
+  custom_data: unknown[];
+  created_at: string;
+  updated_at: string;
+  variant: Variant;
   productable?: {
     image?: {
       id: number;
