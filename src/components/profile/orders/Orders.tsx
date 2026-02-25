@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { getOrders, type Order } from "@/lib/api/orders/getOrders";
 import { formatDate } from "@/lib/utils/dateUtils";
 import { getResponsiveImageUrl } from "@/lib/utils/imageUtils";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCartStore } from "@/store/useCartStore";
 
 const Orders = () => {
@@ -113,7 +113,7 @@ const Orders = () => {
     const isProcessing = orderingAgain === order.id;
 
     return (
-      <div
+      <Link to={`/profile/orders/${order.id}`}
         key={order.id}
         className="w-full h-full border border-[#DEDDDD] p-3 rounded-4xl flex justify-between mb-4"
       >
@@ -173,7 +173,7 @@ const Orders = () => {
             </button>
           )}
         </div>
-      </div>
+      </Link>
     );
   };
 
