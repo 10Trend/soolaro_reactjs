@@ -1,6 +1,6 @@
 const OrderSummary = () => {
     return (
-        <section className="md:mt-8 mt-4">
+        <section className="md:my-8 my-4">
             <h2 className="text-[#3B3B3B] md:text-2xl text-lg font-semibold">
                 Item Summary
             </h2>
@@ -109,6 +109,15 @@ const OrderSummary = () => {
                 </h3>
             </div>
 
+            {/* Phone Number */}
+            <div className="md:mt-8 mt-6 p-3 border border-[#DEDDDD] rounded-[20px]">
+                <p className="text-[#0B0B0B] md:text-xl text-lg font-medium">
+                    Phone Number
+                </p>
+                <h3 className="text-[#0B0B0B] md:text-base text-sm font-medium mt-1">
+                    +971 1234567
+                </h3>
+            </div>
         </section>
     )
 }
