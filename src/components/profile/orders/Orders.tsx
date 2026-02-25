@@ -154,7 +154,7 @@ const Orders = () => {
           <div
             className={`px-3 py-1.5 h-fit rounded-xl text-sm font-medium flex items-center justify-center ${getStatusColor(order.status)}`}
           >
-            {t(`order_status.${order.status.toLowerCase()}`)}
+            {t(`order_status.${order.status.toLowerCase()}`, order.status.replace(/_/g, " "))}
           </div>
           {showOrderAgain && (
             <button
