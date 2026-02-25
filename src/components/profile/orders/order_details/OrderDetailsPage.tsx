@@ -1,6 +1,7 @@
 import BackArrow from "@/components/icons/explore/BackArrow"
 import OrderStatus from "./OrderStatus"
 import { Link } from "react-router-dom"
+import OrderSummary from "./OrderSummary"
 
 const OrderDetailsPage = () => {
     return (
@@ -14,6 +15,7 @@ const OrderDetailsPage = () => {
                 </p>
             </div>
             <OrderStatus />
+            <OrderSummary />
         </div>
     )
 }
