@@ -35,13 +35,6 @@ const Card = ({
   const isLoggedIn = useAuthStore((state) => state.isAuthenticated());
   const queryClient = useQueryClient();
 
-  const defaultColors = [
-    "bg-[linear-gradient(135deg,#754B37_50%,#E98900_50%)]",
-    "bg-[linear-gradient(135deg,#AE1111_50%,#232322_50%)]",
-    "bg-[linear-gradient(135deg,#B7BFF9_50%,#0008E9_50%)]",
-    "bg-[linear-gradient(135deg,#6A6A6A_50%,#0F0F0F_50%)]",
-  ];
-
   const selectedVariant = product?.variants?.[selectedColor];
   // Use responsive image URLs for better performance
   const productImage =
@@ -59,9 +52,9 @@ const Card = ({
   const hasDiscount = selectedVariant?.has_discount;
   const productId = product?.id;
 
-  const getProductColors = () => {
+  const getProductColors = (): string[] => {
     if (!product?.variants || product.variants.length === 0) {
-      return defaultColors;
+      return [];
     }
 
     const colorVariants = product.variants
@@ -76,28 +69,22 @@ const Card = ({
       })
       .slice(0, 4);
 
+    // No color attributes on any variant — show nothing
     if (colorVariants.length === 0) {
-      return defaultColors;
+      return [];
     }
 
-    return colorVariants.map((variant) => {
-      const colorAttr = variant.attributes.find(
-        (attr) =>
-          attr.attribute.type === "Color" ||
-          attr.attribute.type === "color" ||
-          attr.attribute.name.en.toLowerCase().includes("color"),
-      );
-
-      if (colorAttr?.value.special_value) {
-        // Handle hex color codes
-        if (colorAttr.value.special_value.startsWith("#")) {
-          return colorAttr.value.special_value;
-        }
-        return colorAttr.value.special_value;
-      }
-
-      return defaultColors[0];
-    });
+    return colorVariants
+      .map((variant) => {
+        const colorAttr = variant.attributes.find(
+          (attr) =>
+            attr.attribute.type === "Color" ||
+            attr.attribute.type === "color" ||
+            attr.attribute.name.en.toLowerCase().includes("color"),
+        );
+        return colorAttr?.value.special_value ?? "";
+      })
+      .filter(Boolean);
   };
 
   const colors = getProductColors();
@@ -143,7 +130,7 @@ const Card = ({
         favorable_id: productId,
         favorable_type: "product",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Rollback on error
       console.error(error);
       setIsFavorite(previousIsFavorite);
