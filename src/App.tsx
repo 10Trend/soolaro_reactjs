@@ -30,6 +30,7 @@ import CartInitializer from "./components/cart/CartInitializer";
 import SuccessPage from "./pages/SuccessPage";
 import FailPage from "./pages/FailPage";
 import CartPopUp from "./components/cart/CartPopUp";
+import OrderDetailsPage from "./components/profile/orders/order_details/OrderDetailsPage";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
             >
               <Route path="info" element={<ProfileInfo />} />
               <Route path="orders" element={<Orders />} />
+              <Route path="orders/:id" element={<OrderDetailsPage />} />
               <Route path="wishlist" element={<Wishlist />} />
               <Route path="addresses" element={<Addresses />} />
               <Route path="change_password" element={<ChangePassword />} />

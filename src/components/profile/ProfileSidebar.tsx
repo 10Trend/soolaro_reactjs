@@ -80,9 +80,8 @@ const ProfileSidebar = () => {
             <>
               {isActive ? item.activeIcon : item.icon}
               <p
-                className={`text-xl font-medium leading-[100%] ${
-                  isActive ? "text-[#025D5B]" : "text-[#0B0B0B]"
-                }`}
+                className={`text-xl font-medium leading-[100%] ${isActive ? "text-[#025D5B]" : "text-[#0B0B0B]"
+                  }`}
               >
                 {item.label}
               </p>
