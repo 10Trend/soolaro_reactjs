@@ -19,6 +19,7 @@ interface CartActions {
   setError: (error: string | null) => void;
   fetchCart: () => Promise<void>;
   syncCartSilently: () => Promise<void>;
+  fetchCartWithAddress: (cityId: string, areaId?: string) => Promise<void>;
   // Optimistic update helpers
   optimisticUpdateQuantity: (itemId: number, quantity: number) => void;
   optimisticRemoveItem: (itemId: number) => void;
@@ -221,6 +222,29 @@ export const useCartStore = create<CartStore>()(
         } catch (error) {
           // Don't set error state for silent sync failures
           console.warn("Silent cart sync failed:", error);
+        }
+      },
+
+      fetchCartWithAddress: async (cityId, areaId) => {
+        // Silently refresh cart with location params to get updated shipping fee
+        try {
+          const params: Record<string, string> = { city_id: cityId };
+          if (areaId) params.area_id = areaId;
+
+          const storedCoupon = getCouponFromSession();
+          const cart = await cartApi.getCart({
+            ...params,
+            coupon_code: storedCoupon || undefined,
+          });
+          const shouldClearCoupon = !storedCoupon || cart.items.length === 0;
+
+          set({
+            cart,
+            error: null,
+            appliedCoupon: shouldClearCoupon ? null : storedCoupon,
+          });
+        } catch (error) {
+          console.warn("Failed to refresh cart with address:", error);
         }
       },
 

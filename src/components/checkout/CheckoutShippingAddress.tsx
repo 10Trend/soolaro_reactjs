@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCountries } from "@/lib/api/country";
 import { getCitiesByCountry } from "@/lib/api/cities";
 import { getAreasByCity } from "@/lib/api/areas";
+import { useCartStore } from "@/store/useCartStore";
 
 interface CheckoutShippingAddressProps {
   formData: {
@@ -26,6 +27,7 @@ export const CheckoutShippingAddress = ({
 }: CheckoutShippingAddressProps) => {
   const { t, i18n } = useTranslation("checkout");
   const lang = (i18n.language?.startsWith("ar") ? "ar" : "en") as "ar" | "en";
+  const { fetchCartWithAddress } = useCartStore();
 
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [showCityDropdown, setShowCityDropdown] = useState(false);
@@ -143,9 +145,12 @@ export const CheckoutShippingAddress = ({
                     type="button"
                     className="w-full px-4 py-3 text-left hover:bg-[#F5FAFA]"
                     onClick={() => {
-                      onChange("cityId", city.id.toString());
+                      const cityIdStr = city.id.toString();
+                      onChange("cityId", cityIdStr);
                       onChange("areaId", "");
                       setShowCityDropdown(false);
+                      // Refresh shipping fee when city changes (fallback for no-area case)
+                      fetchCartWithAddress(cityIdStr);
                     }}
                   >
                     {city.name[lang]}
@@ -191,8 +196,11 @@ export const CheckoutShippingAddress = ({
                       type="button"
                       className="w-full px-4 py-3 text-left hover:bg-[#F5FAFA]"
                       onClick={() => {
-                        onChange("areaId", area.id.toString());
+                        const areaIdStr = area.id.toString();
+                        onChange("areaId", areaIdStr);
                         setShowAreaDropdown(false);
+                        // Refresh cart with city + area to get updated shipping fee
+                        fetchCartWithAddress(formData.cityId, areaIdStr);
                       }}
                     >
                       {area.name[lang]}
