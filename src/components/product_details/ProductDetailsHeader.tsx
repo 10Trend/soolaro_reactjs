@@ -133,7 +133,7 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
         </p>
       </Link>
       <div className="md:my-10 flex lg:flex-row flex-col items-center gap-8">
-        <div className="w-full md:h-130.75 h-93.75 bg-[#F6F6F6] md:rounded-[24px] flex flex-col items-center justify-around relative">
+        <div className="w-full md:h-130.75 h-93.75 bg-white md:rounded-[24px] flex flex-col items-center justify-around relative">
           <Image
             src={productImages[selectedImageIndex]}
             alt={i18n.language === "ar" ? product.name.ar : product.name.en}
@@ -195,10 +195,7 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
               </h2>
               <p className="flex items-center gap-1 text-[#025D5B] md:text-[32px] text-xl font-medium leading-[100%] md:mt-6">
                 {selectedVariant?.final_price?.toFixed(2)}
-                <img
-                  src="/images/c_currency.png"
-                  alt="currency"
-                />
+                <img src="/images/c_currency.png" alt="currency" />
               </p>
             </div>
             {isLoggedIn && (
@@ -265,7 +262,11 @@ const ProductDetailsHeader = ({ product }: ProductDetailsHeaderProps) => {
           >
             {isAddingToCart ? (
               <Loader2 className="w-5 h-5 animate-spin" />
-            ) : isVariantOutOfStock ? t("out_of_stock") : t("add_to_cart")}
+            ) : isVariantOutOfStock ? (
+              t("out_of_stock")
+            ) : (
+              t("add_to_cart")
+            )}
           </button>
 
           <div className="w-full h-14 border border-[#018884] rounded-4xl mt-4 flex items-center justify-center gap-14.5 ">
