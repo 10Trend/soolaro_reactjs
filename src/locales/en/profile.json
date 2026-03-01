@@ -80,5 +80,6 @@
   "order_failed_message": "Your order could not be processed. Please check your details or try again.",
   "go_back": "Go Back",
   "try_again": "Try Again",
-  "failed_alt": "Failed"
+  "failed_alt": "Failed",
+  "on": "On"
 }

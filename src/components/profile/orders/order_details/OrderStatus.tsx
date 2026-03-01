@@ -1,4 +1,5 @@
 import type { Order } from "@/lib/api/profile/singleOrder";
+import { useTranslation } from "react-i18next";
 
 type Status = "preorder" | "pending" | "confirmed" | "ready_for_shipping" | "in_shipping" | "completed" | "cancelled";
 
@@ -93,21 +94,34 @@ interface Props {
 }
 
 const OrderStatus = ({ order }: Props) => {
+    const { t, i18n } = useTranslation("profile");
+
     const key = (order.status?.toLowerCase() as Status) ?? "default";
     const config = STATUS_CONFIG[key] ?? STATUS_CONFIG.default;
     const displayDate = order.delivered_at ?? order.created_at;
+
+    const formattedDate = displayDate
+        ? new Intl.DateTimeFormat(
+            i18n.language.startsWith("ar") ? "ar-EG" : "en-US",
+            {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            }
+        ).format(new Date(displayDate))
+        : null;
 
     return (
         <section className={`md:py-4 py-2 px-2 ${config.bg} rounded-[8px] flex items-center gap-2`}>
             {config.icon}
             <div>
                 <h3 className={`${config.textColor} md:text-base text-sm font-medium capitalize`}>
-                    {order.status?.replace(/_/g, " ")}
+                    {t(`order_status.${key}`, order.status?.replace(/_/g, " "))}
                 </h3>
 
-                {displayDate && (
+                {formattedDate && (
                     <p className={`${config.textColor} md:text-sm text-[10px] font-medium`}>
-                        on {new Date(displayDate).toDateString()}
+                        {t("on")} {formattedDate}
                     </p>
                 )}
             </div>
