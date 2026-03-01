@@ -74,9 +74,10 @@ export const CheckoutOrderSummary = () => {
                       ? item.name
                       : item.name.en || item.name.ar || "",
                   image:
-                    typeof item.image === "string"
+                    (typeof item.image === "object" && item.image?.url) ||
+                    (typeof item.image === "string"
                       ? item.image
-                      : getResponsiveImageUrl(item.image, "thumbnail"),
+                      : getResponsiveImageUrl(item.image, "thumbnail")),
                   price: item.variant.final_price,
                   quantity: item.quantity,
                 }}

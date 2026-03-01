@@ -36,9 +36,9 @@ const Card = ({
   const queryClient = useQueryClient();
 
   const selectedVariant = product?.variants?.[selectedColor];
-  // Use responsive image URLs for better performance
+  // Use the first image from the product's images array as the primary source
   const productImage =
-    getResponsiveImageUrl(selectedVariant?.images?.[0], "medium") ||
+    product?.images?.[0]?.url ||
     getResponsiveImageUrl(product?.image, "medium") ||
     image ||
     "";

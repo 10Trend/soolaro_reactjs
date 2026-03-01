@@ -75,7 +75,9 @@ const CartItem = ({ item }: CartItemProps) => {
       ? item.name[lang as keyof typeof item.name] || item.name.en
       : item.name;
   const image =
-    getResponsiveImageUrl(item.image, "thumbnail") || "/images/home/glass1.png";
+    item.image?.url ||
+    getResponsiveImageUrl(item.image, "thumbnail") ||
+    "/images/home/glass1.png";
 
   const handleIncrease = async () => {
     if (isUpdating) return;

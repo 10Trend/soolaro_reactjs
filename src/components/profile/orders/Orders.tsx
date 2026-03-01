@@ -107,13 +107,15 @@ const Orders = () => {
       firstItem.product_name[currentLanguage as "en" | "ar"] ||
       firstItem.product_name.en;
     const itemImage =
-      getResponsiveImageUrl(firstItem.variant.images[0], "thumbnail") ||
-      getResponsiveImageUrl(firstItem.productable.image, "thumbnail");
+      firstItem.productable.image?.url ||
+      getResponsiveImageUrl(firstItem.productable.image, "thumbnail") ||
+      getResponsiveImageUrl(firstItem.variant.images[0], "thumbnail");
 
     const isProcessing = orderingAgain === order.id;
 
     return (
-      <Link to={`/profile/orders/${order.id}`}
+      <Link
+        to={`/profile/orders/${order.id}`}
         key={order.id}
         className="w-full h-full border border-[#DEDDDD] p-3 rounded-4xl flex justify-between mb-4"
       >
@@ -154,7 +156,10 @@ const Orders = () => {
           <div
             className={`px-3 py-1.5 h-fit rounded-xl text-sm font-medium flex items-center justify-center ${getStatusColor(order.status)}`}
           >
-            {t(`order_status.${order.status.toLowerCase()}`, order.status.replace(/_/g, " "))}
+            {t(
+              `order_status.${order.status.toLowerCase()}`,
+              order.status.replace(/_/g, " "),
+            )}
           </div>
           {showOrderAgain && (
             <button
