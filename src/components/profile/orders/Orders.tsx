@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { getOrders, type Order } from "@/lib/api/orders/getOrders";
 import { formatDate } from "@/lib/utils/dateUtils";
-import { getResponsiveImageUrl } from "@/lib/utils/imageUtils";
+// import { getResponsiveImageUrl } from "@/lib/utils/imageUtils";
 import { Link, useNavigate } from "react-router-dom";
 import { useCartStore } from "@/store/useCartStore";
 
@@ -102,7 +102,7 @@ const Orders = () => {
   const renderOrderItem = (order: Order, showOrderAgain: boolean = false) => {
     // Get the first order item for display
     const firstItem = order.orderItems[0];
-    const itemCount = order.orderItems.length;
+    // const itemCount = order.orderItems.length;
     const productName =
       firstItem.product_name[currentLanguage as "en" | "ar"] ||
       firstItem.product_name.en;
@@ -136,11 +136,6 @@ const Orders = () => {
           <div>
             <h2 className="text-[#0B0B0B] md:text-lg text-xs font-medium">
               {productName}
-              {itemCount > 1 && (
-                <span className="text-[#3B3B3B] md:text-sm text-[10px] ml-2">
-                  +{itemCount - 1} more
-                </span>
-              )}
             </h2>
             <h2 className="text-[#0B0B0B] md:text-xl text-sm font-semibold md:mt-1.5 mt-1 flex items-center gap-0.5">
               {order.total.toFixed(2)}
