@@ -106,11 +106,17 @@ const Orders = () => {
     const productName =
       firstItem.product_name[currentLanguage as "en" | "ar"] ||
       firstItem.product_name.en;
-    const itemImage =
-      firstItem.productable.image?.url ||
-      getResponsiveImageUrl(firstItem.productable.image, "thumbnail") ||
-      getResponsiveImageUrl(firstItem.variant.images[0], "thumbnail");
+    const itemWithImage = order.orderItems.find(
+      (item) =>
+        item.productable?.image?.url ||
+        item.variant?.images?.[0]?.url
+    );
 
+    const itemImage =
+      itemWithImage?.variant?.images?.[0]?.url ||
+      itemWithImage?.variant?.images?.[0]?.responsive_urls?.[0] ||
+      itemWithImage?.productable?.image?.url ||
+      "";
     const isProcessing = orderingAgain === order.id;
 
     return (
