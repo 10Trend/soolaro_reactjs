@@ -81,5 +81,17 @@
   "go_back": "Go Back",
   "try_again": "Try Again",
   "failed_alt": "Failed",
-  "on": "On"
+  "on": "On",
+  "order_details": {
+    "order_summary": "Order Summary",
+    "order_number": "ID",
+    "color": "Color",
+    "subtotal": "Sub Total",
+    "shipping_cost": "Shipping Cost",
+    "tax": "Tax",
+    "discount": "Discount",
+    "total": "Total",
+    "delivery_information": "Delivery Information",
+    "phone_number": "Phone Number"
+  }
 }

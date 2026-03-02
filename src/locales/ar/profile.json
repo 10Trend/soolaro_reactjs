@@ -81,5 +81,17 @@
   "go_back": "العودة",
   "try_again": "حاول مرة أخرى",
   "failed_alt": "فشل",
-  "on": "في"
+  "on": "في",
+  "order_details": {
+    "order_summary": "ملخص الطلب",
+    "order_number": "رقم الطلب",
+    "color": "اللون",
+    "subtotal": "المجموع الفرعي",
+    "shipping_cost": "تكلفة الشحن",
+    "tax": "الضريبة",
+    "discount": "الخصم",
+    "total": "الإجمالي",
+    "delivery_information": "معلومات التسليم",
+    "phone_number": "رقم الهاتف"
+  }
 }

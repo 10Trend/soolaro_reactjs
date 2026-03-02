@@ -6,12 +6,12 @@ interface Props {
 }
 
 const OrderSummary = ({ order }: Props) => {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation("profile");
 
     return (
         <section className="md:my-8 my-4">
             <h2 className="text-[#3B3B3B] md:text-2xl text-lg font-semibold">
-                Item Summary
+                {t("order_details.order_summary")}
             </h2>
 
             {order.orderItems?.map((item) => (
@@ -33,7 +33,7 @@ const OrderSummary = ({ order }: Props) => {
 
                     <div>
                         <p className="text-[#0B0B0B] md:text-sm text-[8px] font-normal">
-                            ID: <span>#{order.code}</span>
+                            {t("order_details.order_number")} <span>#{order.code}</span>
                         </p>
 
                         <h3 className="text-[#0B0B0B] md:text-lg text-sm font-medium md:mt-2">
@@ -57,7 +57,7 @@ const OrderSummary = ({ order }: Props) => {
                                 return (
                                     <div key={attr.id} className="md:mt-2 flex items-center gap-1">
                                         <h3 className="text-[#0B0B0B] md:text-base text-xs font-semibold">
-                                            Color:
+                                            {t("order_details.color")}:
                                         </h3>
                                         <div
                                             className="w-6 h-6 rounded-full border border-gray-200"
@@ -76,10 +76,10 @@ const OrderSummary = ({ order }: Props) => {
             {order.delivered_at && (
                 <div className="md:mt-8 mt-6 p-3 border border-[#DEDDDD] rounded-[20px]">
                     <p className="text-[#0B0B0B] md:text-lg text-xs font-medium">
-                        Delivered
+                        {t('order_details.delivered')}
                     </p>
                     <h3 className="text-[#0B0B0B] md:text-xl text-sm font-semibold mt-1">
-                        on {new Date(order.delivered_at).toDateString()}
+                        {t("on")} {new Date(order.delivered_at).toDateString()}
                     </h3>
                 </div>
             )}
@@ -87,11 +87,11 @@ const OrderSummary = ({ order }: Props) => {
             {/* Order Summary */}
             <div className="md:mt-8 mt-6 p-3 border border-[#DEDDDD] rounded-[20px]">
                 <p className="text-[#0B0B0B] md:text-xl text-lg font-medium">
-                    Order Summary
+                    {t("order_details.order_summary")}
                 </p>
                 <div className="md:mt-4 mt-2 flex justify-between">
                     <h3 className="text-[#0B0B0B] md:text-base text-xs font-normal">
-                        Sub Total:
+                        {t("order_details.subtotal")}:
                     </h3>
                     <h3 className="text-[#0B0B0B] md:text-base text-xs font-medium flex items-center">
                         {order.sub_total}
@@ -105,7 +105,7 @@ const OrderSummary = ({ order }: Props) => {
 
                 <div className="md:mt-4 mt-2 flex justify-between">
                     <h3 className="text-[#0B0B0B] md:text-base text-sm font-normal">
-                        Shipping Cost:
+                        {t("order_details.shipping_cost")}:
                     </h3>
                     <h3 className="text-[#0B0B0B] md:text-base text-sm font-medium flex items-center">
                         {order.shipping}
@@ -119,7 +119,7 @@ const OrderSummary = ({ order }: Props) => {
 
                 <div className="md:mt-4 mt-2 flex justify-between">
                     <h3 className="text-[#0B0B0B] md:text-base text-sm font-normal">
-                        Tax:
+                        {t("order_details.tax")}:
                     </h3>
                     <h3 className="text-[#0B0B0B] md:text-base text-sm font-medium flex items-center">
                         {order.tax}
@@ -134,7 +134,7 @@ const OrderSummary = ({ order }: Props) => {
                 {order.total_discount > 0 && (
                     <div className="md:mt-4 mt-2 flex justify-between">
                         <h3 className="text-[#0B0B0B] md:text-base text-sm font-normal">
-                            Discount:
+                            {t("order_details.discount")}:
                         </h3>
                         <h3 className="text-red-500 md:text-base text-sm font-medium flex items-center">
                             -{order.total_discount}
@@ -149,7 +149,7 @@ const OrderSummary = ({ order }: Props) => {
 
                 <div className="mt-2 flex justify-between pt-4 border-t border-[#DEDDDD]">
                     <h3 className="text-[#0B0B0B] md:text-lg text-sm font-semibold">
-                        Total:
+                        {t("order_details.total")}:
                     </h3>
                     <h3 className="text-[#025D5B] md:text-xl text-base font-bold flex items-center">
                         {order.total}
@@ -165,7 +165,7 @@ const OrderSummary = ({ order }: Props) => {
             {order.address_details && (
                 <div className="md:mt-8 mt-6 p-3 border border-[#DEDDDD] rounded-[20px]">
                     <p className="text-[#0B0B0B] md:text-xl text-lg font-medium">
-                        Delivery Information
+                        {t("order_details.delivery_information")}
                     </p>
                     <h3 className="text-[#0B0B0B] md:text-base text-sm font-medium mt-1">
                         {order.address_details}
@@ -175,9 +175,9 @@ const OrderSummary = ({ order }: Props) => {
 
             <div className="md:mt-8 mt-6 p-3 border border-[#DEDDDD] rounded-[20px]">
                 <p className="text-[#0B0B0B] md:text-xl text-lg font-medium">
-                    Phone Number
+                    {t("order_details.phone_number")}
                 </p>
-                <h3 className="text-[#0B0B0B] md:text-base text-sm font-medium mt-1">
+                <h3 className="text-[#0B0B0B] md:text-base text-sm font-medium mt-1 rtl:text-right ltr:text-left" dir="ltr">
                     {order.phone_national}
                 </h3>
             </div>
