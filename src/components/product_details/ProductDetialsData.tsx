@@ -47,12 +47,12 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
 
   const ratingsDistribution = summaryData
     ? Object.entries(summaryData)
-        .map(([stars, count]) => ({
-          stars: Number(stars),
-          count,
-          percent: 0,
-        }))
-        .sort((a, b) => b.stars - a.stars)
+      .map(([stars, count]) => ({
+        stars: Number(stars),
+        count,
+        percent: 0,
+      }))
+      .sort((a, b) => b.stars - a.stars)
     : [];
 
   const totalReviews = ratingsDistribution.reduce((acc, r) => acc + r.count, 0);
@@ -62,7 +62,7 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
 
   const averageRating = totalReviews
     ? ratingsDistribution.reduce((acc, r) => acc + r.stars * r.count, 0) /
-      totalReviews
+    totalReviews
     : 0;
 
   const { isAuthenticated, user } = useAuthStore();
@@ -148,9 +148,10 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
           </TabsList>
           <TabsContent
             value="description"
-            className="text-[#3B3B3B] text-base font-semibold leading-[150%]"
+            className="text-[#3B3B3B] text-base font-semibold leading-[150%] overflow-hidden"
           >
             <div
+              className="w-fullmax-w-fullbreak-wordswhitespace-normaloverflow-hidden[&_*]:max-w-full[&_*]:whitespace-normal[&_img]:max-w-full[&_img]:h-auto[&_table]:block[&_table]:overflow-x-auto"
               dangerouslySetInnerHTML={{
                 __html: description ? description[lang] : "",
               }}
