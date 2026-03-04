@@ -8,25 +8,29 @@ import type { PhoneValue } from "../components/ui/PhoneInput";
 import { useTranslation } from "react-i18next";
 import { createCheckout } from "@/lib/api/checkout";
 import { useCartStore } from "@/store/useCartStore";
+import { useAuthStore } from "@/store/useAuthStore";
 import toast from "react-hot-toast";
 
 const CheckoutPage = () => {
   const { t } = useTranslation("checkout");
   const navigate = useNavigate();
   const { appliedCoupon } = useCartStore();
+  const { user } = useAuthStore();
+  const [savedFirstName, ...lastParts] = (user?.name ?? "").split(" ");
+  const savedLastName = lastParts.join(" ");
 
   // Contact Info State
   const [contactInfo, setContactInfo] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+    firstName: savedFirstName ?? "",
+    lastName: savedLastName ?? "",
+    email: user?.email ?? "",
     phone: {
-      code: "AE",
-      number: "",
-      e164: "",
-      countryCode: "AE",
-      national: "",
-    },
+      code: user?.phone_country ?? "AE",
+      number: user?.phone ?? "",
+      e164: user?.phone_e164 ?? "",
+      countryCode: user?.phone_country ?? "AE",
+      national: user?.phone_national ?? "",
+    } as PhoneValue,
   });
 
   // Shipping Address State
@@ -90,7 +94,7 @@ const CheckoutPage = () => {
         shippingAddress.street,
         shippingAddress.floorNo && `Floor: ${shippingAddress.floorNo}`,
         shippingAddress.apartmentNo &&
-          `Apartment: ${shippingAddress.apartmentNo}`,
+        `Apartment: ${shippingAddress.apartmentNo}`,
       ]
         .filter(Boolean)
         .join(", ");
@@ -122,7 +126,6 @@ const CheckoutPage = () => {
       if (paymentUrl) {
         window.location.href = paymentUrl;
       } else {
-        // Otherwise navigate to order confirmation or home
         navigate("/");
       }
     } catch (error: any) {
