@@ -31,6 +31,7 @@ import SuccessPage from "./pages/SuccessPage";
 import FailPage from "./pages/FailPage";
 import CartPopUp from "./components/cart/CartPopUp";
 import OrderDetailsPage from "./components/profile/orders/order_details/OrderDetailsPage";
+import TrackOrder from "./pages/TrackOrder";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/fail" element={<FailPage />} />
+            <Route path="/track_order" element={<TrackOrder />} />
             <Route
               path="/product_details/:id"
               element={<ProductDetailsPage />}
