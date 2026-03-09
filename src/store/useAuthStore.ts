@@ -6,6 +6,7 @@ import {
 } from "../lib/api/auth";
 import { axios, getToken, removeToken } from "../lib/axios";
 import { deleteFcmToken } from "../lib/firebase";
+import { clearCartSessionId } from "../lib/api/cart";
 
 interface AuthState {
   // State
@@ -124,6 +125,13 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     // Remove stored auth token from cookies
     try {
       removeToken();
+    } catch {
+      // ignore
+    }
+
+    // Clear any guest cart session so it isn't accidentally reused after login
+    try {
+      clearCartSessionId();
     } catch {
       // ignore
     }

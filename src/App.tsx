@@ -44,14 +44,7 @@ function App() {
             <Route path="/explore" element={<ExploreProductsPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/carts" element={<CartPopUp />} />
-            <Route
-              path="/checkout"
-              element={
-                <ProtectedRoute>
-                  <CheckoutPage />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/fail" element={<FailPage />} />
             <Route

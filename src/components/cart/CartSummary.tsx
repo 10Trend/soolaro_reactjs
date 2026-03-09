@@ -1,22 +1,15 @@
 import { useState } from "react";
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import LoginRequiredPopup from "./LoginRequiredPopup";
 import { useTranslation } from "react-i18next";
 import { useCartStore } from "@/store/useCartStore";
-import { useAuthStore } from "@/store/useAuthStore";
 import toast from "react-hot-toast";
 
-interface CartSummaryProps {
-  disablePopup?: boolean;
-}
-
-const CartSummary = ({ disablePopup = false }: CartSummaryProps) => {
+const CartSummary = () => {
   const { t } = useTranslation("cart");
   const navigate = useNavigate();
   const { cart, appliedCoupon, isCouponLoading, applyCoupon, clearCoupon } =
     useCartStore();
-  const isLoggedIn = useAuthStore((state) => state.isAuthenticated());
 
   const [couponCode, setCouponCode] = useState("");
   const [couponStatus, setCouponStatus] = useState<
@@ -41,13 +34,13 @@ const CartSummary = ({ disablePopup = false }: CartSummaryProps) => {
       setApiErrorMessage(null);
       toast.dismiss();
       toast.success(t("couponSuccess"));
-    } catch (error: any) {
+    } catch (error: unknown) {
       setCouponStatus("error");
-      const message =
-        error?.response?.data?.message
-      setApiErrorMessage(message);
+      const message = (error as { response?: { data?: { message?: string } } })
+        ?.response?.data?.message;
+      setApiErrorMessage(message ?? null);
       toast.dismiss();
-      toast.error(message);
+      toast.error(message ?? "");
     }
   };
 
@@ -65,7 +58,7 @@ const CartSummary = ({ disablePopup = false }: CartSummaryProps) => {
   };
 
   return (
-    <div className="w-full lg:w-[363px] p-6 rounded-[24px] border border-[#DEDDDD]">
+    <div className="w-full lg:w-90.75 p-6 rounded-[24px] border border-[#DEDDDD]">
       <h2 className="text-[28px] font-medium text-[#0B0B0B] mb-6">
         {t("orderSummary")}
       </h2>
@@ -75,14 +68,15 @@ const CartSummary = ({ disablePopup = false }: CartSummaryProps) => {
           {t("haveCoupon")}
         </label>
 
-        <div className="relative flex items-stretch h-[56px] w-full">
+        <div className="relative flex items-stretch h-14 w-full">
           <div
-            className={`relative flex-1 bg-white border ltr:border-r-0 rtl:border-l-0 ltr:rounded-l-lg rtl:rounded-r-lg transition-colors overflow-hidden ${couponStatus === "error"
-              ? "border-[#C30000]"
-              : couponStatus === "success"
-                ? "border-[#2A6F02]"
-                : "border-[#EAEAEA]"
-              }`}
+            className={`relative flex-1 bg-white border ltr:border-r-0 rtl:border-l-0 ltr:rounded-l-lg rtl:rounded-r-lg transition-colors overflow-hidden ${
+              couponStatus === "error"
+                ? "border-[#C30000]"
+                : couponStatus === "success"
+                  ? "border-[#2A6F02]"
+                  : "border-[#EAEAEA]"
+            }`}
           >
             <input
               type="text"
@@ -93,7 +87,8 @@ const CartSummary = ({ disablePopup = false }: CartSummaryProps) => {
                 setCouponCode(e.target.value);
                 if (couponStatus !== "idle") setCouponStatus("idle");
               }}
-              className={`w-full h-full px-4 text-base focus:outline-none placeholder:text-[#8E8E8E] disabled:bg-[#F9F9F9] disabled:cursor-not-allowed ${couponStatus === "success"
+              className={`w-full h-full px-4 text-base focus:outline-none placeholder:text-[#8E8E8E] disabled:bg-[#F9F9F9] disabled:cursor-not-allowed ${
+                couponStatus === "success"
                   ? "text-[#2A6F02]"
                   : couponStatus === "error"
                     ? "text-[#C30000]"
@@ -195,7 +190,7 @@ const CartSummary = ({ disablePopup = false }: CartSummaryProps) => {
         )}
       </div>
 
-      <div className="w-full h-[1px] bg-[#EAEAEA] mb-6"></div>
+      <div className="w-full h-px bg-[#EAEAEA] mb-6"></div>
 
       <div className="flex justify-between items-center mb-8">
         <span className="text-[#0B0B0B] text-xl font-medium">
@@ -211,23 +206,12 @@ const CartSummary = ({ disablePopup = false }: CartSummaryProps) => {
         </span>
       </div>
 
-      {disablePopup || isLoggedIn ? (
-        <button
-          onClick={() => navigate("/checkout")}
-          className="w-full bg-[#018884] hover:bg-[#006F6C] text-white md:text-xl text-base md:font-bold font-semibold md:py-4 py-2 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
-        >
-          {t("checkout")}
-        </button>
-      ) : (
-        <LoginRequiredPopup
-          isLoggedIn={isLoggedIn}
-          onProceed={() => navigate("/checkout")}
-        >
-          <button className="w-full bg-[#018884] hover:bg-[#006F6C] text-white md:text-xl text-base md:font-bold font-semibold md:py-4 py-2 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer">
-            {t("checkout")}
-          </button>
-        </LoginRequiredPopup>
-      )}
+      <button
+        onClick={() => navigate("/checkout")}
+        className="w-full bg-[#018884] hover:bg-[#006F6C] text-white md:text-xl text-base md:font-bold font-semibold md:py-4 py-2 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
+      >
+        {t("checkout")}
+      </button>
     </div>
   );
 };

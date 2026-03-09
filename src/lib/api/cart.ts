@@ -110,28 +110,38 @@ const isUserAuthenticated = (): boolean => {
   return !!getToken();
 };
 
-/** Clear session ID (call when user logs in) */
+/** Clear session ID (call when user logs in or logs out) */
 export const clearCartSessionId = (): void => {
   if (typeof window === "undefined") return;
   localStorage.removeItem(SESSION_KEY);
 };
 
-/** Generate or get session ID only for non-authenticated users */
+/**
+ * Persist the numeric session_id returned by the API.
+ * Only saved for guest (non-authenticated) users.
+ */
+export const saveCartSessionId = (id: number): void => {
+  if (typeof window === "undefined") return;
+  if (!id || id === 0) return;
+  // Never persist a session when the user is logged in
+  if (isUserAuthenticated()) return;
+  localStorage.setItem(SESSION_KEY, String(id));
+};
+
+/**
+ * Get the API-returned session ID for guest users.
+ * Returns undefined when authenticated (forces authenticated cart flow).
+ */
 export const getCartSessionId = (): string | undefined => {
   if (typeof window === "undefined") return undefined;
 
-  // If user is authenticated, clear any existing session_id and don't use it
+  // If user is authenticated, clear any stale guest session and skip it
   if (isUserAuthenticated()) {
     clearCartSessionId();
     return undefined;
   }
 
-  let sessionId = localStorage.getItem(SESSION_KEY);
-  if (!sessionId) {
-    sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
-    localStorage.setItem(SESSION_KEY, sessionId);
-  }
-  return sessionId;
+  return localStorage.getItem(SESSION_KEY) ?? undefined;
 };
 
 // ============ COUPON SESSION STORAGE ============
@@ -171,22 +181,28 @@ const isCouponError = (error: unknown): boolean => {
 /** Normalize cart response to Cart type */
 const normalizeCartResponse = (response: CartResponse): Cart => {
   // Handle both wrapped { data: Cart } and direct Cart response
-  if (response.data) {
-    return response.data;
+  const cart: Cart = response.data
+    ? response.data
+    : {
+        items: Array.isArray(response.items) ? response.items : [],
+        session: response.session || { session_id: 0, new_session: false },
+        new_session: response.new_session || "",
+        calculations: response.calculations || {
+          discount: 0,
+          subtotal: 0,
+          tax: 0,
+          delivery_fees: 0,
+          total: 0,
+        },
+      };
+
+  // Persist the API-assigned session_id so guest users are re-identified
+  // on subsequent requests (matches OBranchy session approach)
+  if (cart.session?.session_id) {
+    saveCartSessionId(cart.session.session_id);
   }
 
-  return {
-    items: Array.isArray(response.items) ? response.items : [],
-    session: response.session || { session_id: 0, new_session: false },
-    new_session: response.new_session || "",
-    calculations: response.calculations || {
-      discount: 0,
-      subtotal: 0,
-      tax: 0,
-      delivery_fees: 0,
-      total: 0,
-    },
-  };
+  return cart;
 };
 
 // ============ CART API METHODS ============
