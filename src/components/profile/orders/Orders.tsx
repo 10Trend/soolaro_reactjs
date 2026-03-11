@@ -5,7 +5,7 @@ import OrderEmptyState from "./OrderEmptyState";
 
 import MobileBackHeader from "@/components/general/MobileBackHeader";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { getOrders, type Order } from "@/lib/api/orders/getOrders";
 import { formatDate } from "@/lib/utils/dateUtils";
 // import { getResponsiveImageUrl } from "@/lib/utils/imageUtils";
@@ -19,26 +19,70 @@ const Orders = () => {
   const { addToCart } = useCartStore();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [orderingAgain, setOrderingAgain] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
   const currentLanguage = i18n.language?.startsWith("ar") ? "ar" : "en";
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
+  const fetchOrders = useCallback(async (page: number, append: boolean = false) => {
+    try {
+      if (page === 1) {
         setLoading(true);
-        const response = await getOrders();
-        setOrders(response.orders.data);
-      } catch (err) {
-        console.error("Failed to fetch orders:", err);
-        setError("Failed to load orders");
-      } finally {
-        setLoading(false);
+      } else {
+        setLoadingMore(true);
       }
-    };
 
-    fetchOrders();
+      const response = await getOrders(page);
+      const newOrders = response.orders.data;
+      const meta = response.orders.meta;
+
+      setOrders((prev) => append ? [...prev, ...newOrders] : newOrders);
+      const lastPage = meta?.last_page ?? null;
+      if (lastPage !== null) {
+        setHasMore(page < lastPage);
+      } else {
+        setHasMore(newOrders.length >= (meta?.per_page ?? 15));
+      }
+    } catch (err) {
+      console.error("Failed to fetch orders:", err);
+      setError("Failed to load orders");
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchOrders(1, false);
+  }, [fetchOrders]);
+
+  useEffect(() => {
+    if (observerRef.current) observerRef.current.disconnect();
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && hasMore && !loadingMore && !loading) {
+          const nextPage = currentPage + 1;
+          setCurrentPage(nextPage);
+          fetchOrders(nextPage, true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sentinelRef.current) {
+      observerRef.current.observe(sentinelRef.current);
+    }
+
+    return () => observerRef.current?.disconnect();
+  }, [hasMore, loadingMore, loading, currentPage, fetchOrders]);
 
   // Filter orders based on status
   // Current orders: everything except completed and cancelled
@@ -104,8 +148,6 @@ const Orders = () => {
 
       if (addedItems > 0) {
         navigate("/cart");
-      } else {
-        // 
       }
     } finally {
       setOrderingAgain(null);
@@ -266,6 +308,13 @@ const Orders = () => {
             )}
           </TabsContent>
         </Tabs>
+        <div ref={sentinelRef} className="h-4" />
+
+        {loadingMore && (
+          <div className="flex items-center justify-center py-6">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#018884]" />
+          </div>
+        )}
       </div>
     </section>
   );

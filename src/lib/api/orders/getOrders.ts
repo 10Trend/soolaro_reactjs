@@ -107,6 +107,7 @@ export interface Order {
 }
 
 export interface OrdersPagination {
+  last_page: number;
   current_page: number;
   current_page_url: string;
   from: number;
