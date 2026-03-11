@@ -119,7 +119,7 @@ const ProductDetialsData: React.FC<ProductDetialsDataProps> = ({
   return (
     <section className="container">
       <div className="md:mt-17 mt-6">
-        <Tabs defaultValue="description">
+        <Tabs defaultValue="description" dir={i18n.language === "ar" ? "rtl" : "ltr"}>
           <TabsList className="bg-transparent flex lg:mb-8 mb-4 md:gap-4 w-full overflow-x-auto justify-start gap-4 [&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]">
             <TabsTrigger
               value="description"
