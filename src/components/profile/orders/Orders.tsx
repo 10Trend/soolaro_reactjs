@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { getOrders, type Order } from "@/lib/api/orders/getOrders";
 import { formatDate } from "@/lib/utils/dateUtils";
 // import { getResponsiveImageUrl } from "@/lib/utils/imageUtils";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCartStore } from "@/store/useCartStore";
 import toast from "react-hot-toast";
 
