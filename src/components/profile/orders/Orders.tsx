@@ -11,6 +11,7 @@ import { formatDate } from "@/lib/utils/dateUtils";
 // import { getResponsiveImageUrl } from "@/lib/utils/imageUtils";
 import { Link, useNavigate } from "react-router-dom";
 import { useCartStore } from "@/store/useCartStore";
+import toast from "react-hot-toast";
 
 const Orders = () => {
   const { t, i18n } = useTranslation("profile");
@@ -82,18 +83,30 @@ const Orders = () => {
     try {
       setOrderingAgain(order.id);
 
+      let addedItems = 0;
+
       for (const item of order.orderItems) {
-        await addToCart(
-          item.variant.product_id,
-          "Product",
-          item.quantity,
-          item.variant.id,
-        );
+        if (!item.variant) continue;
+
+        try {
+          await addToCart(
+            item.variant.product_id,
+            "Product",
+            item.quantity,
+            item.variant.id
+          );
+          addedItems++;
+        } catch (err: any) {
+          const apiMessage = err?.response?.data?.message || "Failed to add item";
+          toast.error(apiMessage);
+        }
       }
 
-      navigate("/cart");
-    } catch (error) {
-      console.error("Failed to add items to cart:", error);
+      if (addedItems > 0) {
+        navigate("/cart");
+      } else {
+        // 
+      }
     } finally {
       setOrderingAgain(null);
     }
@@ -120,10 +133,10 @@ const Orders = () => {
     const isProcessing = orderingAgain === order.id;
 
     return (
-      <Link
-        to={`/profile/orders/${order.id}`}
+      <div
         key={order.id}
-        className="w-full h-full border border-[#DEDDDD] p-3 rounded-4xl flex justify-between mb-4"
+        onClick={() => navigate(`/profile/orders/${order.id}`)}
+        className="w-full border border-[#DEDDDD] p-3 rounded-4xl flex justify-between mb-4 cursor-pointer"
       >
         <div className="flex items-center gap-4">
           <div className="md:w-21 w-14 md:h-21 h-14 bg-[#F6F6F6] rounded-xl flex items-center justify-center overflow-hidden">
@@ -155,7 +168,7 @@ const Orders = () => {
         </div>
         <div className="flex flex-col items-end justify-between">
           <div
-            className={`px-3 py-1.5 h-fit rounded-xl text-sm font-medium flex items-center justify-center ${getStatusColor(order.status)}`}
+            className={`px-3 py-1.5 h-fit rounded-xl text-sm font-medium ${getStatusColor(order.status)}`}
           >
             {t(
               `order_status.${order.status.toLowerCase()}`,
@@ -164,12 +177,15 @@ const Orders = () => {
           </div>
           {showOrderAgain && (
             <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOrderAgain(order);
+              }}
               className="flex items-center gap-2 mt-2 disabled:opacity-50"
-              onClick={() => handleOrderAgain(order)}
               disabled={isProcessing}
             >
               {isProcessing ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#018884]"></div>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#018884]" />
               ) : (
                 <OrderAgain />
               )}
@@ -179,7 +195,7 @@ const Orders = () => {
             </button>
           )}
         </div>
-      </Link>
+      </div>
     );
   };
 
