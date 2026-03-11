@@ -11,6 +11,7 @@ import { useCartStore } from "@/store/useCartStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { clearCouponFromSession } from "@/lib/api/cart";
 import toast from "react-hot-toast";
+import MobileBackHeader from "@/components/general/MobileBackHeader";
 
 const CheckoutPage = () => {
   const { t } = useTranslation("checkout");
@@ -153,12 +154,11 @@ const CheckoutPage = () => {
       <div className="md:hidden flex items-center gap-3 p-4 bg-white border-b border-[#F6F6F6]">
         <button
           onClick={() => navigate(-1)}
-          className="w-12 h-12 rounded-full bg-[#F6F6F6] flex items-center justify-center"
           aria-label={t("goBack")}
         >
-          <ChevronLeft className="w-6 h-6 text-[#0B0B0B]" />
+          <MobileBackHeader onBack={() => navigate(-1)} />
         </button>
-        <h1 className="text-[#0B0B0B] text-base font-semibold">
+        <h1 className="text-[#0B0B0B] text-base font-semibold mb-4">
           {t("checkout")}
         </h1>
       </div>
