@@ -111,16 +111,23 @@ export const getOrderById = async (id: string | number): Promise<Order> => {
 
 
 export const trackOrderById = async (
-    id: string | number,
-    email?: string,
-    phone?: string
+  id: string | number,
+  email?: string,
+  phone?: string,
+  phone_country?: string
 ): Promise<Order> => {
-    const params = new URLSearchParams();
-    if (email) params.append("email", email);
-    if (phone) params.append("phone", phone);
+  const params = new URLSearchParams();
 
-    const response = await axios.get<OrderResponse>(
-        `/orders/id/${id}?${params.toString()}`
-    );
-    return response.data.order;
+  if (email) params.append("email", email);
+
+  if (phone) {
+    params.append("phone", phone);
+    params.append("phone_country", phone_country || "+20");
+  }
+
+  const response = await axios.get<OrderResponse>(
+    `/orders/id/${id}?${params.toString()}`
+  );
+
+  return response.data.order;
 };

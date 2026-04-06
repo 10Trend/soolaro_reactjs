@@ -12,24 +12,27 @@ const TrackOrder = () => {
     const [orderId, setOrderId] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
+    const [phoneCountry, setPhoneCountry] = useState("EG");
 
     const handleTrack = async () => {
         if (!orderId) {
+            toast.dismiss();
             toast.error(t("please_enter_order_id"));
             return;
         }
         if (!email && !phone) {
+            toast.dismiss();
             toast.error(t("please_enter_email_or_phone"));
             return;
         }
 
         try {
-            await trackOrderById(orderId, email, phone);
-
+            await trackOrderById(orderId, email, phone, phoneCountry);
             navigate(`/track_order/track_order_details/${orderId}`, {
                 state: { email, phone },
             });
         } catch (error: any) {
+            toast.dismiss();
             const message = error?.response?.data?.message || t("something_went_wrong");
             toast.error(message);
         }
