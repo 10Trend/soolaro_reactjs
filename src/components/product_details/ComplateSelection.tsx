@@ -5,7 +5,7 @@ import { getProducts } from "@/lib/api/products/products";
 import { getResponsiveImageUrl } from "@/lib/utils/imageUtils";
 
 interface ComplateSelectionProps {
-  categoryId: number;
+  categoryId: number | undefined;
 }
 
 const ComplateSelection = ({ categoryId }: ComplateSelectionProps) => {

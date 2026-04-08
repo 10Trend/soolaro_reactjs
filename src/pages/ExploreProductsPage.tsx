@@ -144,7 +144,9 @@ const ExploreProductsPage = () => {
 
     if (activeTab !== "all") {
       const categoryId = Number(activeTab);
-      result = result.filter((product) => product.category_id === categoryId);
+      result = result.filter(
+        (product) => product.categories?.[0]?.id === categoryId,
+      );
     }
 
     setFilteredProducts(result);
@@ -258,7 +260,11 @@ const ExploreProductsPage = () => {
       </div>
 
       <div className="md:mt-12 mt-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} dir={i18n.language === "ar" ? "rtl" : "ltr"}>
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          dir={i18n.language === "ar" ? "rtl" : "ltr"}
+        >
           <TabsList className="bg-transparent mb-17 flex-nowrap overflow-x-auto w-full gap-4 [&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]">
             <TabsTrigger
               value="all"
@@ -309,9 +315,11 @@ const ExploreProductsPage = () => {
       </div>
 
       <div
-        className={`fixed top-0 right-0 h-full w-full md:w-[343px] bg-white shadow-lg transform ${isLanguageChanging ? "" : "transition-transform duration-300"
-          } ${isSidebarOpen ? "translate-x-0" : "translate-x-full"
-          } z-50 flex flex-col`}
+        className={`fixed top-0 right-0 h-full w-full md:w-[343px] bg-white shadow-lg transform ${
+          isLanguageChanging ? "" : "transition-transform duration-300"
+        } ${
+          isSidebarOpen ? "translate-x-0" : "translate-x-full"
+        } z-50 flex flex-col`}
       >
         <div className="p-8 flex flex-col gap-4">
           <h3 className="text-2xl font-medium">{t("filter_by_price")}</h3>

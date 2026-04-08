@@ -4,11 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/lib/api/products/products";
 import { getResponsiveImageUrl } from "@/lib/utils/imageUtils";
 
-interface ComplateSelectionProps {
-  categoryId: number;
+interface YouMayLikeProps {
+  categoryId: number | undefined;
 }
 
-const YouMayLike = ({ categoryId }: ComplateSelectionProps) => {
+const YouMayLike = ({ categoryId }: YouMayLikeProps) => {
   const { t } = useTranslation("product");
 
   const { data, isLoading } = useQuery({
